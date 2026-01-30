@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "jj-work",
+  "productName": "youran-tools",
   "version": "0.0.2",
-  "identifier": "com.juanjuan.toolbox",
+  "identifier": "com.youran.toolbox",
   "build": {
     "frontendDist": "../build",
     "devUrl": "http://localhost:5173",
@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "娟娟工具箱",
+        "title": "悠然工具箱",
         "width": 900,
         "height": 700,
         "resizable": true,

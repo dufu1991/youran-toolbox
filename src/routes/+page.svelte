@@ -21,7 +21,7 @@
 <div class="min-h-screen bg-gradient-to-b from-slate-50 to-white">
 	<div class="container mx-auto max-w-4xl px-6 py-12">
 		<header class="text-center mb-12">
-			<h1 class="text-4xl font-bold text-slate-900 mb-3">娟娟工具箱</h1>
+			<h1 class="text-4xl font-bold text-slate-900 mb-3">悠然工具箱</h1>
 			<p class="text-lg text-slate-500">提升日常办公效率的桌面工具集</p>
 			<p class="text-sm text-slate-400 mt-2">功能持续增加中...</p>
 		</header>

@@ -1,11 +1,12 @@
 <script lang="ts">
 	import * as XLSX from 'xlsx';
 	import JSZip from 'jszip';
-	import { open, save } from '@tauri-apps/plugin-dialog';
+	import { open, save, message } from '@tauri-apps/plugin-dialog';
 	import { writeFile, readFile } from '@tauri-apps/plugin-fs';
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import { Input } from '$lib/components/ui/input';
+	import * as RadioGroup from '$lib/components/ui/radio-group';
 	import {
 		ChevronLeft,
 		FileSpreadsheet,
@@ -31,6 +32,9 @@
 		status: 'pending' | 'processing' | 'done' | 'error';
 		result: { name: string; count: number }[];
 		error: string;
+		totalCount: number;
+		classifiedCount: number;
+		skippedCount: number;
 	}
 
 	let files: FileItem[] = $state([]);
@@ -61,6 +65,13 @@
 					files[index].selectedColumn = unifiedColumn;
 				}
 			});
+		}
+	});
+
+	$effect(() => {
+		const cols = commonColumns();
+		if (unifiedMode && !unifiedColumn && cols.length > 0) {
+			unifiedColumn = cols[0];
 		}
 	});
 
@@ -99,7 +110,10 @@
 			sheetData: [],
 			status: 'pending',
 			result: [],
-			error: ''
+			error: '',
+			totalCount: 0,
+			classifiedCount: 0,
+			skippedCount: 0
 		};
 
 		try {
@@ -164,6 +178,9 @@
 			files[i].status = 'processing';
 			files[i].error = '';
 			files[i].result = [];
+			files[i].totalCount = 0;
+			files[i].classifiedCount = 0;
+			files[i].skippedCount = 0;
 
 			try {
 				const actualColIndex = file.sheetData[0].findIndex(
@@ -178,14 +195,23 @@
 				const groups: Map<string, any[][]> = new Map();
 				const headerRowsData = file.sheetData.slice(0, hRows);
 
+				// 计算总数据条数
+				files[i].totalCount = file.sheetData.length - hRows;
+				let skipped = 0;
+
 				for (let j = hRows; j < file.sheetData.length; j++) {
 					const row = file.sheetData[j];
 					const key = row[actualColIndex];
-					if (key === undefined || key === null || key === '') continue;
+					if (key === undefined || key === null || key === '') {
+						skipped++;
+						continue;
+					}
 					const keyStr = String(key);
 					if (!groups.has(keyStr)) groups.set(keyStr, []);
 					groups.get(keyStr)!.push(row);
 				}
+
+				files[i].skippedCount = skipped;
 
 				const newWorkbook = XLSX.utils.book_new();
 				const originalSheet = file.workbook.Sheets[file.workbook.SheetNames[0]];
@@ -225,6 +251,7 @@
 				}
 
 				files[i].result = resultItems.sort((a, b) => b.count - a.count);
+				files[i].classifiedCount = resultItems.reduce((sum, item) => sum + item.count, 0);
 				files[i].status = 'done';
 			} catch (e) {
 				files[i].error = '处理文件时出错';
@@ -241,6 +268,13 @@
 			});
 			if (zipPath) {
 				await writeFile(zipPath, zipContent);
+				const successCount = files.filter((f) => f.status === 'done').length;
+				await message(`处理完成！共 ${successCount} 个文件已打包为 ZIP`, { title: '成功', kind: 'info' });
+			}
+		} else {
+			const successCount = files.filter((f) => f.status === 'done').length;
+			if (successCount > 0) {
+				await message(`处理完成！共 ${successCount} 个文件已保存到输出目录`, { title: '成功', kind: 'info' });
 			}
 		}
 
@@ -331,19 +365,11 @@
 						{#if commonColumns().length > 0}
 							<div>
 								<p class="text-sm font-medium text-slate-700 mb-2">分类列（应用到所有文件）：</p>
-								<div class="flex flex-wrap gap-2">
+								<RadioGroup.Root bind:value={unifiedColumn} disabled={processing} class="gap-x-4 gap-y-2">
 									{#each commonColumns() as col}
-										<button
-											class="px-3 py-1.5 text-sm rounded-full border transition-colors {unifiedColumn === col
-												? 'bg-primary text-primary-foreground border-primary'
-												: 'bg-white text-slate-600 border-slate-200 hover:border-primary/50'}"
-											onclick={() => (unifiedColumn = col)}
-											disabled={processing}
-										>
-											{col}
-										</button>
+										<RadioGroup.Item value={col}>{col}</RadioGroup.Item>
 									{/each}
-								</div>
+								</RadioGroup.Root>
 								{#if commonColumns().length < files[0]?.columns.length}
 									<p class="text-xs text-amber-600 mt-2">仅显示所有文件共有的列</p>
 								{/if}
@@ -351,7 +377,7 @@
 							<div>
 								<p class="text-sm font-medium text-slate-700 mb-2">表头行数（应用到所有文件）：</p>
 								<div class="inline-flex rounded-md shadow-sm">
-									{#each [1, 2, 3, 4, 5, 6] as num}
+									{#each [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as num}
 										<button
 											class="px-3 py-1.5 text-sm border border-slate-200 transition-colors first:rounded-l-md last:rounded-r-md -ml-px first:ml-0 {unifiedHeaderRows === num
 												? 'bg-primary text-primary-foreground border-primary z-10'
@@ -363,6 +389,7 @@
 										</button>
 									{/each}
 								</div>
+								<p class="text-xs text-slate-400 mt-1">分类后的 Sheet 会保留这些行作为表头</p>
 							</div>
 						{:else}
 							<p class="text-sm text-slate-500">请先添加文件</p>
@@ -393,24 +420,16 @@
 							<Card.Content class="pt-0 space-y-3">
 								<div>
 									<p class="text-xs font-medium text-slate-600 mb-2">分类列：</p>
-									<div class="flex flex-wrap gap-1.5">
+									<RadioGroup.Root value={file.selectedColumn} onValueChange={(v) => selectColumn(index, v)} disabled={processing} class="gap-x-4 gap-y-2">
 										{#each file.columns as col}
-											<button
-												class="px-2 py-1 text-xs rounded-full border transition-colors {file.selectedColumn === col
-													? 'bg-primary text-primary-foreground border-primary'
-													: 'bg-white text-slate-600 border-slate-200 hover:border-primary/50'}"
-												onclick={() => selectColumn(index, col)}
-												disabled={processing}
-											>
-												{col}
-											</button>
+											<RadioGroup.Item value={col}>{col}</RadioGroup.Item>
 										{/each}
-									</div>
+									</RadioGroup.Root>
 								</div>
 								<div>
 									<p class="text-xs font-medium text-slate-600 mb-2">表头行数：</p>
 									<div class="inline-flex rounded-md shadow-sm">
-										{#each [1, 2, 3, 4, 5, 6] as num}
+										{#each [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as num}
 											<button
 												class="px-2.5 py-1 text-xs border border-slate-200 transition-colors first:rounded-l-md last:rounded-r-md -ml-px first:ml-0 {file.headerRows === num
 													? 'bg-primary text-primary-foreground border-primary z-10'
@@ -444,12 +463,35 @@
 						{/if}
 
 						{#if file.status === 'done' && file.result.length > 0}
-							<Card.Footer class="pt-0">
-								<div class="flex items-center gap-2 text-sm text-green-600">
-									<CheckCircle class="w-4 h-4" />
-									完成，共 {file.result.length} 个分类
+							<Card.Content class="pt-0">
+								<div class="bg-green-50/80 rounded-lg p-3 space-y-2">
+									<div class="flex items-center justify-between">
+										<div class="flex items-center gap-2 text-sm text-green-600 font-medium">
+											<CheckCircle class="w-4 h-4" />
+											完成，共 {file.result.length} 个分类
+										</div>
+										<div class="flex items-center gap-3 text-xs">
+											<span><span class="text-slate-500">总数据</span> <span class="font-semibold text-slate-700">{file.totalCount}</span></span>
+											<span class="text-slate-300">|</span>
+											<span><span class="text-slate-500">已分类</span> <span class="font-semibold text-slate-700">{file.classifiedCount}</span></span>
+											{#if file.skippedCount > 0}
+												<span class="text-slate-300">|</span>
+												<span><span class="text-slate-500">跳过</span> <span class="font-semibold text-amber-600">{file.skippedCount}</span></span>
+											{/if}
+											<span class="text-slate-300">|</span>
+											<span class="text-slate-500">校验</span>
+											{#if file.classifiedCount + file.skippedCount === file.totalCount}
+												<span class="font-semibold text-green-600">一致</span>
+											{:else}
+												<span class="font-semibold text-red-600">不一致</span>
+											{/if}
+										</div>
+									</div>
+									<p class="text-xs text-slate-500 pt-1 border-t border-green-100">
+										<span class="text-slate-600">分类明细：</span>{file.result.map(item => `${item.name}(${item.count})`).join('、')}
+									</p>
 								</div>
-							</Card.Footer>
+							</Card.Content>
 						{/if}
 
 						{#if file.error}

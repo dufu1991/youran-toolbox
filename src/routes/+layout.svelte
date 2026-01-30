@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-	<title>娟娟工具箱</title>
+	<title>悠然工具箱</title>
 </svelte:head>
 
 {@render children()}

@@ -1,4 +1,4 @@
-# 娟娟工具箱
+# 悠然工具箱
 
 一款轻量级的桌面工具箱应用，专注于提升日常办公效率。功能持续增加中...
 
@@ -33,19 +33,37 @@
 - **Excel 处理**：xlsx
 - **语言**：TypeScript + Rust
 
-## 安装依赖
+## 安装说明
+
+### macOS
+
+如果打开应用时提示"已损坏"或"无法验证开发者"，请在终端执行：
+
+```sh
+xattr -cr /Applications/youran-tools.app
+```
+
+或者将 `/Applications/youran-tools.app` 替换为实际的应用路径。
+
+### Windows
+
+直接运行安装程序即可。
+
+## 开发
+
+### 安装依赖
 
 ```sh
 bun install
 ```
 
-## 开发运行
+### 开发运行
 
 ```sh
 bun run tauri dev
 ```
 
-## 构建应用
+### 构建应用
 
 ```sh
 bun run tauri build

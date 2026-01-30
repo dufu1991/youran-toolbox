@@ -5,6 +5,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import { Input } from '$lib/components/ui/input';
+	import * as RadioGroup from '$lib/components/ui/radio-group';
 	import { ChevronLeft, X, FileSpreadsheet, FolderUp, CheckCircle, Loader2 } from 'lucide-svelte';
 
 	let file: File | null = $state(null);
@@ -16,6 +17,8 @@
 	let processing = $state(false);
 	let result: { name: string; count: number }[] = $state([]);
 	let error = $state('');
+	let totalDataCount = $state(0);
+	let skippedCount = $state(0);
 	let fileInput: HTMLInputElement;
 
 	function openFileDialog() {
@@ -66,6 +69,9 @@
 					}))
 					.filter((col) => col.value.trim() !== '')
 					.map((col) => col.value);
+				if (columns.length > 0) {
+					selectedColumn = columns[0];
+				}
 			}
 		} catch (e) {
 			error = '读取文件失败，请确保文件格式正确';
@@ -86,6 +92,8 @@
 		processing = true;
 		error = '';
 		result = [];
+		totalDataCount = 0;
+		skippedCount = 0;
 
 		try {
 			const colIndex = columns.indexOf(selectedColumn);
@@ -103,6 +111,9 @@
 			// 保留多行表头
 			const headerRowsData = sheetData.slice(0, headerRows);
 
+			// 总数据条数（不含表头）
+			totalDataCount = sheetData.length - headerRows;
+
 			// 从表头之后开始遍历数据
 			for (let i = headerRows; i < sheetData.length; i++) {
 				const row = sheetData[i];
@@ -110,6 +121,7 @@
 
 				// 跳过空值行
 				if (key === undefined || key === null || key === '') {
+					skippedCount++;
 					continue;
 				}
 
@@ -202,7 +214,12 @@
 		sheetData = [];
 		result = [];
 		error = '';
+		totalDataCount = 0;
+		skippedCount = 0;
 	}
+
+	const classifiedCount = $derived(result.reduce((sum, item) => sum + item.count, 0));
+	const isCountMatch = $derived(classifiedCount + skippedCount === totalDataCount);
 </script>
 
 <div class="min-h-screen bg-gradient-to-b from-slate-50 to-white">
@@ -265,37 +282,28 @@
 						<div class="border-t pt-4 space-y-4">
 							<div>
 								<p class="text-sm font-medium text-slate-700 mb-3">请选择分类依据的列：</p>
-								<div class="flex flex-wrap gap-2">
+								<RadioGroup.Root bind:value={selectedColumn} class="gap-x-4 gap-y-2">
 									{#each columns as col}
-										<button
-											class="px-3 py-1.5 text-sm rounded-full border transition-colors {selectedColumn === col
-												? 'bg-primary text-primary-foreground border-primary'
-												: 'bg-white text-slate-600 border-slate-200 hover:border-primary/50 hover:text-primary'}"
-											onclick={() => selectColumn(col)}
-										>
-											{col}
-										</button>
+										<RadioGroup.Item value={col}>{col}</RadioGroup.Item>
 									{/each}
-								</div>
+								</RadioGroup.Root>
 							</div>
 
 							<div>
 								<p class="text-sm font-medium text-slate-700 mb-2">表头行数：</p>
-								<div class="flex items-center gap-2">
-									<div class="inline-flex rounded-md shadow-sm">
-										{#each [1, 2, 3, 4, 5, 6] as num}
-											<button
-												class="px-3 py-1.5 text-sm border border-slate-200 transition-colors first:rounded-l-md last:rounded-r-md -ml-px first:ml-0 {headerRows === num
-													? 'bg-primary text-primary-foreground border-primary z-10'
-													: 'bg-white text-slate-600 hover:bg-slate-50'}"
-												onclick={() => (headerRows = num)}
-											>
-												{num}
-											</button>
-										{/each}
-									</div>
-									<span class="text-sm text-slate-400">（分类后的 Sheet 会保留这些行作为表头）</span>
+								<div class="inline-flex rounded-md shadow-sm">
+									{#each [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as num}
+										<button
+											class="px-3 py-1.5 text-sm border border-slate-200 transition-colors first:rounded-l-md last:rounded-r-md -ml-px first:ml-0 {headerRows === num
+												? 'bg-primary text-primary-foreground border-primary z-10'
+												: 'bg-white text-slate-600 hover:bg-slate-50'}"
+											onclick={() => (headerRows = num)}
+										>
+											{num}
+										</button>
+									{/each}
 								</div>
+								<p class="text-xs text-slate-400 mt-1">分类后的 Sheet 会保留这些行作为表头</p>
 							</div>
 						</div>
 					</Card.Content>
@@ -331,17 +339,45 @@
 							处理完成
 						</Card.Title>
 						<Card.Description class="text-green-600">
-							共 {result.length} 个分类，文件已自动下载
+							文件已保存
 						</Card.Description>
 					</Card.Header>
-					<Card.Content class="pt-0">
-						<div class="max-h-64 overflow-y-auto space-y-1">
-							{#each result as item}
-								<div class="flex justify-between items-center py-2 px-3 bg-white/60 rounded text-sm">
-									<span class="text-slate-700">{item.name}</span>
-									<span class="text-slate-500">{item.count} 条</span>
+					<Card.Content class="pt-0 space-y-3">
+						<div class="bg-white/80 rounded-lg p-3 space-y-2">
+							<div class="flex justify-between text-sm">
+								<span class="text-slate-600">总数据条数：</span>
+								<span class="font-medium text-slate-800">{totalDataCount} 条</span>
+							</div>
+							<div class="flex justify-between text-sm">
+								<span class="text-slate-600">已分类条数：</span>
+								<span class="font-medium text-slate-800">{classifiedCount} 条</span>
+							</div>
+							{#if skippedCount > 0}
+								<div class="flex justify-between text-sm">
+									<span class="text-slate-600">跳过空值：</span>
+									<span class="font-medium text-amber-600">{skippedCount} 条</span>
 								</div>
-							{/each}
+							{/if}
+							<div class="flex justify-between text-sm border-t pt-2">
+								<span class="text-slate-600">数据校验：</span>
+								{#if isCountMatch}
+									<span class="font-medium text-green-600">一致</span>
+								{:else}
+									<span class="font-medium text-red-600">不一致</span>
+								{/if}
+							</div>
+						</div>
+
+						<div>
+							<p class="text-sm font-medium text-green-700 mb-2">分类明细（{result.length} 个分类）：</p>
+							<div class="max-h-48 overflow-y-auto space-y-1">
+								{#each result as item}
+									<div class="flex justify-between items-center py-2 px-3 bg-white/60 rounded text-sm">
+										<span class="text-slate-700">{item.name}</span>
+										<span class="text-slate-500">{item.count} 条</span>
+									</div>
+								{/each}
+							</div>
 						</div>
 					</Card.Content>
 				</Card.Root>
