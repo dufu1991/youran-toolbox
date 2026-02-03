@@ -12,13 +12,9 @@
 		"backHome": "返回首页"
 	},
 	"features": {
-		"classify": {
+		"classifyBatch": {
 			"title": "分类归档",
 			"desc": "按指定列将 Excel 数据分类到不同的 Sheet"
-		},
-		"classifyBatch": {
-			"title": "批量分类归档",
-			"desc": "批量处理多个 Excel 文件，统一分类归档"
 		},
 		"rename": {
 			"title": "批量重命名",

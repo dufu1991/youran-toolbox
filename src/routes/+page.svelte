@@ -1,15 +1,9 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 	import * as Card from '$lib/components/ui/card';
-	import { FolderOpen, Layers, FileText } from 'lucide-svelte';
+	import { Layers, FileText } from 'lucide-svelte';
 
 	const features = [
-		{
-			titleKey: 'features.classify.title',
-			descKey: 'features.classify.desc',
-			icon: FolderOpen,
-			href: '/classify'
-		},
 		{
 			titleKey: 'features.classifyBatch.title',
 			descKey: 'features.classifyBatch.desc',

@@ -12,13 +12,9 @@
 		"backHome": "Back"
 	},
 	"features": {
-		"classify": {
+		"classifyBatch": {
 			"title": "Classify",
 			"desc": "Classify Excel data into sheets by column"
-		},
-		"classifyBatch": {
-			"title": "Batch Classify",
-			"desc": "Batch process multiple Excel files"
 		},
 		"rename": {
 			"title": "Batch Rename",
