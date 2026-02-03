@@ -9,6 +9,22 @@
     "core:default",
     "dialog:default",
     "fs:default",
-    "fs:write-all"
+    "fs:write-all",
+    "fs:allow-stat",
+    "fs:read-all",
+    "fs:allow-rename",
+    {
+      "identifier": "fs:allow-copy-file",
+      "allow": [
+        { "path": "**" }
+      ]
+    },
+    {
+      "identifier": "fs:allow-mkdir",
+      "allow": [
+        { "path": "**" }
+      ]
+    },
+    "opener:default"
   ]
 }

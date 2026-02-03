@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { _ } from 'svelte-i18n';
 	import * as XLSX from 'xlsx';
 	import { save } from '@tauri-apps/plugin-dialog';
 	import { writeFile } from '@tauri-apps/plugin-fs';
@@ -222,32 +223,32 @@
 	const isCountMatch = $derived(classifiedCount + skippedCount === totalDataCount);
 </script>
 
-<div class="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+<div class="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-950">
 	<div class="container mx-auto max-w-2xl px-6 py-8">
 		<header class="mb-8">
 			<a href="/" class="text-sm text-primary hover:underline inline-flex items-center gap-1 mb-4">
 				<ChevronLeft class="w-4 h-4" />
-				返回首页
+				{$_('nav.backHome')}
 			</a>
-			<h1 class="text-2xl font-bold text-slate-900">分类归档</h1>
-			<p class="text-slate-500 mt-1">按指定列将 Excel 数据分类到不同的 Sheet</p>
+			<h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100">{$_('features.classify.title')}</h1>
+			<p class="text-slate-500 dark:text-slate-400 mt-1">{$_('features.classify.desc')}</p>
 		</header>
 
 		{#if !file}
 			<Card.Root>
 				<Card.Content class="p-0">
 					<div
-						class="border-2 border-dashed border-slate-200 rounded-lg p-12 text-center cursor-pointer transition-colors hover:border-primary/50 hover:bg-slate-50/50"
+						class="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-lg p-12 text-center cursor-pointer transition-colors hover:border-primary/50 hover:bg-slate-50/50 dark:hover:bg-slate-800/50"
 						role="button"
 						tabindex="0"
 						ondrop={handleDrop}
 						ondragover={handleDragOver}
 					>
-						<FolderUp class="w-12 h-12 text-slate-400 mx-auto mb-4" />
-						<p class="text-slate-600 mb-2">拖拽 Excel 文件到此处</p>
-						<p class="text-slate-400 text-sm mb-4">或</p>
+						<FolderUp class="w-12 h-12 text-slate-400 dark:text-slate-500 mx-auto mb-4" />
+						<p class="text-slate-600 dark:text-slate-300 mb-2">{$_('classify.dropHint')}</p>
+						<p class="text-slate-400 dark:text-slate-500 text-sm mb-4">{$_('classify.or')}</p>
 						<Button variant="outline" onclick={openFileDialog}>
-							选择文件
+							{$_('classify.selectFile')}
 						</Button>
 						<input
 							bind:this={fileInput}
@@ -256,7 +257,7 @@
 							onchange={handleFileSelect}
 							class="hidden"
 						/>
-						<p class="text-xs text-slate-400 mt-4">支持 .xlsx 和 .xls 格式</p>
+						<p class="text-xs text-slate-400 dark:text-slate-500 mt-4">{$_('classify.supportFormat')}</p>
 					</div>
 				</Card.Content>
 			</Card.Root>
@@ -279,9 +280,9 @@
 
 				{#if columns.length > 0}
 					<Card.Content class="pt-0">
-						<div class="border-t pt-4 space-y-4">
+						<div class="border-t dark:border-slate-700 pt-4 space-y-4">
 							<div>
-								<p class="text-sm font-medium text-slate-700 mb-3">请选择分类依据的列：</p>
+								<p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">{$_('classify.selectColumn')}</p>
 								<RadioGroup.Root bind:value={selectedColumn} class="gap-x-4 gap-y-2">
 									{#each columns as col}
 										<RadioGroup.Item value={col}>{col}</RadioGroup.Item>
@@ -290,25 +291,25 @@
 							</div>
 
 							<div>
-								<p class="text-sm font-medium text-slate-700 mb-2">表头行数：</p>
+								<p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{$_('classify.headerRows')}</p>
 								<div class="inline-flex rounded-md shadow-sm">
 									{#each [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as num}
 										<button
-											class="px-3 py-1.5 text-sm border border-slate-200 transition-colors first:rounded-l-md last:rounded-r-md -ml-px first:ml-0 {headerRows === num
+											class="px-3 py-1.5 text-sm border border-slate-200 dark:border-slate-600 transition-colors first:rounded-l-md last:rounded-r-md -ml-px first:ml-0 {headerRows === num
 												? 'bg-primary text-primary-foreground border-primary z-10'
-												: 'bg-white text-slate-600 hover:bg-slate-50'}"
+												: 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'}"
 											onclick={() => (headerRows = num)}
 										>
 											{num}
 										</button>
 									{/each}
 								</div>
-								<p class="text-xs text-slate-400 mt-1">分类后的 Sheet 会保留这些行作为表头</p>
+								<p class="text-xs text-slate-400 dark:text-slate-500 mt-1">{$_('classify.headerRowsHint')}</p>
 							</div>
 						</div>
 					</Card.Content>
 
-					<Card.Footer class="border-t pt-4">
+					<Card.Footer class="border-t dark:border-slate-700 pt-4">
 						<Button
 							class="w-full"
 							disabled={!selectedColumn || processing}
@@ -316,9 +317,9 @@
 						>
 							{#if processing}
 								<Loader2 class="w-4 h-4 mr-2 animate-spin" />
-								处理中...
+								{$_('classify.processing')}
 							{:else}
-								开始分类
+								{$_('classify.startClassify')}
 							{/if}
 						</Button>
 					</Card.Footer>
@@ -326,55 +327,55 @@
 			</Card.Root>
 
 			{#if error}
-				<div class="bg-red-50 text-red-600 px-4 py-3 rounded-lg text-sm mb-6">
+				<div class="bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 px-4 py-3 rounded-lg text-sm mb-6">
 					{error}
 				</div>
 			{/if}
 
 			{#if result.length > 0}
-				<Card.Root class="bg-green-50 border-green-200">
+				<Card.Root class="bg-green-50 dark:bg-green-900/30 border-green-200 dark:border-green-800">
 					<Card.Header class="pb-3">
-						<Card.Title class="text-green-700 text-base flex items-center gap-2">
+						<Card.Title class="text-green-700 dark:text-green-400 text-base flex items-center gap-2">
 							<CheckCircle class="w-5 h-5" />
-							处理完成
+							{$_('classify.done')}
 						</Card.Title>
-						<Card.Description class="text-green-600">
-							文件已保存
+						<Card.Description class="text-green-600 dark:text-green-500">
+							{$_('classify.fileSaved')}
 						</Card.Description>
 					</Card.Header>
 					<Card.Content class="pt-0 space-y-3">
-						<div class="bg-white/80 rounded-lg p-3 space-y-2">
+						<div class="bg-white/80 dark:bg-slate-800/80 rounded-lg p-3 space-y-2">
 							<div class="flex justify-between text-sm">
-								<span class="text-slate-600">总数据条数：</span>
-								<span class="font-medium text-slate-800">{totalDataCount} 条</span>
+								<span class="text-slate-600 dark:text-slate-400">{$_('classify.totalData')}</span>
+								<span class="font-medium text-slate-800 dark:text-slate-200">{totalDataCount} {$_('classify.items')}</span>
 							</div>
 							<div class="flex justify-between text-sm">
-								<span class="text-slate-600">已分类条数：</span>
-								<span class="font-medium text-slate-800">{classifiedCount} 条</span>
+								<span class="text-slate-600 dark:text-slate-400">{$_('classify.classified')}</span>
+								<span class="font-medium text-slate-800 dark:text-slate-200">{classifiedCount} {$_('classify.items')}</span>
 							</div>
 							{#if skippedCount > 0}
 								<div class="flex justify-between text-sm">
-									<span class="text-slate-600">跳过空值：</span>
-									<span class="font-medium text-amber-600">{skippedCount} 条</span>
+									<span class="text-slate-600 dark:text-slate-400">{$_('classify.skipped')}</span>
+									<span class="font-medium text-amber-600 dark:text-amber-500">{skippedCount} {$_('classify.items')}</span>
 								</div>
 							{/if}
-							<div class="flex justify-between text-sm border-t pt-2">
-								<span class="text-slate-600">数据校验：</span>
+							<div class="flex justify-between text-sm border-t dark:border-slate-700 pt-2">
+								<span class="text-slate-600 dark:text-slate-400">{$_('classify.verify')}</span>
 								{#if isCountMatch}
-									<span class="font-medium text-green-600">一致</span>
+									<span class="font-medium text-green-600 dark:text-green-500">{$_('classify.match')}</span>
 								{:else}
-									<span class="font-medium text-red-600">不一致</span>
+									<span class="font-medium text-red-600 dark:text-red-500">{$_('classify.mismatch')}</span>
 								{/if}
 							</div>
 						</div>
 
 						<div>
-							<p class="text-sm font-medium text-green-700 mb-2">分类明细（{result.length} 个分类）：</p>
+							<p class="text-sm font-medium text-green-700 dark:text-green-400 mb-2">{$_('classify.detail')}（{result.length} {$_('classify.categories')}）：</p>
 							<div class="max-h-48 overflow-y-auto space-y-1">
 								{#each result as item}
-									<div class="flex justify-between items-center py-2 px-3 bg-white/60 rounded text-sm">
-										<span class="text-slate-700">{item.name}</span>
-										<span class="text-slate-500">{item.count} 条</span>
+									<div class="flex justify-between items-center py-2 px-3 bg-white/60 dark:bg-slate-800/60 rounded text-sm">
+										<span class="text-slate-700 dark:text-slate-300">{item.name}</span>
+										<span class="text-slate-500 dark:text-slate-400">{item.count} {$_('classify.items')}</span>
 									</div>
 								{/each}
 							</div>

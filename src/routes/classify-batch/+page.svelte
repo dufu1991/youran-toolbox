@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { _ } from 'svelte-i18n';
 	import * as XLSX from 'xlsx';
 	import JSZip from 'jszip';
 	import { open, save, message } from '@tauri-apps/plugin-dialog';
@@ -303,26 +304,26 @@
 	const doneCount = $derived(files.filter((f) => f.status === 'done').length);
 </script>
 
-<div class="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+<div class="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-950">
 	<div class="container mx-auto max-w-3xl px-6 py-8">
 		<header class="mb-8">
 			<a href="/" class="text-sm text-primary hover:underline inline-flex items-center gap-1 mb-4">
 				<ChevronLeft class="w-4 h-4" />
-				返回首页
+				{$_('nav.backHome')}
 			</a>
-			<h1 class="text-2xl font-bold text-slate-900">批量分类归档</h1>
-			<p class="text-slate-500 mt-1">批量处理多个 Excel 文件，按指定列分类到不同的 Sheet</p>
+			<h1 class="text-2xl font-bold text-slate-900 dark:text-slate-100">{$_('features.classifyBatch.title')}</h1>
+			<p class="text-slate-500 dark:text-slate-400 mt-1">{$_('features.classifyBatch.desc')}</p>
 		</header>
 
 		<Card.Root class="mb-6">
 			<Card.Header class="pb-4">
-				<Card.Title class="text-base">选择文件</Card.Title>
-				<Card.Description>支持同时选择多个 Excel 文件</Card.Description>
+				<Card.Title class="text-base">{$_('classifyBatch.selectFiles')}</Card.Title>
+				<Card.Description>{$_('classifyBatch.supportMultiple')}</Card.Description>
 			</Card.Header>
 			<Card.Content class="pt-0">
 				<Button variant="outline" onclick={openFileDialog}>
 					<FolderUp class="w-4 h-4 mr-2" />
-					添加文件
+					{$_('classifyBatch.addFiles')}
 				</Button>
 			</Card.Content>
 		</Card.Root>
@@ -332,29 +333,29 @@
 				<Card.Header class="pb-4">
 					<div class="flex items-center justify-between">
 						<div>
-							<Card.Title class="text-base">分类设置</Card.Title>
-							<Card.Description>选择分类依据的列和表头行数</Card.Description>
+							<Card.Title class="text-base">{$_('classifyBatch.settings')}</Card.Title>
+							<Card.Description>{$_('classifyBatch.settingsDesc')}</Card.Description>
 						</div>
 						<div class="flex rounded-md shadow-sm">
 							<button
-								class="px-3 py-1.5 text-xs border border-slate-200 rounded-l-md transition-colors flex items-center gap-1.5 {unifiedMode
+								class="px-3 py-1.5 text-xs border border-slate-200 dark:border-slate-600 rounded-l-md transition-colors flex items-center gap-1.5 {unifiedMode
 									? 'bg-primary text-primary-foreground border-primary'
-									: 'bg-white text-slate-600 hover:bg-slate-50'}"
+									: 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'}"
 								onclick={() => (unifiedMode = true)}
 								disabled={processing}
 							>
 								<Settings2 class="w-3.5 h-3.5" />
-								统一设置
+								{$_('classifyBatch.unified')}
 							</button>
 							<button
-								class="px-3 py-1.5 text-xs border border-slate-200 rounded-r-md -ml-px transition-colors flex items-center gap-1.5 {!unifiedMode
+								class="px-3 py-1.5 text-xs border border-slate-200 dark:border-slate-600 rounded-r-md -ml-px transition-colors flex items-center gap-1.5 {!unifiedMode
 									? 'bg-primary text-primary-foreground border-primary'
-									: 'bg-white text-slate-600 hover:bg-slate-50'}"
+									: 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'}"
 								onclick={() => (unifiedMode = false)}
 								disabled={processing}
 							>
 								<List class="w-3.5 h-3.5" />
-								单独设置
+								{$_('classifyBatch.individual')}
 							</button>
 						</div>
 					</div>
@@ -364,24 +365,24 @@
 					<Card.Content class="pt-0 space-y-4">
 						{#if commonColumns().length > 0}
 							<div>
-								<p class="text-sm font-medium text-slate-700 mb-2">分类列（应用到所有文件）：</p>
+								<p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{$_('classifyBatch.columnForAll')}</p>
 								<RadioGroup.Root bind:value={unifiedColumn} disabled={processing} class="gap-x-4 gap-y-2">
 									{#each commonColumns() as col}
 										<RadioGroup.Item value={col}>{col}</RadioGroup.Item>
 									{/each}
 								</RadioGroup.Root>
 								{#if commonColumns().length < files[0]?.columns.length}
-									<p class="text-xs text-amber-600 mt-2">仅显示所有文件共有的列</p>
+									<p class="text-xs text-amber-600 dark:text-amber-500 mt-2">{$_('classifyBatch.onlyCommon')}</p>
 								{/if}
 							</div>
 							<div>
-								<p class="text-sm font-medium text-slate-700 mb-2">表头行数（应用到所有文件）：</p>
+								<p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{$_('classifyBatch.headerForAll')}</p>
 								<div class="inline-flex rounded-md shadow-sm">
 									{#each [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as num}
 										<button
-											class="px-3 py-1.5 text-sm border border-slate-200 transition-colors first:rounded-l-md last:rounded-r-md -ml-px first:ml-0 {unifiedHeaderRows === num
+											class="px-3 py-1.5 text-sm border border-slate-200 dark:border-slate-600 transition-colors first:rounded-l-md last:rounded-r-md -ml-px first:ml-0 {unifiedHeaderRows === num
 												? 'bg-primary text-primary-foreground border-primary z-10'
-												: 'bg-white text-slate-600 hover:bg-slate-50'}"
+												: 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'}"
 											onclick={() => (unifiedHeaderRows = num)}
 											disabled={processing}
 										>
@@ -389,10 +390,10 @@
 										</button>
 									{/each}
 								</div>
-								<p class="text-xs text-slate-400 mt-1">分类后的 Sheet 会保留这些行作为表头</p>
+								<p class="text-xs text-slate-400 dark:text-slate-500 mt-1">{$_('classify.headerRowsHint')}</p>
 							</div>
 						{:else}
-							<p class="text-sm text-slate-500">请先添加文件</p>
+							<p class="text-sm text-slate-500 dark:text-slate-400">{$_('classifyBatch.addFileFirst')}</p>
 						{/if}
 					</Card.Content>
 				{/if}
@@ -400,11 +401,11 @@
 
 			<div class="space-y-4 mb-6">
 				{#each files as file, index}
-					<Card.Root class={file.status === 'done' ? 'border-green-200 bg-green-50/50' : file.status === 'error' ? 'border-red-200 bg-red-50/50' : ''}>
+					<Card.Root class={file.status === 'done' ? 'border-green-200 dark:border-green-800 bg-green-50/50 dark:bg-green-900/30' : file.status === 'error' ? 'border-red-200 dark:border-red-800 bg-red-50/50 dark:bg-red-900/30' : ''}>
 						<Card.Header class="pb-3">
 							<div class="flex items-center justify-between">
 								<div class="flex items-center gap-3">
-									<FileSpreadsheet class="w-6 h-6 {file.status === 'done' ? 'text-green-600' : file.status === 'error' ? 'text-red-600' : 'text-slate-400'}" />
+									<FileSpreadsheet class="w-6 h-6 {file.status === 'done' ? 'text-green-600 dark:text-green-500' : file.status === 'error' ? 'text-red-600 dark:text-red-500' : 'text-slate-400 dark:text-slate-500'}" />
 									<div>
 										<Card.Title class="text-sm">{file.name}</Card.Title>
 										<Card.Description class="text-xs">{(file.size / 1024).toFixed(1)} KB</Card.Description>
@@ -419,7 +420,7 @@
 						{#if file.columns.length > 0 && file.status !== 'done' && !unifiedMode}
 							<Card.Content class="pt-0 space-y-3">
 								<div>
-									<p class="text-xs font-medium text-slate-600 mb-2">分类列：</p>
+									<p class="text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">分类列：</p>
 									<RadioGroup.Root value={file.selectedColumn} onValueChange={(v) => selectColumn(index, v)} disabled={processing} class="gap-x-4 gap-y-2">
 										{#each file.columns as col}
 											<RadioGroup.Item value={col}>{col}</RadioGroup.Item>
@@ -427,7 +428,7 @@
 									</RadioGroup.Root>
 								</div>
 								<div>
-									<p class="text-xs font-medium text-slate-600 mb-2">表头行数：</p>
+									<p class="text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">表头行数：</p>
 									<div class="inline-flex rounded-md shadow-sm">
 										{#each [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as num}
 											<button
@@ -448,7 +449,7 @@
 						{#if unifiedMode && file.status !== 'done'}
 							<Card.Content class="pt-0">
 								<p class="text-xs text-slate-500">
-									分类列：{unifiedColumn || '未选择'} | 表头行数：{unifiedHeaderRows}
+									{$_('classifyBatch.column')}{unifiedColumn || $_('classifyBatch.notSelected')} | {$_('classify.headerRows')}{unifiedHeaderRows}
 								</p>
 							</Card.Content>
 						{/if}
@@ -457,7 +458,7 @@
 							<Card.Footer class="pt-0">
 								<div class="flex items-center gap-2 text-sm text-slate-500">
 									<Loader2 class="w-4 h-4 animate-spin" />
-									处理中...
+									{$_('classify.processing')}
 								</div>
 							</Card.Footer>
 						{/if}
@@ -505,58 +506,58 @@
 
 			<Card.Root class="mb-6">
 				<Card.Header class="pb-4">
-					<Card.Title class="text-base">输出设置</Card.Title>
+					<Card.Title class="text-base">{$_('classifyBatch.outputSettings')}</Card.Title>
 				</Card.Header>
 				<Card.Content class="pt-0 space-y-4">
 					<div>
-						<p class="text-sm font-medium text-slate-700 mb-2">输出方式：</p>
+						<p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{$_('classifyBatch.outputMode')}</p>
 						<div class="flex rounded-md shadow-sm">
 							<button
-								class="px-3 py-1.5 text-sm border border-slate-200 rounded-l-md transition-colors flex items-center gap-1.5 {outputMode === 'folder'
+								class="px-3 py-1.5 text-sm border border-slate-200 dark:border-slate-600 rounded-l-md transition-colors flex items-center gap-1.5 {outputMode === 'folder'
 									? 'bg-primary text-primary-foreground border-primary'
-									: 'bg-white text-slate-600 hover:bg-slate-50'}"
+									: 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'}"
 								onclick={() => (outputMode = 'folder')}
 								disabled={processing}
 							>
 								<FolderOutput class="w-4 h-4" />
-								输出到文件夹
+								{$_('classifyBatch.toFolder')}
 							</button>
 							<button
-								class="px-3 py-1.5 text-sm border border-slate-200 rounded-r-md -ml-px transition-colors flex items-center gap-1.5 {outputMode === 'zip'
+								class="px-3 py-1.5 text-sm border border-slate-200 dark:border-slate-600 rounded-r-md -ml-px transition-colors flex items-center gap-1.5 {outputMode === 'zip'
 									? 'bg-primary text-primary-foreground border-primary'
-									: 'bg-white text-slate-600 hover:bg-slate-50'}"
+									: 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'}"
 								onclick={() => (outputMode = 'zip')}
 								disabled={processing}
 							>
 								<FileArchive class="w-4 h-4" />
-								打包为 ZIP
+								{$_('classifyBatch.toZip')}
 							</button>
 						</div>
 					</div>
 
 					{#if outputMode === 'folder'}
 						<div>
-							<p class="text-sm font-medium text-slate-700 mb-2">输出目录：</p>
+							<p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{$_('classifyBatch.outputDir')}</p>
 							<div class="flex gap-2">
-								<Input value={outputDir} placeholder="请选择输出目录" readonly class="flex-1" />
-								<Button variant="outline" onclick={selectOutputDir}>选择</Button>
+								<Input value={outputDir} placeholder={$_('classifyBatch.selectDir')} readonly class="flex-1" />
+								<Button variant="outline" onclick={selectOutputDir}>{$_('classifyBatch.select')}</Button>
 							</div>
 						</div>
 					{/if}
 
 					<div class="grid grid-cols-2 gap-4">
 						<div>
-							<p class="text-sm font-medium text-slate-700 mb-2">文件名前缀：</p>
-							<Input bind:value={prefix} placeholder="可选" />
+							<p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{$_('classifyBatch.prefix')}</p>
+							<Input bind:value={prefix} placeholder={$_('classifyBatch.optional')} />
 						</div>
 						<div>
-							<p class="text-sm font-medium text-slate-700 mb-2">文件名后缀：</p>
-							<Input bind:value={suffix} placeholder="可选" />
+							<p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{$_('classifyBatch.suffix')}</p>
+							<Input bind:value={suffix} placeholder={$_('classifyBatch.optional')} />
 						</div>
 					</div>
 					{#if files.length > 0}
-						<p class="text-xs text-slate-400">
-							示例：{prefix}{files[0].name.replace(/\.[^/.]+$/, '')}{suffix}.xlsx
+						<p class="text-xs text-slate-400 dark:text-slate-500">
+							{$_('classifyBatch.example')}{prefix}{files[0].name.replace(/\.[^/.]+$/, '')}{suffix}.xlsx
 						</p>
 					{/if}
 				</Card.Content>
@@ -566,13 +567,13 @@
 				<Button class="flex-1" disabled={!canProcess} onclick={processAllFiles}>
 					{#if processing}
 						<Loader2 class="w-4 h-4 mr-2 animate-spin" />
-						处理中 ({doneCount}/{files.length})
+						{$_('classify.processing')} ({doneCount}/{files.length})
 					{:else}
-						开始批量处理
+						{$_('classifyBatch.startBatch')}
 					{/if}
 				</Button>
 				<Button variant="outline" onclick={reset} disabled={processing}>
-					重置
+					{$_('classifyBatch.reset')}
 				</Button>
 			</div>
 		{/if}

@@ -17,7 +17,7 @@
 	<RadioGroupPrimitive.Item
 		{value}
 		{disabled}
-		class="w-4 h-4 rounded-full border border-slate-300 bg-white transition-colors data-[state=checked]:border-primary data-[state=checked]:border-[5px] focus:outline-none focus:ring-2 focus:ring-primary/20"
+		class="w-4 h-4 rounded-full border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 transition-colors data-[state=checked]:border-primary data-[state=checked]:border-[5px] focus:outline-none focus:ring-2 focus:ring-primary/20"
 	/>
-	<span class="text-sm text-slate-700">{@render children?.()}</span>
+	<span class="text-sm text-slate-700 dark:text-slate-300">{@render children?.()}</span>
 </label>
