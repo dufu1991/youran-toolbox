@@ -1,3 +1,11 @@
+# 构建和发布工作流
+# 触发条件：
+#   1. 推送到 main 分支且修改了 package.json
+#   2. 手动触发 (workflow_dispatch)
+# 构建条件：
+#   - package.json 中的 version 高于 GitHub Releases 已发布的版本
+#   - 或手动触发
+
 name: Build and Release
 
 on:
@@ -5,49 +13,67 @@ on:
     branches:
       - main
     paths:
-      - 'package.json'
-  workflow_dispatch:
+      - 'package.json'  # 只有 package.json 变化时才触发
+  workflow_dispatch:    # 支持手动触发
 
 permissions:
-  contents: write
+  contents: write       # 需要写权限来创建 Release
 
 jobs:
+  # ============================================
+  # 第一步：检查版本号是否需要发布
+  # ============================================
   check-version:
     runs-on: ubuntu-latest
     outputs:
-      version_changed: ${{ steps.check.outputs.changed }}
+      should_release: ${{ steps.check.outputs.should_release }}
       version: ${{ steps.check.outputs.version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
 
-      - name: Check version change
+      - name: Check version against latest release
         id: check
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # 获取当前 package.json 中的版本号
           CURRENT_VERSION=$(jq -r '.version' package.json)
-          git show HEAD~1:package.json > /tmp/old_package.json 2>/dev/null || echo '{"version":"0.0.0"}' > /tmp/old_package.json
-          OLD_VERSION=$(jq -r '.version' /tmp/old_package.json)
-          echo "Current version: $CURRENT_VERSION"
-          echo "Previous version: $OLD_VERSION"
+          echo "Current version in package.json: $CURRENT_VERSION"
+
+          # 获取 GitHub Releases 中最新发布的版本号
+          LATEST_RELEASE=$(gh release list --limit 1 --json tagName --jq '.[0].tagName // "v0.0.0"' 2>/dev/null || echo "v0.0.0")
+          # 移除版本号前的 'v' 前缀
+          LATEST_VERSION=${LATEST_RELEASE#v}
+          echo "Latest released version: $LATEST_VERSION"
+
           echo "version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
-          if [ "$CURRENT_VERSION" != "$OLD_VERSION" ]; then
-            echo "changed=true" >> $GITHUB_OUTPUT
+
+          # 比较版本号，判断是否需要发布
+          if [ "$CURRENT_VERSION" != "$LATEST_VERSION" ]; then
+            echo "Version changed, should release"
+            echo "should_release=true" >> $GITHUB_OUTPUT
           else
-            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "Version unchanged, skip release"
+            echo "should_release=false" >> $GITHUB_OUTPUT
           fi
 
+  # ============================================
+  # 第二步：构建应用（macOS 和 Windows）
+  # ============================================
   build:
     needs: check-version
-    if: needs.check-version.outputs.version_changed == 'true' || github.event_name == 'workflow_dispatch'
+    # 只有版本号高于已发布版本或手动触发时才构建
+    if: needs.check-version.outputs.should_release == 'true' || github.event_name == 'workflow_dispatch'
     strategy:
-      fail-fast: false
+      fail-fast: false  # 一个平台失败不影响其他平台
       matrix:
         include:
+          # macOS ARM64 (Apple Silicon)
           - platform: macos-latest
             args: --target aarch64-apple-darwin
             name: macOS-arm64
+          # Windows x64
           - platform: windows-latest
             args: ''
             name: Windows
@@ -57,36 +83,39 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      # 安装 Bun 包管理器
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
 
+      # 安装 Rust 工具链
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
 
+      # Rust 依赖缓存，加速构建
       - name: Rust cache
         uses: swatinem/rust-cache@v2
         with:
           workspaces: './src-tauri -> target'
 
+      # macOS 需要添加 ARM64 目标
       - name: Add macOS arm64 target
         if: matrix.platform == 'macos-latest'
         run: rustup target add aarch64-apple-darwin
 
+      # 安装前端依赖
       - name: Install dependencies
         run: bun install
 
+      # 同步版本号到 tauri.conf.json
       - name: Sync version to tauri.conf.json
         shell: bash
         run: |
           VERSION=$(jq -r '.version' package.json)
-          if [[ "$RUNNER_OS" == "Windows" ]]; then
-            jq --arg v "$VERSION" '.version = $v' src-tauri/tauri.conf.json > tmp.json && mv tmp.json src-tauri/tauri.conf.json
-          else
-            jq --arg v "$VERSION" '.version = $v' src-tauri/tauri.conf.json > tmp.json && mv tmp.json src-tauri/tauri.conf.json
-          fi
+          jq --arg v "$VERSION" '.version = $v' src-tauri/tauri.conf.json > tmp.json && mv tmp.json src-tauri/tauri.conf.json
 
+      # 构建 Tauri 应用
       - name: Build Tauri App
         uses: tauri-apps/tauri-action@v0
         env:
@@ -94,6 +123,7 @@ jobs:
         with:
           args: ${{ matrix.args }}
 
+      # 上传构建产物
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -102,18 +132,24 @@ jobs:
             src-tauri/target/*/release/bundle/dmg/*.dmg
             src-tauri/target/release/bundle/nsis/*.exe
 
+  # ============================================
+  # 第三步：创建 GitHub Release
+  # ============================================
   release:
     needs: [check-version, build]
     runs-on: ubuntu-latest
     steps:
+      # 下载所有构建产物
       - name: Download all artifacts
         uses: actions/download-artifact@v4
         with:
           path: artifacts
 
+      # 列出所有产物（调试用）
       - name: List artifacts
         run: find artifacts -type f
 
+      # 创建 Release 并上传安装包
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
