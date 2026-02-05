@@ -129,7 +129,8 @@
 
 		for (const path of paths) {
 			const info = await stat(path);
-			const name = path.split('/').pop() || path.split('\\').pop() || path;
+			const sep = getPathSeparator(path);
+			const name = path.split(sep).pop() || path;
 
 			items.push({
 				path,
