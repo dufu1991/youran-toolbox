@@ -1,11 +1,10 @@
 {
 	"_meta": {
-		"name": "한국어",
-		"flag": "🇰🇷"
+		"name": "한국어"
 	},
 	"app": {
-		"title": "유란 도구상자",
-		"subtitle": "일상 업무 효율화 도구",
+		"title": "유연 도구상자",
+		"subtitle": "일상 업무 효율을 높이는 데스크톱 도구",
 		"moreFeatures": "기능 추가 중..."
 	},
 	"nav": {
@@ -66,12 +65,12 @@
 		"column": "열:",
 		"notSelected": "미선택",
 		"outputSettings": "출력 설정",
-		"outputMode": "출력 방식:",
-		"toFolder": "폴더로",
-		"toZip": "ZIP으로",
 		"outputDir": "출력 경로:",
 		"selectDir": "폴더 선택",
 		"select": "선택",
+		"createSubfolder": "하위 폴더 생성",
+		"subfolderPlaceholder": "폴더 이름 입력",
+		"outputPath": "출력 경로:",
 		"prefix": "접두사:",
 		"suffix": "접미사:",
 		"optional": "선택사항",
@@ -84,8 +83,6 @@
 		"skippedCount": "건너뜀",
 		"verifyLabel": "검증",
 		"detailLabel": "상세:",
-		"zipSuccess": "완료! {count}개 파일 ZIP 저장",
-		"folderSuccess": "완료! {count}개 파일 저장",
 		"success": "성공"
 	},
 	"rename": {
@@ -121,7 +118,12 @@
 		"clearAll": "지우기",
 		"clickToEdit": "클릭하여 편집",
 		"copyMode": "복사 모드",
-		"copyModeHint": "활성화하면 파일이 원래 위치에서 이름이 변경되지 않고 출력 디렉토리로 복사됩니다",
+		"copyModeHint": "활성화하면 파일이 원래 위치에서 이름이 변경되지 않고 복사됩니다",
+		"copyModeType": "복사 방식",
+		"copyModeInplace": "원본 위치에 복사",
+		"copyModeInplaceHint": "복사된 파일이 원본 파일과 같은 디렉토리에 저장됩니다",
+		"copyModeArchive": "아카이브",
+		"copyModeArchiveHint": "복사된 파일이 지정된 폴더에 저장됩니다",
 		"outputDir": "출력 경로",
 		"notSelected": "미선택",
 		"select": "선택",

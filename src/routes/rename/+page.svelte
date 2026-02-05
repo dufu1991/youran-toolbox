@@ -6,6 +6,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import { HintIcon } from '$lib/components/ui/hint-icon';
+	import { toast } from '$lib/components/ui/toast';
 	import { ChevronLeft, FolderUp, X, Plus, Trash2, ArrowRight, Eye, EyeOff, Copy, Pencil, FolderOpen, Play, Hash, Type, Calendar, HardDrive, FileText, Minus, Clock, FileClock, Shuffle } from 'lucide-svelte';
 
 	interface FileItem {
@@ -93,6 +94,7 @@
 
 	// 复制模式
 	let copyMode: boolean = $state(true);
+	let copyModeType: 'inplace' | 'archive' = $state('archive'); // 原地复制 | 归档复制
 	let outputDir: string = $state('');
 	let useSubfolder: boolean = $state(false);
 	let subfolderName: string = $state('');
@@ -794,7 +796,9 @@
 
 	// 计算实际输出目录
 	const actualOutputDir = $derived.by(() => {
-		if (!copyMode || !outputDir) return outputDir;
+		if (!copyMode) return '';
+		if (copyModeType === 'inplace') return ''; // 原地复制不需要统一输出目录
+		if (!outputDir) return outputDir;
 		if (useSubfolder && subfolderName.trim()) {
 			const sep = outputDir.includes('/') ? '/' : '\\';
 			return `${outputDir}${sep}${subfolderName.trim()}`;
@@ -810,8 +814,8 @@
 		let success = 0;
 		let failed = 0;
 
-		// 如果使用子文件夹，先创建目录
-		if (copyMode && useSubfolder && subfolderName.trim()) {
+		// 如果是归档模式且使用子文件夹，先创建目录
+		if (copyMode && copyModeType === 'archive' && useSubfolder && subfolderName.trim()) {
 			try {
 				await mkdir(actualOutputDir, { recursive: true });
 			} catch (e) {
@@ -823,7 +827,19 @@
 			const sep = file.path.includes('/') ? '/' : '\\';
 			const dir = file.path.substring(0, file.path.lastIndexOf(sep));
 
-			const targetDir = copyMode ? actualOutputDir : dir;
+			// 根据复制模式类型确定目标目录
+			let targetDir: string;
+			if (copyMode) {
+				if (copyModeType === 'inplace') {
+					// 原地复制：使用原文件所在目录
+					targetDir = dir;
+				} else {
+					// 归档复制：使用统一输出目录
+					targetDir = actualOutputDir;
+				}
+			} else {
+				targetDir = dir;
+			}
 			const targetPath = `${targetDir}${sep}${file.newName}`;
 
 			// 跳过名称没有变化的文件（非复制模式）
@@ -848,7 +864,15 @@
 		processing = false;
 		processResult = { success, failed };
 
-		// 如果是重命名模式且成功，清空文件列表
+		// 显示结果提示
+		if (success > 0) {
+			toast.success($_('rename.resultSuccess', { values: { count: success } }));
+		}
+		if (failed > 0) {
+			toast.error($_('rename.resultFailed', { values: { count: failed } }));
+		}
+
+		// 如果是重命名模式且全部成功，清空文件列表
 		if (!copyMode && failed === 0) {
 			files = [];
 			customNames = new Map();
@@ -1109,49 +1133,49 @@
 												<p class="text-xs text-slate-500 mb-2">{$_('rename.datePrecision')}</p>
 												<div class="flex gap-2 flex-wrap">
 													<button
-														class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.datePrecision === 'year' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+														class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.datePrecision === 'year' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 														onclick={() => editingRule.datePrecision = 'year'}
 													>{$_('rename.dateYear')}</button>
 													<button
-														class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.datePrecision === 'month' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+														class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.datePrecision === 'month' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 														onclick={() => editingRule.datePrecision = 'month'}
 													>{$_('rename.dateMonth')}</button>
 													<button
-														class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.datePrecision === 'day' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+														class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.datePrecision === 'day' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 														onclick={() => editingRule.datePrecision = 'day'}
 													>{$_('rename.dateDay')}</button>
 													<button
-														class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.datePrecision === 'hour' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+														class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.datePrecision === 'hour' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 														onclick={() => editingRule.datePrecision = 'hour'}
 													>{$_('rename.dateHour')}</button>
 													<button
-														class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.datePrecision === 'minute' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+														class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.datePrecision === 'minute' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 														onclick={() => editingRule.datePrecision = 'minute'}
 													>{$_('rename.dateMinute')}</button>
 													<button
-														class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.datePrecision === 'second' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+														class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.datePrecision === 'second' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 														onclick={() => editingRule.datePrecision = 'second'}
 													>{$_('rename.dateSecond')}</button>
 													<span class="text-slate-300 dark:text-slate-600">|</span>
 													<button
-														class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.datePrecision === 'monthDay' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+														class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.datePrecision === 'monthDay' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 														onclick={() => editingRule.datePrecision = 'monthDay'}
 													>{$_('rename.dateMonthDay')}</button>
 													<button
-														class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.datePrecision === 'dayOnly' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+														class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.datePrecision === 'dayOnly' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 														onclick={() => editingRule.datePrecision = 'dayOnly'}
 													>{$_('rename.dateDayOnly')}</button>
 													<span class="text-slate-300 dark:text-slate-600">|</span>
 													<button
-														class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.datePrecision === 'hourOnly' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+														class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.datePrecision === 'hourOnly' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 														onclick={() => editingRule.datePrecision = 'hourOnly'}
 													>{$_('rename.dateHourOnly')}</button>
 													<button
-														class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.datePrecision === 'hourMinute' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+														class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.datePrecision === 'hourMinute' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 														onclick={() => editingRule.datePrecision = 'hourMinute'}
 													>{$_('rename.dateHourMinute')}</button>
 													<button
-														class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.datePrecision === 'time' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+														class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.datePrecision === 'time' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 														onclick={() => editingRule.datePrecision = 'time'}
 													>{$_('rename.dateTime')}</button>
 												</div>
@@ -1160,19 +1184,19 @@
 										<p class="text-xs text-slate-500 mb-2">{$_('rename.dateSeparator')}</p>
 										<div class="flex gap-2 flex-wrap">
 											<button
-												class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.dateSeparator === 'dash' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+												class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.dateSeparator === 'dash' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 												onclick={() => editingRule.dateSeparator = 'dash'}
 											>2024-01-30</button>
 											<button
-												class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.dateSeparator === 'underscore' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+												class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.dateSeparator === 'underscore' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 												onclick={() => editingRule.dateSeparator = 'underscore'}
 											>2024_01_30</button>
 											<button
-												class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.dateSeparator === 'none' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+												class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.dateSeparator === 'none' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 												onclick={() => editingRule.dateSeparator = 'none'}
 											>20240130</button>
 											<button
-												class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.dateSeparator === 'chinese' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+												class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.dateSeparator === 'chinese' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 												onclick={() => editingRule.dateSeparator = 'chinese'}
 											>2024年01月30日</button>
 										</div>
@@ -1182,15 +1206,15 @@
 										<p class="text-xs text-slate-500 mb-2">{$_('rename.dateTimeSeparator')}</p>
 										<div class="flex gap-2 flex-wrap">
 											<button
-												class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.dateTimeSeparator === 'underscore' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+												class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.dateTimeSeparator === 'underscore' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 												onclick={() => editingRule.dateTimeSeparator = 'underscore'}
 											>日期_时间</button>
 											<button
-												class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.dateTimeSeparator === 'dash' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+												class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.dateTimeSeparator === 'dash' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 												onclick={() => editingRule.dateTimeSeparator = 'dash'}
 											>日期-时间</button>
 											<button
-												class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.dateTimeSeparator === 'none' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+												class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.dateTimeSeparator === 'none' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 												onclick={() => editingRule.dateTimeSeparator = 'none'}
 											>日期时间</button>
 										</div>
@@ -1199,15 +1223,15 @@
 										<p class="text-xs text-slate-500 mb-2">{$_('rename.timeSeparator')}</p>
 										<div class="flex gap-2 flex-wrap">
 											<button
-												class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.timeSeparator === 'dot' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+												class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.timeSeparator === 'dot' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 												onclick={() => editingRule.timeSeparator = 'dot'}
 											>10.30.00</button>
 											<button
-												class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.timeSeparator === 'dash' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+												class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.timeSeparator === 'dash' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 												onclick={() => editingRule.timeSeparator = 'dash'}
 											>10-30-00</button>
 											<button
-												class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.timeSeparator === 'none' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+												class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.timeSeparator === 'none' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 												onclick={() => editingRule.timeSeparator = 'none'}
 											>103000</button>
 										</div>
@@ -1221,27 +1245,27 @@
 											<p class="text-xs text-slate-500 mb-2">{$_('rename.sizeUnit')}</p>
 											<div class="flex gap-2 flex-wrap">
 												<button
-													class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.sizeUnit === 'auto' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+													class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.sizeUnit === 'auto' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 													onclick={() => editingRule.sizeUnit = 'auto'}
 												>{$_('rename.sizeAuto')}</button>
 												<button
-													class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.sizeUnit === 'B' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+													class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.sizeUnit === 'B' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 													onclick={() => editingRule.sizeUnit = 'B'}
 												>B</button>
 												<button
-													class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.sizeUnit === 'KB' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+													class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.sizeUnit === 'KB' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 													onclick={() => editingRule.sizeUnit = 'KB'}
 												>KB</button>
 												<button
-													class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.sizeUnit === 'MB' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+													class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.sizeUnit === 'MB' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 													onclick={() => editingRule.sizeUnit = 'MB'}
 												>MB</button>
 												<button
-													class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.sizeUnit === 'GB' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+													class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.sizeUnit === 'GB' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 													onclick={() => editingRule.sizeUnit = 'GB'}
 												>GB</button>
 												<button
-													class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.sizeUnit === 'TB' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+													class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.sizeUnit === 'TB' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 													onclick={() => editingRule.sizeUnit = 'TB'}
 												>TB</button>
 											</div>
@@ -1249,7 +1273,7 @@
 										<div class="flex items-center gap-3">
 											<span class="text-xs text-slate-500">{$_('rename.sizeShowUnit')}</span>
 											<button
-												class="relative w-10 h-5 rounded-full transition-colors {editingRule.sizeShowUnit ? 'bg-primary' : 'bg-slate-300 dark:bg-slate-600'}"
+												class="relative w-10 h-5 rounded-full transition-colors {editingRule.sizeShowUnit ? 'bg-blue-500' : 'bg-slate-300 dark:bg-slate-600'}"
 												onclick={() => editingRule.sizeShowUnit = !editingRule.sizeShowUnit}
 											>
 												<span class="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition-transform {editingRule.sizeShowUnit ? 'translate-x-5' : ''}"></span>
@@ -1263,15 +1287,15 @@
 											<p class="text-xs text-slate-500 mb-2">{$_('rename.nameOperation')}</p>
 											<div class="flex gap-2 flex-wrap">
 												<button
-													class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.nameOperation === 'full' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+													class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.nameOperation === 'full' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 													onclick={() => editingRule.nameOperation = 'full'}
 												>{$_('rename.nameOpFull')}</button>
 												<button
-													class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.nameOperation === 'replace' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+													class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.nameOperation === 'replace' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 													onclick={() => editingRule.nameOperation = 'replace'}
 												>{$_('rename.nameOpReplace')}</button>
 												<button
-													class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.nameOperation === 'slice' ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
+													class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.nameOperation === 'slice' ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600'}"
 													onclick={() => editingRule.nameOperation = 'slice'}
 												>{$_('rename.nameOpSlice')}</button>
 											</div>
@@ -1283,7 +1307,7 @@
 											<span class="text-slate-400">→</span>
 											<input type="text" class="flex-1 px-3 py-1.5 text-sm rounded-md border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800" placeholder={$_('rename.nameReplacePlaceholder')} bind:value={editingRule.nameReplace} />
 										<button
-											class="px-3 py-1.5 text-sm rounded-md bg-primary text-primary-foreground hover:bg-primary/90 transition-colors whitespace-nowrap"
+											class="px-3 py-1.5 text-sm rounded-md bg-blue-500 text-white hover:bg-blue-600 transition-colors whitespace-nowrap"
 											onclick={() => editingRuleId = null}
 										>{$_('rename.nameOpReplace')}</button>
 										</div>
@@ -1323,7 +1347,7 @@
 								<div class="flex gap-2 flex-wrap">
 									{#each separatorOptions as sep}
 										<button
-											class="w-10 h-10 text-lg font-mono rounded-md transition-colors {editingRule.value === sep ? 'bg-primary text-primary-foreground' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700'}"
+											class="w-10 h-10 text-lg font-mono rounded-md transition-colors {editingRule.value === sep ? 'bg-blue-500 text-white' : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-600 hover:bg-slate-100 dark:hover:bg-slate-700'}"
 											onclick={() => editingRule.value = sep}
 										>{sep}</button>
 									{/each}
@@ -1424,47 +1448,47 @@
 					<!-- 排序设置 -->
 					<div class="flex flex-wrap items-center gap-4 mt-3 pt-3 border-t border-slate-200 dark:border-slate-700">
 						<div class="flex items-center gap-2">
-							<span class="text-sm text-slate-500 dark:text-slate-400">{$_('rename.sortBy')}:</span>
-							<div class="flex gap-1">
+							<span class="text-sm text-slate-500 dark:text-slate-400">{$_('rename.sortBy')}</span>
+							<div class="flex">
 								<button
-									class="px-2 py-1 text-xs rounded transition-colors {sortBy === 'name' ? 'bg-primary text-primary-foreground' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'}"
+									class="px-2 py-1 text-xs border transition-all rounded-l-sm {sortBy === 'name' ? 'border-blue-500 bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 z-10' : 'border-slate-200 dark:border-slate-600 hover:border-slate-400'}"
 									onclick={() => (sortBy = 'name')}
 								>{$_('rename.sortName')}</button>
 								<button
-									class="px-2 py-1 text-xs rounded transition-colors {sortBy === 'size' ? 'bg-primary text-primary-foreground' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'}"
+									class="px-2 py-1 text-xs border transition-all -ml-px {sortBy === 'size' ? 'border-blue-500 bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 z-10' : 'border-slate-200 dark:border-slate-600 hover:border-slate-400'}"
 									onclick={() => (sortBy = 'size')}
 								>{$_('rename.sortSize')}</button>
 								<button
-									class="px-2 py-1 text-xs rounded transition-colors {sortBy === 'created' ? 'bg-primary text-primary-foreground' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'}"
+									class="px-2 py-1 text-xs border transition-all -ml-px {sortBy === 'created' ? 'border-blue-500 bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 z-10' : 'border-slate-200 dark:border-slate-600 hover:border-slate-400'}"
 									onclick={() => (sortBy = 'created')}
 								>{$_('rename.sortCreated')}</button>
 								<button
-									class="px-2 py-1 text-xs rounded transition-colors {sortBy === 'modified' ? 'bg-primary text-primary-foreground' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'}"
+									class="px-2 py-1 text-xs border transition-all -ml-px rounded-r-sm {sortBy === 'modified' ? 'border-blue-500 bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 z-10' : 'border-slate-200 dark:border-slate-600 hover:border-slate-400'}"
 									onclick={() => (sortBy = 'modified')}
 								>{$_('rename.sortModified')}</button>
 							</div>
 							{#if sortBy === 'name'}
-								<div class="flex gap-1 ml-2 pl-2 border-l border-slate-300 dark:border-slate-600">
+								<div class="flex ml-2 pl-2 border-l border-slate-300 dark:border-slate-600">
 									<button
-										class="px-2 py-1 text-xs rounded transition-colors {!sortByNewName ? 'bg-primary text-primary-foreground' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'}"
+										class="px-2 py-1 text-xs border transition-all rounded-l-sm {!sortByNewName ? 'border-blue-500 bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 z-10' : 'border-slate-200 dark:border-slate-600 hover:border-slate-400'}"
 										onclick={() => (sortByNewName = false)}
 									>{$_('rename.sortOldName')}</button>
 									<button
-										class="px-2 py-1 text-xs rounded transition-colors {sortByNewName ? 'bg-primary text-primary-foreground' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'}"
+										class="px-2 py-1 text-xs border transition-all -ml-px rounded-r-sm {sortByNewName ? 'border-blue-500 bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 z-10' : 'border-slate-200 dark:border-slate-600 hover:border-slate-400'}"
 										onclick={() => (sortByNewName = true)}
 									>{$_('rename.sortNewName')}</button>
 								</div>
 							{/if}
 						</div>
 						<div class="flex items-center gap-2">
-							<span class="text-sm text-slate-500 dark:text-slate-400">{$_('rename.sortOrder')}:</span>
-							<div class="flex gap-1">
+							<span class="text-sm text-slate-500 dark:text-slate-400">{$_('rename.sortOrder')}</span>
+							<div class="flex">
 								<button
-									class="px-2 py-1 text-xs rounded transition-colors {sortOrder === 'asc' ? 'bg-primary text-primary-foreground' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'}"
+									class="px-2 py-1 text-xs border transition-all rounded-l-sm {sortOrder === 'asc' ? 'border-blue-500 bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 z-10' : 'border-slate-200 dark:border-slate-600 hover:border-slate-400'}"
 									onclick={() => (sortOrder = 'asc')}
 								>{$_('rename.asc')}</button>
 								<button
-									class="px-2 py-1 text-xs rounded transition-colors {sortOrder === 'desc' ? 'bg-primary text-primary-foreground' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'}"
+									class="px-2 py-1 text-xs border transition-all -ml-px rounded-r-sm {sortOrder === 'desc' ? 'border-blue-500 bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 z-10' : 'border-slate-200 dark:border-slate-600 hover:border-slate-400'}"
 									onclick={() => (sortOrder = 'desc')}
 								>{$_('rename.desc')}</button>
 							</div>
@@ -1564,13 +1588,39 @@
 						<div class="flex items-center gap-3">
 							<span class="text-sm font-medium text-slate-700 dark:text-slate-300">{$_('rename.copyMode')} <HintIcon text={$_('rename.copyModeHint')} /></span>
 							<button
-								class="relative w-11 h-6 rounded-full transition-colors {copyMode ? 'bg-primary' : 'bg-slate-300 dark:bg-slate-600'}"
+								class="relative w-11 h-6 rounded-full transition-colors {copyMode ? 'bg-blue-500' : 'bg-slate-300 dark:bg-slate-600'}"
 								onclick={() => (copyMode = !copyMode)}
 							>
 								<span class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform {copyMode ? 'translate-x-5' : ''}"></span>
 							</button>
 						</div>
 						{#if copyMode}
+							<div class="flex items-center gap-3">
+								<span class="text-sm text-slate-500 dark:text-slate-400 shrink-0">{$_('rename.copyModeType')}:</span>
+								<div class="flex">
+									<button
+										class="px-3 py-1.5 text-xs border transition-all rounded-l-md {copyModeType === 'inplace'
+											? 'border-blue-500 bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 z-10'
+											: 'border-slate-200 dark:border-slate-600 hover:border-slate-400'}"
+										onclick={() => copyModeType = 'inplace'}
+									>
+										{$_('rename.copyModeInplace')}
+									</button>
+									<button
+										class="px-3 py-1.5 text-xs border transition-all -ml-px rounded-r-md {copyModeType === 'archive'
+											? 'border-blue-500 bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 z-10'
+											: 'border-slate-200 dark:border-slate-600 hover:border-slate-400'}"
+										onclick={() => copyModeType = 'archive'}
+									>
+										{$_('rename.copyModeArchive')}
+									</button>
+								</div>
+								<HintIcon text={copyModeType === 'inplace' ? $_('rename.copyModeInplaceHint') : $_('rename.copyModeArchiveHint')} />
+							</div>
+						{/if}
+					</div>
+					{#if copyMode && copyModeType === 'archive'}
+						<div class="flex flex-wrap items-center gap-4 mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
 							<div class="flex items-center gap-2 flex-1 min-w-0">
 								<span class="text-sm text-slate-500 dark:text-slate-400 shrink-0">{$_('rename.outputDir')}:</span>
 								<div class="flex-1 min-w-0 px-3 py-1.5 bg-slate-100 dark:bg-slate-800 rounded text-sm truncate">
@@ -1581,34 +1631,34 @@
 									{$_('rename.select')}
 								</Button>
 							</div>
-						{/if}
-					</div>
-					{#if copyMode && outputDir}
-						<div class="flex flex-wrap items-center gap-4 mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
-							<label class="flex items-center gap-2 cursor-pointer">
-								<input
-									type="checkbox"
-									class="w-4 h-4 rounded"
-									bind:checked={useSubfolder}
-								/>
-								<span class="text-sm text-slate-600 dark:text-slate-400">{$_('rename.createSubfolder')}</span>
-							</label>
-							{#if useSubfolder}
-								<div class="flex items-center gap-2 flex-1 min-w-0">
-									<input
-										type="text"
-										class="flex-1 min-w-0 px-3 py-1.5 text-sm rounded border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800"
-										placeholder={$_('rename.subfolderPlaceholder')}
-										bind:value={subfolderName}
-									/>
-								</div>
-							{/if}
-							{#if useSubfolder && subfolderName.trim()}
-								<div class="w-full text-xs text-slate-400 dark:text-slate-500 truncate">
-									{$_('rename.outputPath')}: {actualOutputDir}
-								</div>
-							{/if}
 						</div>
+						{#if outputDir}
+							<div class="flex flex-wrap items-center gap-4 mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
+								<label class="flex items-center gap-2 cursor-pointer">
+									<input
+										type="checkbox"
+										class="w-4 h-4 rounded"
+										bind:checked={useSubfolder}
+									/>
+									<span class="text-sm text-slate-600 dark:text-slate-400">{$_('rename.createSubfolder')}</span>
+								</label>
+								{#if useSubfolder}
+									<div class="flex items-center gap-2 flex-1 min-w-0">
+										<input
+											type="text"
+											class="flex-1 min-w-0 px-3 py-1.5 text-sm rounded border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800"
+											placeholder={$_('rename.subfolderPlaceholder')}
+											bind:value={subfolderName}
+										/>
+									</div>
+								{/if}
+								{#if useSubfolder && subfolderName.trim()}
+									<div class="w-full text-xs text-slate-400 dark:text-slate-500 truncate">
+										{$_('rename.outputPath')}: {actualOutputDir}
+									</div>
+								{/if}
+							</div>
+						{/if}
 					{/if}
 				</Card.Content>
 			</Card.Root>
@@ -1619,7 +1669,7 @@
 					variant="default"
 					size="lg"
 					onclick={executeRename}
-					disabled={processing || previewFiles.length === 0 || (copyMode && !outputDir) || (copyMode && useSubfolder && !subfolderName.trim())}
+					disabled={processing || previewFiles.length === 0 || (copyMode && copyModeType === 'archive' && !outputDir) || (copyMode && copyModeType === 'archive' && useSubfolder && !subfolderName.trim())}
 				>
 					{#if processing}
 						<span class="animate-spin mr-2">⏳</span>

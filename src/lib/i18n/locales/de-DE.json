@@ -1,11 +1,10 @@
 {
 	"_meta": {
-		"name": "Deutsch",
-		"flag": "🇩🇪"
+		"name": "Deutsch"
 	},
 	"app": {
-		"title": "Youran Toolbox",
-		"subtitle": "Produktivitätswerkzeuge",
+		"title": "Gelassene Werkzeugkiste",
+		"subtitle": "Desktop-Werkzeuge zur Steigerung der täglichen Produktivität",
 		"moreFeatures": "Weitere Funktionen folgen..."
 	},
 	"nav": {
@@ -66,12 +65,12 @@
 		"column": "Spalte:",
 		"notSelected": "Nicht ausgewählt",
 		"outputSettings": "Ausgabe",
-		"outputMode": "Ausgabemodus:",
-		"toFolder": "In Ordner",
-		"toZip": "Als ZIP",
 		"outputDir": "Verzeichnis:",
 		"selectDir": "Ordner auswählen",
 		"select": "Auswählen",
+		"createSubfolder": "Unterordner erstellen",
+		"subfolderPlaceholder": "Ordnername eingeben",
+		"outputPath": "Ausgabepfad:",
 		"prefix": "Präfix:",
 		"suffix": "Suffix:",
 		"optional": "Optional",
@@ -84,8 +83,6 @@
 		"skippedCount": "Übersprungen",
 		"verifyLabel": "Prüfen",
 		"detailLabel": "Details:",
-		"zipSuccess": "Fertig! {count} Dateien als ZIP",
-		"folderSuccess": "Fertig! {count} Dateien gespeichert",
 		"success": "Erfolg"
 	},
 	"rename": {
@@ -121,7 +118,12 @@
 		"clearAll": "Löschen",
 		"clickToEdit": "Klicken zum Bearbeiten",
 		"copyMode": "Kopiermodus",
-		"copyModeHint": "Wenn aktiviert, werden Dateien in das Ausgabeverzeichnis kopiert, anstatt am ursprünglichen Ort umbenannt zu werden",
+		"copyModeHint": "Wenn aktiviert, werden Dateien kopiert anstatt am ursprünglichen Ort umbenannt zu werden",
+		"copyModeType": "Kopierart",
+		"copyModeInplace": "An Ort kopieren",
+		"copyModeInplaceHint": "Kopierte Dateien werden im selben Verzeichnis wie die Originaldateien abgelegt",
+		"copyModeArchive": "Archiv",
+		"copyModeArchiveHint": "Kopierte Dateien werden in einem angegebenen Ordner gespeichert",
 		"outputDir": "Ausgabeverzeichnis",
 		"notSelected": "Nicht ausgewählt",
 		"select": "Auswählen",

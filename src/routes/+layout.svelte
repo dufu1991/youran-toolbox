@@ -4,6 +4,7 @@
 	import { _, isLoading } from 'svelte-i18n';
 	import { ThemeToggle } from '$lib/components/ui/theme-toggle';
 	import { LocaleSwitcher } from '$lib/components/ui/locale-switcher';
+	import { Toast } from '$lib/components/ui/toast';
 	import { onMount } from 'svelte';
 
 	let { children } = $props();
@@ -41,6 +42,8 @@
 		<LocaleSwitcher />
 		<ThemeToggle {mode} onToggle={toggleMode} />
 	</div>
+
+	<Toast />
 
 	{@render children()}
 {/if}

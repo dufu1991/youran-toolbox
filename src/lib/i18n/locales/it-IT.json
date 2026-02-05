@@ -1,11 +1,10 @@
 {
 	"_meta": {
-		"name": "Italiano",
-		"flag": "🇮🇹"
+		"name": "Italiano"
 	},
 	"app": {
-		"title": "Youran Toolbox",
-		"subtitle": "Strumenti di produttività",
+		"title": "Cassetta degli Attrezzi Serena",
+		"subtitle": "Strumenti desktop per migliorare la produttività quotidiana",
 		"moreFeatures": "Altre funzioni in arrivo..."
 	},
 	"nav": {
@@ -66,12 +65,12 @@
 		"column": "Colonna:",
 		"notSelected": "Non selezionato",
 		"outputSettings": "Output",
-		"outputMode": "Modalità output:",
-		"toFolder": "In cartella",
-		"toZip": "In ZIP",
 		"outputDir": "Directory:",
 		"selectDir": "Seleziona cartella",
 		"select": "Seleziona",
+		"createSubfolder": "Crea sottocartella",
+		"subfolderPlaceholder": "Inserisci nome cartella",
+		"outputPath": "Percorso output:",
 		"prefix": "Prefisso:",
 		"suffix": "Suffisso:",
 		"optional": "Opzionale",
@@ -84,8 +83,6 @@
 		"skippedCount": "Saltati",
 		"verifyLabel": "Verifica",
 		"detailLabel": "Dettagli:",
-		"zipSuccess": "Completato! {count} file in ZIP",
-		"folderSuccess": "Completato! {count} file salvati",
 		"success": "Successo"
 	},
 	"rename": {
@@ -121,7 +118,12 @@
 		"clearAll": "Cancella",
 		"clickToEdit": "Clicca per modificare",
 		"copyMode": "Modalità copia",
-		"copyModeHint": "Quando attivato, i file verranno copiati nella directory di output invece di essere rinominati sul posto",
+		"copyModeHint": "Quando attivato, i file verranno copiati invece di essere rinominati sul posto",
+		"copyModeType": "Tipo di copia",
+		"copyModeInplace": "Copia sul posto",
+		"copyModeInplaceHint": "I file copiati vengono posizionati nella stessa directory dei file originali",
+		"copyModeArchive": "Archivio",
+		"copyModeArchiveHint": "I file copiati vengono memorizzati in una cartella specificata",
 		"outputDir": "Directory output",
 		"notSelected": "Non selezionato",
 		"select": "Seleziona",

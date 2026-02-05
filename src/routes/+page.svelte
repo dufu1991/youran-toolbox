@@ -1,9 +1,15 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 	import * as Card from '$lib/components/ui/card';
-	import { Layers, FileText } from 'lucide-svelte';
+	import { Layers, FileText, QrCode, Image, FileType, GitCompare } from 'lucide-svelte';
 
 	const features = [
+		{
+			titleKey: 'features.rename.title',
+			descKey: 'features.rename.desc',
+			icon: FileText,
+			href: '/rename'
+		},
 		{
 			titleKey: 'features.classifyBatch.title',
 			descKey: 'features.classifyBatch.desc',
@@ -11,16 +17,34 @@
 			href: '/classify-batch'
 		},
 		{
-			titleKey: 'features.rename.title',
-			descKey: 'features.rename.desc',
-			icon: FileText,
-			href: '/rename'
+			titleKey: 'features.imageCompress.title',
+			descKey: 'features.imageCompress.desc',
+			icon: Image,
+			href: '/image-compress'
+		},
+		{
+			titleKey: 'features.pdf.title',
+			descKey: 'features.pdf.desc',
+			icon: FileType,
+			href: '/pdf'
+		},
+		{
+			titleKey: 'features.qrcode.title',
+			descKey: 'features.qrcode.desc',
+			icon: QrCode,
+			href: '/qrcode'
+		},
+		{
+			titleKey: 'features.textDiff.title',
+			descKey: 'features.textDiff.desc',
+			icon: GitCompare,
+			href: '/text-diff'
 		}
 	];
 </script>
 
 <div class="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-950">
-	<div class="container mx-auto max-w-4xl px-6 py-12">
+	<div class="container mx-auto max-w-5xl px-6 py-12">
 		<header class="text-center mb-12">
 			<h1 class="text-4xl font-bold text-slate-900 dark:text-slate-100 mb-3">{$_('app.title')}</h1>
 			<p class="text-lg text-slate-500 dark:text-slate-400">{$_('app.subtitle')}</p>

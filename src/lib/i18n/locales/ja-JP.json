@@ -1,11 +1,10 @@
 {
 	"_meta": {
-		"name": "日本語",
-		"flag": "🇯🇵"
+		"name": "日本語"
 	},
 	"app": {
 		"title": "悠然ツールボックス",
-		"subtitle": "日常業務効率化ツール",
+		"subtitle": "日常業務の効率を高めるデスクトップツール",
 		"moreFeatures": "機能追加中..."
 	},
 	"nav": {
@@ -66,12 +65,12 @@
 		"column": "列：",
 		"notSelected": "未選択",
 		"outputSettings": "出力設定",
-		"outputMode": "出力方式：",
-		"toFolder": "フォルダへ",
-		"toZip": "ZIP へ",
 		"outputDir": "出力先：",
 		"selectDir": "フォルダを選択",
 		"select": "選択",
+		"createSubfolder": "サブフォルダを作成",
+		"subfolderPlaceholder": "フォルダ名を入力",
+		"outputPath": "出力パス：",
 		"prefix": "接頭辞：",
 		"suffix": "接尾辞：",
 		"optional": "任意",
@@ -84,8 +83,6 @@
 		"skippedCount": "スキップ",
 		"verifyLabel": "検証",
 		"detailLabel": "詳細：",
-		"zipSuccess": "完了！{count} ファイルを ZIP に保存",
-		"folderSuccess": "完了！{count} ファイルを保存",
 		"success": "成功"
 	},
 	"rename": {
@@ -121,7 +118,12 @@
 		"clearAll": "クリア",
 		"clickToEdit": "クリックして編集",
 		"copyMode": "コピーモード",
-		"copyModeHint": "有効にすると、ファイルは元の場所でリネームされるのではなく、出力ディレクトリにコピーされます",
+		"copyModeHint": "有効にすると、ファイルは元の場所でリネームされるのではなくコピーされます",
+		"copyModeType": "コピー方式",
+		"copyModeInplace": "その場でコピー",
+		"copyModeInplaceHint": "コピーしたファイルは元のファイルと同じディレクトリに配置されます",
+		"copyModeArchive": "アーカイブ",
+		"copyModeArchiveHint": "コピーしたファイルは指定されたフォルダに保存されます",
 		"outputDir": "出力先",
 		"notSelected": "未選択",
 		"select": "選択",

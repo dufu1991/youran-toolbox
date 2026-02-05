@@ -1,11 +1,10 @@
 {
 	"_meta": {
-		"name": "Français",
-		"flag": "🇫🇷"
+		"name": "Français"
 	},
 	"app": {
-		"title": "Youran Toolbox",
-		"subtitle": "Outils de productivité",
+		"title": "Boîte à Outils Sereine",
+		"subtitle": "Outils de bureau pour améliorer la productivité quotidienne",
 		"moreFeatures": "Plus de fonctions à venir..."
 	},
 	"nav": {
@@ -66,12 +65,12 @@
 		"column": "Colonne:",
 		"notSelected": "Non sélectionné",
 		"outputSettings": "Sortie",
-		"outputMode": "Mode de sortie:",
-		"toFolder": "Vers dossier",
-		"toZip": "Vers ZIP",
 		"outputDir": "Répertoire:",
 		"selectDir": "Sélectionner dossier",
 		"select": "Sélectionner",
+		"createSubfolder": "Créer un sous-dossier",
+		"subfolderPlaceholder": "Saisir le nom du dossier",
+		"outputPath": "Chemin de sortie:",
 		"prefix": "Préfixe:",
 		"suffix": "Suffixe:",
 		"optional": "Optionnel",
@@ -84,8 +83,6 @@
 		"skippedCount": "Ignorés",
 		"verifyLabel": "Vérifier",
 		"detailLabel": "Détails:",
-		"zipSuccess": "Terminé! {count} fichiers en ZIP",
-		"folderSuccess": "Terminé! {count} fichiers enregistrés",
 		"success": "Succès"
 	},
 	"rename": {
@@ -121,7 +118,12 @@
 		"clearAll": "Effacer",
 		"clickToEdit": "Cliquez pour modifier",
 		"copyMode": "Mode copie",
-		"copyModeHint": "Lorsque activé, les fichiers seront copiés dans le répertoire de sortie au lieu d'être renommés sur place",
+		"copyModeHint": "Lorsque activé, les fichiers seront copiés au lieu d'être renommés sur place",
+		"copyModeType": "Type de copie",
+		"copyModeInplace": "Copie sur place",
+		"copyModeInplaceHint": "Les fichiers copiés sont placés dans le même répertoire que les fichiers originaux",
+		"copyModeArchive": "Archive",
+		"copyModeArchiveHint": "Les fichiers copiés sont stockés dans un dossier spécifié",
 		"outputDir": "Répertoire",
 		"notSelected": "Non sélectionné",
 		"select": "Sélectionner",

@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 	import * as XLSX from 'xlsx';
-	import JSZip from 'jszip';
-	import { open, save, message } from '@tauri-apps/plugin-dialog';
-	import { writeFile, readFile } from '@tauri-apps/plugin-fs';
+	import { open, message } from '@tauri-apps/plugin-dialog';
+	import { writeFile, readFile, mkdir } from '@tauri-apps/plugin-fs';
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import { Input } from '$lib/components/ui/input';
@@ -18,7 +17,8 @@
 		Settings2,
 		List,
 		FolderOutput,
-		FileArchive
+		Layers,
+		Files
 	} from 'lucide-svelte';
 
 	interface FileItem {
@@ -47,7 +47,18 @@
 	let unifiedMode = $state(true);
 	let unifiedColumn = $state('');
 	let unifiedHeaderRows = $state(1);
-	let outputMode = $state<'folder' | 'zip'>('folder');
+	let classifyMode = $state<'sheet' | 'file'>('sheet'); // 分类模式：sheet = 新 Sheet，file = 独立文件
+	let useSubfolder = $state(false);
+	let subfolderName = $state('');
+
+	const actualOutputDir = $derived.by(() => {
+		if (!outputDir) return outputDir;
+		if (useSubfolder && subfolderName.trim()) {
+			const sep = outputDir.includes('/') ? '/' : '\\';
+			return `${outputDir}${sep}${subfolderName.trim()}`;
+		}
+		return outputDir;
+	});
 
 	const commonColumns = $derived(() => {
 		if (files.length === 0) return [];
@@ -137,6 +148,11 @@
 			console.error(e);
 		}
 		files = [...files, fileItem];
+
+		if (!outputDir) {
+			const sep = path.includes('/') ? '/' : '\\';
+			outputDir = path.substring(0, path.lastIndexOf(sep));
+		}
 	}
 
 	function removeFile(index: number) {
@@ -167,12 +183,17 @@
 
 	async function processAllFiles() {
 		processing = true;
-		const zip = outputMode === 'zip' ? new JSZip() : null;
+
+		if (useSubfolder && subfolderName.trim() && actualOutputDir) {
+			await mkdir(actualOutputDir, { recursive: true });
+		}
 
 		for (let i = 0; i < files.length; i++) {
 			const file = files[i];
 			const col = unifiedMode ? unifiedColumn : file.selectedColumn;
 			const hRows = unifiedMode ? unifiedHeaderRows : file.headerRows;
+			const targetOutputDir = actualOutputDir;
+			const targetSep = targetOutputDir?.includes('/') ? '/' : '\\';
 
 			if (!file.workbook || !col) continue;
 
@@ -214,10 +235,7 @@
 
 				files[i].skippedCount = skipped;
 
-				const newWorkbook = XLSX.utils.book_new();
 				const originalSheet = file.workbook.Sheets[file.workbook.SheetNames[0]];
-				XLSX.utils.book_append_sheet(newWorkbook, originalSheet, '全部');
-
 				const originalMerges = originalSheet['!merges'] || [];
 				const headerMerges = originalMerges.filter(
 					(merge: XLSX.Range) => merge.s.r < hRows && merge.e.r < hRows
@@ -225,30 +243,65 @@
 				const originalCols = originalSheet['!cols'] || [];
 				const resultItems: { name: string; count: number }[] = [];
 
-				groups.forEach((rows, name) => {
-					const sheetName = sanitizeSheetName(name);
-					const sheetDataWithHeader = [...headerRowsData, ...rows];
-					const newSheet = XLSX.utils.aoa_to_sheet(sheetDataWithHeader);
-					if (headerMerges.length > 0) {
-						newSheet['!merges'] = headerMerges.map((merge: XLSX.Range) => ({
-							s: { r: merge.s.r, c: merge.s.c },
-							e: { r: merge.e.r, c: merge.e.c }
-						}));
+				if (classifyMode === 'file') {
+					// 独立文件模式：每个分类生成一个独立的 Excel 文件
+					const originalName = file.name.replace(/\.[^/.]+$/, '');
+
+					for (const [name, rows] of groups) {
+						const categoryWorkbook = XLSX.utils.book_new();
+						const sheetDataWithHeader = [...headerRowsData, ...rows];
+						const newSheet = XLSX.utils.aoa_to_sheet(sheetDataWithHeader);
+						if (headerMerges.length > 0) {
+							newSheet['!merges'] = headerMerges.map((merge: XLSX.Range) => ({
+								s: { r: merge.s.r, c: merge.s.c },
+								e: { r: merge.e.r, c: merge.e.c }
+							}));
+						}
+						if (originalCols.length > 0) newSheet['!cols'] = [...originalCols];
+						XLSX.utils.book_append_sheet(categoryWorkbook, newSheet, 'Sheet1');
+
+						const wbout = XLSX.write(categoryWorkbook, { bookType: 'xlsx', type: 'array' });
+						const sanitizedName = name.replace(/[\\/*?[\]:]/g, '').substring(0, 50) || '未命名';
+						const outputFileName = `${prefix}${sanitizedName}${suffix}.xlsx`;
+
+						if (targetOutputDir) {
+							// 文件夹模式下创建以原文件名命名的子文件夹
+							const subDir = `${targetOutputDir}${targetSep}${originalName}`;
+							await mkdir(subDir, { recursive: true });
+							const outputPath = `${subDir}${targetSep}${outputFileName}`;
+							await writeFile(outputPath, new Uint8Array(wbout));
+						}
+
+						resultItems.push({ name: sanitizedName, count: rows.length });
 					}
-					if (originalCols.length > 0) newSheet['!cols'] = [...originalCols];
-					XLSX.utils.book_append_sheet(newWorkbook, newSheet, sheetName);
-					resultItems.push({ name: sheetName, count: rows.length });
-				});
+				} else {
+					// Sheet 模式：所有分类放在同一个文件的不同 Sheet 中
+					const newWorkbook = XLSX.utils.book_new();
+					XLSX.utils.book_append_sheet(newWorkbook, originalSheet, '全部');
 
-				const wbout = XLSX.write(newWorkbook, { bookType: 'xlsx', type: 'array' });
-				const originalName = file.name.replace(/\.[^/.]+$/, '');
-				const outputFileName = `${prefix}${originalName}${suffix}.xlsx`;
+					groups.forEach((rows, name) => {
+						const sheetName = sanitizeSheetName(name);
+						const sheetDataWithHeader = [...headerRowsData, ...rows];
+						const newSheet = XLSX.utils.aoa_to_sheet(sheetDataWithHeader);
+						if (headerMerges.length > 0) {
+							newSheet['!merges'] = headerMerges.map((merge: XLSX.Range) => ({
+								s: { r: merge.s.r, c: merge.s.c },
+								e: { r: merge.e.r, c: merge.e.c }
+							}));
+						}
+						if (originalCols.length > 0) newSheet['!cols'] = [...originalCols];
+						XLSX.utils.book_append_sheet(newWorkbook, newSheet, sheetName);
+						resultItems.push({ name: sheetName, count: rows.length });
+					});
 
-				if (outputMode === 'zip' && zip) {
-					zip.file(outputFileName, new Uint8Array(wbout));
-				} else if (outputDir) {
-					const outputPath = `${outputDir}/${outputFileName}`;
-					await writeFile(outputPath, new Uint8Array(wbout));
+					const wbout = XLSX.write(newWorkbook, { bookType: 'xlsx', type: 'array' });
+					const originalName = file.name.replace(/\.[^/.]+$/, '');
+					const outputFileName = `${prefix}${originalName}${suffix}.xlsx`;
+
+					if (targetOutputDir) {
+						const outputPath = `${targetOutputDir}${targetSep}${outputFileName}`;
+						await writeFile(outputPath, new Uint8Array(wbout));
+					}
 				}
 
 				files[i].result = resultItems.sort((a, b) => b.count - a.count);
@@ -261,22 +314,9 @@
 			}
 		}
 
-		if (outputMode === 'zip' && zip) {
-			const zipContent = await zip.generateAsync({ type: 'uint8array' });
-			const zipPath = await save({
-				defaultPath: `批量分类结果${suffix}.zip`,
-				filters: [{ name: 'ZIP', extensions: ['zip'] }]
-			});
-			if (zipPath) {
-				await writeFile(zipPath, zipContent);
-				const successCount = files.filter((f) => f.status === 'done').length;
-				await message(`处理完成！共 ${successCount} 个文件已打包为 ZIP`, { title: '成功', kind: 'info' });
-			}
-		} else {
-			const successCount = files.filter((f) => f.status === 'done').length;
-			if (successCount > 0) {
-				await message(`处理完成！共 ${successCount} 个文件已保存到输出目录`, { title: '成功', kind: 'info' });
-			}
+		const successCount = files.filter((f) => f.status === 'done').length;
+		if (successCount > 0) {
+			await message(`处理完成！共 ${successCount} 个文件已保存到输出目录`, { title: '成功', kind: 'info' });
 		}
 
 		processing = false;
@@ -287,9 +327,10 @@
 		prefix = '';
 		suffix = '_分类';
 		outputDir = '';
+		useSubfolder = false;
+		subfolderName = '';
 		unifiedColumn = '';
 		unifiedHeaderRows = 1;
-		outputMode = 'folder';
 	}
 
 	const canProcess = $derived(
@@ -297,7 +338,8 @@
 			(unifiedMode
 				? unifiedColumn && files.every((f) => f.columns.includes(unifiedColumn))
 				: files.every((f) => f.selectedColumn)) &&
-			(outputMode === 'zip' || outputDir) &&
+			outputDir &&
+			(!useSubfolder || subfolderName.trim()) &&
 			!processing
 	);
 
@@ -305,7 +347,7 @@
 </script>
 
 <div class="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-slate-900 dark:to-slate-950">
-	<div class="container mx-auto max-w-3xl px-6 py-8">
+	<div class="container mx-auto px-6 py-8">
 		<header class="mb-8">
 			<a href="/" class="text-sm text-primary hover:underline inline-flex items-center gap-1 mb-4">
 				<ChevronLeft class="w-4 h-4" />
@@ -339,7 +381,7 @@
 						<div class="flex rounded-md shadow-sm">
 							<button
 								class="px-3 py-1.5 text-xs border border-slate-200 dark:border-slate-600 rounded-l-md transition-colors flex items-center gap-1.5 {unifiedMode
-									? 'bg-primary text-primary-foreground border-primary'
+									? 'bg-blue-500 text-white border-blue-500'
 									: 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'}"
 								onclick={() => (unifiedMode = true)}
 								disabled={processing}
@@ -349,7 +391,7 @@
 							</button>
 							<button
 								class="px-3 py-1.5 text-xs border border-slate-200 dark:border-slate-600 rounded-r-md -ml-px transition-colors flex items-center gap-1.5 {!unifiedMode
-									? 'bg-primary text-primary-foreground border-primary'
+									? 'bg-blue-500 text-white border-blue-500'
 									: 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'}"
 								onclick={() => (unifiedMode = false)}
 								disabled={processing}
@@ -381,7 +423,7 @@
 									{#each [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as num}
 										<button
 											class="px-3 py-1.5 text-sm border border-slate-200 dark:border-slate-600 transition-colors first:rounded-l-md last:rounded-r-md -ml-px first:ml-0 {unifiedHeaderRows === num
-												? 'bg-primary text-primary-foreground border-primary z-10'
+												? 'bg-blue-500 text-white border-blue-500 z-10'
 												: 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'}"
 											onclick={() => (unifiedHeaderRows = num)}
 											disabled={processing}
@@ -399,7 +441,7 @@
 				{/if}
 			</Card.Root>
 
-			<div class="space-y-4 mb-6">
+			<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mb-6">
 				{#each files as file, index}
 					<Card.Root class={file.status === 'done' ? 'border-green-200 dark:border-green-800 bg-green-50/50 dark:bg-green-900/30' : file.status === 'error' ? 'border-red-200 dark:border-red-800 bg-red-50/50 dark:bg-red-900/30' : ''}>
 						<Card.Header class="pb-3">
@@ -433,7 +475,7 @@
 										{#each [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as num}
 											<button
 												class="px-2.5 py-1 text-xs border border-slate-200 transition-colors first:rounded-l-md last:rounded-r-md -ml-px first:ml-0 {file.headerRows === num
-													? 'bg-primary text-primary-foreground border-primary z-10'
+													? 'bg-blue-500 text-white border-blue-500 z-10'
 													: 'bg-white text-slate-600 hover:bg-slate-50'}"
 												onclick={() => setHeaderRows(index, num)}
 												disabled={processing}
@@ -510,40 +552,71 @@
 				</Card.Header>
 				<Card.Content class="pt-0 space-y-4">
 					<div>
-						<p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{$_('classifyBatch.outputMode')}</p>
+						<p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{$_('classifyBatch.classifyMode')}</p>
 						<div class="flex rounded-md shadow-sm">
 							<button
-								class="px-3 py-1.5 text-sm border border-slate-200 dark:border-slate-600 rounded-l-md transition-colors flex items-center gap-1.5 {outputMode === 'folder'
-									? 'bg-primary text-primary-foreground border-primary'
+								class="px-3 py-1.5 text-sm border border-slate-200 dark:border-slate-600 rounded-l-md transition-colors flex items-center gap-1.5 {classifyMode === 'sheet'
+									? 'bg-blue-500 text-white border-blue-500'
 									: 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'}"
-								onclick={() => (outputMode = 'folder')}
+								onclick={() => (classifyMode = 'sheet')}
 								disabled={processing}
 							>
-								<FolderOutput class="w-4 h-4" />
-								{$_('classifyBatch.toFolder')}
+								<Layers class="w-4 h-4" />
+								{$_('classifyBatch.toSheet')}
 							</button>
 							<button
-								class="px-3 py-1.5 text-sm border border-slate-200 dark:border-slate-600 rounded-r-md -ml-px transition-colors flex items-center gap-1.5 {outputMode === 'zip'
-									? 'bg-primary text-primary-foreground border-primary'
+								class="px-3 py-1.5 text-sm border border-slate-200 dark:border-slate-600 rounded-r-md -ml-px transition-colors flex items-center gap-1.5 {classifyMode === 'file'
+									? 'bg-blue-500 text-white border-blue-500'
 									: 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'}"
-								onclick={() => (outputMode = 'zip')}
+								onclick={() => (classifyMode = 'file')}
 								disabled={processing}
 							>
-								<FileArchive class="w-4 h-4" />
-								{$_('classifyBatch.toZip')}
+								<Files class="w-4 h-4" />
+								{$_('classifyBatch.toFiles')}
 							</button>
 						</div>
+						<p class="text-xs text-slate-400 dark:text-slate-500 mt-1">
+							{classifyMode === 'sheet' ? $_('classifyBatch.toSheetHint') : $_('classifyBatch.toFilesHint')}
+						</p>
 					</div>
 
-					{#if outputMode === 'folder'}
-						<div>
-							<p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{$_('classifyBatch.outputDir')}</p>
-							<div class="flex gap-2">
-								<Input value={outputDir} placeholder={$_('classifyBatch.selectDir')} readonly class="flex-1" />
-								<Button variant="outline" onclick={selectOutputDir}>{$_('classifyBatch.select')}</Button>
-							</div>
+					<div>
+						<p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">{$_('classifyBatch.outputDir')}</p>
+						<div class="flex gap-2">
+							<Input value={outputDir} placeholder={$_('classifyBatch.selectDir')} readonly class="flex-1" />
+							<Button variant="outline" onclick={selectOutputDir}>
+								<FolderOutput class="w-4 h-4 mr-2" />
+								{$_('classifyBatch.select')}
+							</Button>
 						</div>
-					{/if}
+						{#if outputDir}
+							<div class="flex flex-wrap items-center gap-4 mt-3">
+								<label class="flex items-center gap-2 cursor-pointer">
+									<input
+										type="checkbox"
+										class="w-4 h-4 rounded"
+										bind:checked={useSubfolder}
+									/>
+									<span class="text-sm text-slate-600 dark:text-slate-400">{$_('classifyBatch.createSubfolder')}</span>
+								</label>
+								{#if useSubfolder}
+									<div class="flex items-center gap-2 flex-1 min-w-0">
+										<input
+											type="text"
+											class="flex-1 min-w-0 px-3 py-1.5 text-sm rounded border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800"
+											placeholder={$_('classifyBatch.subfolderPlaceholder')}
+											bind:value={subfolderName}
+										/>
+									</div>
+								{/if}
+								{#if useSubfolder && subfolderName.trim()}
+									<div class="w-full text-xs text-slate-400 dark:text-slate-500 truncate">
+										{$_('classifyBatch.outputPath')} {actualOutputDir}
+									</div>
+								{/if}
+							</div>
+						{/if}
+					</div>
 
 					<div class="grid grid-cols-2 gap-4">
 						<div>
@@ -563,8 +636,8 @@
 				</Card.Content>
 			</Card.Root>
 
-			<div class="flex gap-3">
-				<Button class="flex-1" disabled={!canProcess} onclick={processAllFiles}>
+			<div class="flex justify-center gap-3">
+				<Button disabled={!canProcess} onclick={processAllFiles}>
 					{#if processing}
 						<Loader2 class="w-4 h-4 mr-2 animate-spin" />
 						{$_('classify.processing')} ({doneCount}/{files.length})
