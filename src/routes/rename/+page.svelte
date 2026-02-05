@@ -29,6 +29,12 @@
 	// 常用连接符
 	const separatorOptions = ['-', '_', '.', "'", '(', ')', '[', ']', '{', '}', '+', ',', ';', '=', '@'] as const;
 
+	function getPathSeparator(path: string): string {
+		// Windows 路径可能同时包含 / 和 \，优先检测 \
+		if (path.includes('\\')) return '\\';
+		return '/';
+	}
+
 	type NameOperation = 'full' | 'replace' | 'slice';
 
 	interface RenameRule {
@@ -139,7 +145,7 @@
 		// 设置默认输出目录为第一个文件所在目录
 		if (!outputDir && paths.length > 0) {
 			const firstPath = paths[0];
-			const sep = firstPath.includes('/') ? '/' : '\\';
+			const sep = getPathSeparator(firstPath);
 			outputDir = firstPath.substring(0, firstPath.lastIndexOf(sep));
 		}
 	}
@@ -800,7 +806,7 @@
 		if (copyModeType === 'inplace') return ''; // 原地复制不需要统一输出目录
 		if (!outputDir) return outputDir;
 		if (useSubfolder && subfolderName.trim()) {
-			const sep = outputDir.includes('/') ? '/' : '\\';
+			const sep = getPathSeparator(outputDir);
 			return `${outputDir}${sep}${subfolderName.trim()}`;
 		}
 		return outputDir;
@@ -824,7 +830,7 @@
 		}
 
 		for (const file of previewFiles) {
-			const sep = file.path.includes('/') ? '/' : '\\';
+			const sep = getPathSeparator(file.path);
 			const dir = file.path.substring(0, file.path.lastIndexOf(sep));
 
 			// 根据复制模式类型确定目标目录

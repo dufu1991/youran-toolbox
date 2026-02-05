@@ -51,10 +51,16 @@
 	let useSubfolder = $state(false);
 	let subfolderName = $state('');
 
+	function getPathSeparator(path: string): string {
+		// Windows 路径可能同时包含 / 和 \，优先检测 \
+		if (path.includes('\\')) return '\\';
+		return '/';
+	}
+
 	const actualOutputDir = $derived.by(() => {
 		if (!outputDir) return outputDir;
 		if (useSubfolder && subfolderName.trim()) {
-			const sep = outputDir.includes('/') ? '/' : '\\';
+			const sep = getPathSeparator(outputDir);
 			return `${outputDir}${sep}${subfolderName.trim()}`;
 		}
 		return outputDir;
@@ -110,7 +116,8 @@
 	}
 
 	async function addFile(path: string) {
-		const name = path.split('/').pop() || path.split('\\').pop() || path;
+		const sep = getPathSeparator(path);
+		const name = path.split(sep).pop() || path;
 		const fileItem: FileItem = {
 			path,
 			name,
@@ -150,7 +157,7 @@
 		files = [...files, fileItem];
 
 		if (!outputDir) {
-			const sep = path.includes('/') ? '/' : '\\';
+			const sep = getPathSeparator(path);
 			outputDir = path.substring(0, path.lastIndexOf(sep));
 		}
 	}
@@ -193,7 +200,7 @@
 			const col = unifiedMode ? unifiedColumn : file.selectedColumn;
 			const hRows = unifiedMode ? unifiedHeaderRows : file.headerRows;
 			const targetOutputDir = actualOutputDir;
-			const targetSep = targetOutputDir?.includes('/') ? '/' : '\\';
+			const targetSep = getPathSeparator(targetOutputDir || '');
 
 			if (!file.workbook || !col) continue;
 

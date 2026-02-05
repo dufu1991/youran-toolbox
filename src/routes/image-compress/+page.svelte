@@ -110,13 +110,19 @@
 		return lastDot !== -1 ? path.substring(lastDot).toLowerCase() : '';
 	}
 
+	function getPathSeparator(path: string): string {
+		// Windows 路径可能同时包含 / 和 \，优先检测 \
+		if (path.includes('\\')) return '\\';
+		return '/';
+	}
+
 	function getFileName(path: string): string {
-		const sep = path.includes('/') ? '/' : '\\';
+		const sep = getPathSeparator(path);
 		return path.substring(path.lastIndexOf(sep) + 1);
 	}
 
 	function getFileDir(path: string): string {
-		const sep = path.includes('/') ? '/' : '\\';
+		const sep = getPathSeparator(path);
 		return path.substring(0, path.lastIndexOf(sep));
 	}
 
@@ -252,7 +258,7 @@
 		if (copyModeType === 'inplace') return ''; // 原地复制不需要统一输出目录
 		if (!outputDir) return outputDir;
 		if (useSubfolder && subfolderName.trim()) {
-			const sep = outputDir.includes('/') ? '/' : '\\';
+			const sep = getPathSeparator(outputDir);
 			return `${outputDir}${sep}${subfolderName.trim()}`;
 		}
 		return outputDir;
@@ -293,7 +299,7 @@
 
 		try {
 			const fileName = getOutputFileName(img);
-			const sep = targetDir.includes('/') ? '/' : '\\';
+			const sep = getPathSeparator(targetDir);
 			const filePath = `${targetDir}${sep}${fileName}`;
 
 			// 确保目录存在（仅归档模式且使用子文件夹时）
