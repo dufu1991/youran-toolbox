@@ -22,6 +22,10 @@
 		"rename": {
 			"title": "Renommer par lot",
 			"desc": "Renommer fichiers avec index, date, texte personnalisé"
+		},
+		"heatmap": {
+			"title": "Carte thermique",
+			"desc": "Collez des données Excel pour générer une carte thermique"
 		}
 	},
 	"classify": {
@@ -84,6 +88,46 @@
 		"verifyLabel": "Vérifier",
 		"detailLabel": "Détails:",
 		"success": "Succès"
+	},
+	"heatmap": {
+		"inputData": "Saisie des données",
+		"inputHint": "Copiez les données depuis Excel et collez-les ici. Séparées par tabulation. 1re ligne = étiquettes de colonnes (axe Y), 1re colonne = étiquettes de lignes (axe X)",
+		"inputPlaceholder": "Collez les données Excel ici...",
+		"parseError": "Format invalide. Il faut au moins 2 lignes et 2 colonnes de données séparées par tabulation",
+		"colorScheme": "Palette de couleurs",
+		"color": {
+			"purple": "Violet",
+			"blue": "Bleu",
+			"green": "Vert",
+			"red": "Rouge",
+			"orange": "Orange",
+			"teal": "Sarcelle",
+			"pink": "Rose",
+			"indigo": "Indigo",
+			"amber": "Ambre",
+			"cyan": "Cyan"
+		},
+		"cellWidth": "Largeur de cellule",
+		"cellHeight": "Hauteur de cellule",
+		"cellGap": "Espacement",
+		"xLabelAngle": "Angle axe X",
+		"chartTitle": "Titre du graphique",
+		"swapAxis": "Axes XY",
+		"swapAxisBtn": "Permuter",
+		"titlePlaceholder": "Entrez le titre (optionnel)",
+		"xAxisTitleLabel": "Titre axe X",
+		"xAxisTitlePlaceholder": "ex : Catégorie",
+		"yAxisTitleLabel": "Titre axe Y",
+		"yAxisTitlePlaceholder": "ex : Service",
+		"legendTitleLabel": "Titre de la légende",
+		"legendTitlePlaceholder": "ex : Pourcentage",
+		"clear": "Effacer",
+		"export": "Exporter l'image",
+		"exportPadding": "Marge de l'image",
+		"exportScale": "Échelle d'export",
+		"exportScaleHint": "Plus l'échelle est grande, plus l'image est nette mais le fichier est volumineux. 1x taille originale, 2x usage général, 3x impression haute qualité",
+		"exportSuccess": "Carte thermique exportée",
+		"customColor": "Couleur personnalisée"
 	},
 	"rename": {
 		"selectHint": "Cliquez pour sélectionner des fichiers",

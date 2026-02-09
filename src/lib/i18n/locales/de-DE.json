@@ -22,6 +22,10 @@
 		"rename": {
 			"title": "Stapel-Umbenennung",
 			"desc": "Dateien mit Index, Datum, Text umbenennen"
+		},
+		"heatmap": {
+			"title": "Daten-Heatmap",
+			"desc": "Excel-Daten einfügen und Heatmap automatisch generieren"
 		}
 	},
 	"classify": {
@@ -84,6 +88,46 @@
 		"verifyLabel": "Prüfen",
 		"detailLabel": "Details:",
 		"success": "Erfolg"
+	},
+	"heatmap": {
+		"inputData": "Dateneingabe",
+		"inputHint": "Kopieren Sie Daten aus Excel und fügen Sie sie hier ein. Tab-getrennt. 1. Zeile = Spaltenbeschriftungen (Y-Achse), 1. Spalte = Zeilenbeschriftungen (X-Achse)",
+		"inputPlaceholder": "Excel-Daten hier einfügen...",
+		"parseError": "Ungültiges Format. Mindestens 2 Zeilen und 2 Spalten mit Tab-getrennten Daten erforderlich",
+		"colorScheme": "Farbschema",
+		"color": {
+			"purple": "Lila",
+			"blue": "Blau",
+			"green": "Grün",
+			"red": "Rot",
+			"orange": "Orange",
+			"teal": "Blaugrün",
+			"pink": "Rosa",
+			"indigo": "Indigo",
+			"amber": "Bernstein",
+			"cyan": "Cyan"
+		},
+		"cellWidth": "Zellenbreite",
+		"cellHeight": "Zellenhöhe",
+		"cellGap": "Zellenabstand",
+		"xLabelAngle": "X-Achsen-Winkel",
+		"chartTitle": "Diagrammtitel",
+		"swapAxis": "XY-Achsen",
+		"swapAxisBtn": "Tauschen",
+		"titlePlaceholder": "Titel eingeben (optional)",
+		"xAxisTitleLabel": "X-Achsen-Titel",
+		"xAxisTitlePlaceholder": "z.B. Kategorie",
+		"yAxisTitleLabel": "Y-Achsen-Titel",
+		"yAxisTitlePlaceholder": "z.B. Abteilung",
+		"legendTitleLabel": "Legendentitel",
+		"legendTitlePlaceholder": "z.B. Prozent",
+		"clear": "Löschen",
+		"export": "Bild exportieren",
+		"exportPadding": "Bildabstand",
+		"exportScale": "Export-Skalierung",
+		"exportScaleHint": "Höhere Skalierung bedeutet schärfere Bilder, aber größere Dateien. 1x Originalgröße, 2x allgemeine Nutzung, 3x hochwertige Drucke",
+		"exportSuccess": "Heatmap exportiert",
+		"customColor": "Benutzerdefinierte Farbe"
 	},
 	"rename": {
 		"selectHint": "Klicken Sie, um Dateien auszuwählen",

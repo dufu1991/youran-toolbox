@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { _ } from 'svelte-i18n';
 	import * as Card from '$lib/components/ui/card';
-	import { Layers, FileText, QrCode, Image, FileType, GitCompare } from 'lucide-svelte';
+	import { Layers, FileText, QrCode, Image, FileType, GitCompare, Grid3x3 } from 'lucide-svelte';
 
 	const features = [
 		{
@@ -39,6 +39,12 @@
 			descKey: 'features.textDiff.desc',
 			icon: GitCompare,
 			href: '/text-diff'
+		},
+		{
+			titleKey: 'features.heatmap.title',
+			descKey: 'features.heatmap.desc',
+			icon: Grid3x3,
+			href: '/heatmap'
 		}
 	];
 </script>

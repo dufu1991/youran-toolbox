@@ -34,6 +34,10 @@
 		"textDiff": {
 			"title": "文本对比",
 			"desc": "对比两段文本的差异"
+		},
+		"heatmap": {
+			"title": "数据热力图",
+			"desc": "粘贴 Excel 数据，自动生成热力图"
 		}
 	},
 	"classify": {
@@ -292,6 +296,46 @@
 		"unchanged": "未变",
 		"swapped": "已交换两侧文本",
 		"copied": "对比结果已复制"
+	},
+	"heatmap": {
+		"inputData": "数据输入",
+		"inputHint": "从 Excel 复制数据后粘贴到此处，数据以 Tab 分隔。第一行为列标签（Y 轴），第一列为行标签（X 轴）",
+		"inputPlaceholder": "从 Excel 复制数据后粘贴到此处...",
+		"parseError": "数据格式不正确，请确保至少有 2 行 2 列的 Tab 分隔数据",
+		"colorScheme": "颜色方案",
+		"color": {
+			"purple": "紫色",
+			"blue": "蓝色",
+			"green": "绿色",
+			"red": "红色",
+			"orange": "橙色",
+			"teal": "青绿",
+			"pink": "粉色",
+			"indigo": "靛蓝",
+			"amber": "琥珀",
+			"cyan": "青色"
+		},
+		"cellWidth": "格子宽度",
+		"cellHeight": "格子高度",
+		"cellGap": "格子间距",
+		"xLabelAngle": "X 轴角度",
+		"chartTitle": "图表标题",
+		"swapAxis": "XY 轴",
+		"swapAxisBtn": "切换",
+		"titlePlaceholder": "输入标题（可选）",
+		"xAxisTitleLabel": "X 轴标题",
+		"xAxisTitlePlaceholder": "如：感染部位",
+		"yAxisTitleLabel": "Y 轴标题",
+		"yAxisTitlePlaceholder": "如：科室",
+		"legendTitleLabel": "图例标题",
+		"legendTitlePlaceholder": "如：百分比",
+		"clear": "清空",
+		"export": "导出图片",
+		"exportPadding": "图片内边距",
+		"exportScale": "导出倍图",
+		"exportScaleHint": "倍数越大图片越清晰，但文件体积也越大。1x 为原始大小，2x 适合一般使用，3x 适合高清打印",
+		"exportSuccess": "热力图已导出",
+		"customColor": "自定义颜色"
 	},
 	"rename": {
 		"selectHint": "点击选择需要重命名的文件",

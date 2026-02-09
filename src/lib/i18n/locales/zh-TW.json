@@ -34,6 +34,10 @@
 		"textDiff": {
 			"title": "文字比對",
 			"desc": "比對兩段文字的差異"
+		},
+		"heatmap": {
+			"title": "資料熱力圖",
+			"desc": "貼上 Excel 資料，自動產生熱力圖"
 		}
 	},
 	"classify": {
@@ -292,6 +296,46 @@
 		"unchanged": "未變",
 		"swapped": "已交換兩側文字",
 		"copied": "比對結果已複製"
+	},
+	"heatmap": {
+		"inputData": "資料輸入",
+		"inputHint": "從 Excel 複製資料後貼上到此處，資料以 Tab 分隔。第一行為列標籤（Y 軸），第一列為行標籤（X 軸）",
+		"inputPlaceholder": "從 Excel 複製資料後貼上到此處...",
+		"parseError": "資料格式不正確，請確保至少有 2 行 2 列的 Tab 分隔資料",
+		"colorScheme": "顏色方案",
+		"color": {
+			"purple": "紫色",
+			"blue": "藍色",
+			"green": "綠色",
+			"red": "紅色",
+			"orange": "橘色",
+			"teal": "青綠",
+			"pink": "粉色",
+			"indigo": "靛藍",
+			"amber": "琥珀",
+			"cyan": "青色"
+		},
+		"cellWidth": "格子寬度",
+		"cellHeight": "格子高度",
+		"cellGap": "格子間距",
+		"xLabelAngle": "X 軸角度",
+		"chartTitle": "圖表標題",
+		"swapAxis": "XY 軸",
+		"swapAxisBtn": "切換",
+		"titlePlaceholder": "輸入標題（可選）",
+		"xAxisTitleLabel": "X 軸標題",
+		"xAxisTitlePlaceholder": "如：感染部位",
+		"yAxisTitleLabel": "Y 軸標題",
+		"yAxisTitlePlaceholder": "如：科室",
+		"legendTitleLabel": "圖例標題",
+		"legendTitlePlaceholder": "如：百分比",
+		"clear": "清空",
+		"export": "匯出圖片",
+		"exportPadding": "圖片內邊距",
+		"exportScale": "匯出倍圖",
+		"exportScaleHint": "倍數越大圖片越清晰，但檔案大小也越大。1x 為原始大小，2x 適合一般使用，3x 適合高清列印",
+		"exportSuccess": "熱力圖已匯出",
+		"customColor": "自訂顏色"
 	},
 	"rename": {
 		"selectHint": "點擊選擇需要重新命名的檔案",

@@ -22,6 +22,10 @@
 		"rename": {
 			"title": "Renombrar Lote",
 			"desc": "Renombrar archivos con índice, fecha, texto personalizado"
+		},
+		"heatmap": {
+			"title": "Mapa de calor",
+			"desc": "Pegue datos de Excel para generar un mapa de calor"
 		}
 	},
 	"classify": {
@@ -84,6 +88,46 @@
 		"verifyLabel": "Verificar",
 		"detailLabel": "Detalles:",
 		"success": "Éxito"
+	},
+	"heatmap": {
+		"inputData": "Entrada de datos",
+		"inputHint": "Copie datos desde Excel y péguelos aquí. Separados por tabulación. 1.ª fila = etiquetas de columnas (eje Y), 1.ª columna = etiquetas de filas (eje X)",
+		"inputPlaceholder": "Pegue datos de Excel aquí...",
+		"parseError": "Formato inválido. Se necesitan al menos 2 filas y 2 columnas de datos separados por tabulación",
+		"colorScheme": "Esquema de colores",
+		"color": {
+			"purple": "Púrpura",
+			"blue": "Azul",
+			"green": "Verde",
+			"red": "Rojo",
+			"orange": "Naranja",
+			"teal": "Verde azulado",
+			"pink": "Rosa",
+			"indigo": "Índigo",
+			"amber": "Ámbar",
+			"cyan": "Cian"
+		},
+		"cellWidth": "Ancho de celda",
+		"cellHeight": "Altura de celda",
+		"cellGap": "Espacio entre celdas",
+		"xLabelAngle": "Ángulo eje X",
+		"chartTitle": "Título del gráfico",
+		"swapAxis": "Ejes XY",
+		"swapAxisBtn": "Intercambiar",
+		"titlePlaceholder": "Ingrese el título (opcional)",
+		"xAxisTitleLabel": "Título eje X",
+		"xAxisTitlePlaceholder": "ej: Categoría",
+		"yAxisTitleLabel": "Título eje Y",
+		"yAxisTitlePlaceholder": "ej: Departamento",
+		"legendTitleLabel": "Título de leyenda",
+		"legendTitlePlaceholder": "ej: Porcentaje",
+		"clear": "Borrar",
+		"export": "Exportar imagen",
+		"exportPadding": "Margen de imagen",
+		"exportScale": "Escala de exportación",
+		"exportScaleHint": "Mayor escala significa imagen más nítida pero archivo más grande. 1x tamaño original, 2x uso general, 3x impresión de alta calidad",
+		"exportSuccess": "Mapa de calor exportado",
+		"customColor": "Color personalizado"
 	},
 	"rename": {
 		"selectHint": "Haz clic para seleccionar archivos",

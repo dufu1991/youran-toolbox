@@ -22,6 +22,10 @@
 		"rename": {
 			"title": "Rinomina batch",
 			"desc": "Rinomina file con indice, data, testo personalizzato"
+		},
+		"heatmap": {
+			"title": "Mappa di calore",
+			"desc": "Incolla i dati Excel per generare una mappa di calore"
 		}
 	},
 	"classify": {
@@ -84,6 +88,46 @@
 		"verifyLabel": "Verifica",
 		"detailLabel": "Dettagli:",
 		"success": "Successo"
+	},
+	"heatmap": {
+		"inputData": "Inserimento dati",
+		"inputHint": "Copia i dati da Excel e incollali qui. Separati da tabulazione. 1ª riga = etichette colonne (asse Y), 1ª colonna = etichette righe (asse X)",
+		"inputPlaceholder": "Incolla i dati Excel qui...",
+		"parseError": "Formato non valido. Servono almeno 2 righe e 2 colonne di dati separati da tabulazione",
+		"colorScheme": "Schema colori",
+		"color": {
+			"purple": "Viola",
+			"blue": "Blu",
+			"green": "Verde",
+			"red": "Rosso",
+			"orange": "Arancione",
+			"teal": "Verde acqua",
+			"pink": "Rosa",
+			"indigo": "Indaco",
+			"amber": "Ambra",
+			"cyan": "Ciano"
+		},
+		"cellWidth": "Larghezza cella",
+		"cellHeight": "Altezza cella",
+		"cellGap": "Spaziatura celle",
+		"xLabelAngle": "Angolo asse X",
+		"chartTitle": "Titolo grafico",
+		"swapAxis": "Assi XY",
+		"swapAxisBtn": "Scambia",
+		"titlePlaceholder": "Inserisci titolo (opzionale)",
+		"xAxisTitleLabel": "Titolo asse X",
+		"xAxisTitlePlaceholder": "es: Categoria",
+		"yAxisTitleLabel": "Titolo asse Y",
+		"yAxisTitlePlaceholder": "es: Reparto",
+		"legendTitleLabel": "Titolo legenda",
+		"legendTitlePlaceholder": "es: Percentuale",
+		"clear": "Cancella",
+		"export": "Esporta immagine",
+		"exportPadding": "Margine immagine",
+		"exportScale": "Scala di esportazione",
+		"exportScaleHint": "Scala maggiore significa immagine più nitida ma file più grande. 1x dimensione originale, 2x uso generale, 3x stampa di alta qualità",
+		"exportSuccess": "Mappa di calore esportata",
+		"customColor": "Colore personalizzato"
 	},
 	"rename": {
 		"selectHint": "Clicca per selezionare file",

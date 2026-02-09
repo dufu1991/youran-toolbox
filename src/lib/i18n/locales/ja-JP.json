@@ -22,6 +22,10 @@
 		"rename": {
 			"title": "一括リネーム",
 			"desc": "連番、日付、カスタムテキストでファイル名を変更"
+		},
+		"heatmap": {
+			"title": "データヒートマップ",
+			"desc": "Excel データを貼り付けてヒートマップを自動生成"
 		}
 	},
 	"classify": {
@@ -84,6 +88,46 @@
 		"verifyLabel": "検証",
 		"detailLabel": "詳細：",
 		"success": "成功"
+	},
+	"heatmap": {
+		"inputData": "データ入力",
+		"inputHint": "Excel からデータをコピーして貼り付けてください。Tab 区切り。1 行目 = 列ラベル（Y 軸）、1 列目 = 行ラベル（X 軸）",
+		"inputPlaceholder": "Excel データを貼り付けてください...",
+		"parseError": "データ形式が正しくありません。少なくとも 2 行 2 列の Tab 区切りデータが必要です",
+		"colorScheme": "カラースキーム",
+		"color": {
+			"purple": "パープル",
+			"blue": "ブルー",
+			"green": "グリーン",
+			"red": "レッド",
+			"orange": "オレンジ",
+			"teal": "ティール",
+			"pink": "ピンク",
+			"indigo": "インディゴ",
+			"amber": "アンバー",
+			"cyan": "シアン"
+		},
+		"cellWidth": "セル幅",
+		"cellHeight": "セルの高さ",
+		"cellGap": "セル間隔",
+		"xLabelAngle": "X 軸角度",
+		"chartTitle": "チャートタイトル",
+		"swapAxis": "XY 軸",
+		"swapAxisBtn": "切替",
+		"titlePlaceholder": "タイトルを入力（任意）",
+		"xAxisTitleLabel": "X 軸タイトル",
+		"xAxisTitlePlaceholder": "例：カテゴリ",
+		"yAxisTitleLabel": "Y 軸タイトル",
+		"yAxisTitlePlaceholder": "例：部門",
+		"legendTitleLabel": "凡例タイトル",
+		"legendTitlePlaceholder": "例：パーセント",
+		"clear": "クリア",
+		"export": "画像をエクスポート",
+		"exportPadding": "画像の余白",
+		"exportScale": "エクスポート倍率",
+		"exportScaleHint": "倍率が高いほど画像が鮮明になりますが、ファイルサイズも大きくなります。1x は原寸、2x は通常使用、3x は高品質印刷向け",
+		"exportSuccess": "ヒートマップをエクスポートしました",
+		"customColor": "カスタムカラー"
 	},
 	"rename": {
 		"selectHint": "クリックしてファイルを選択",

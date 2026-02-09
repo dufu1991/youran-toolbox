@@ -34,6 +34,10 @@
 		"textDiff": {
 			"title": "Text Diff",
 			"desc": "Compare differences between two texts"
+		},
+		"heatmap": {
+			"title": "Data Heatmap",
+			"desc": "Paste Excel data to generate heatmap"
 		}
 	},
 	"classify": {
@@ -399,5 +403,45 @@
 		"unchanged": "unchanged",
 		"swapped": "Texts swapped",
 		"copied": "Diff result copied"
+	},
+	"heatmap": {
+		"inputData": "Data Input",
+		"inputHint": "Copy data from Excel and paste here. Tab-separated. First row = column labels (Y-axis), first column = row labels (X-axis)",
+		"inputPlaceholder": "Paste Excel data here...",
+		"parseError": "Invalid format. Need at least 2 rows and 2 columns of tab-separated data",
+		"colorScheme": "Color Scheme",
+		"color": {
+			"purple": "Purple",
+			"blue": "Blue",
+			"green": "Green",
+			"red": "Red",
+			"orange": "Orange",
+			"teal": "Teal",
+			"pink": "Pink",
+			"indigo": "Indigo",
+			"amber": "Amber",
+			"cyan": "Cyan"
+		},
+		"cellWidth": "Cell Width",
+		"cellHeight": "Cell Height",
+		"cellGap": "Cell Gap",
+		"xLabelAngle": "X Label Angle",
+		"chartTitle": "Chart Title",
+		"swapAxis": "XY Axis",
+		"swapAxisBtn": "Swap",
+		"titlePlaceholder": "Enter title (optional)",
+		"xAxisTitleLabel": "X-Axis Title",
+		"xAxisTitlePlaceholder": "e.g. Category",
+		"yAxisTitleLabel": "Y-Axis Title",
+		"yAxisTitlePlaceholder": "e.g. Department",
+		"legendTitleLabel": "Legend Title",
+		"legendTitlePlaceholder": "e.g. Percentage",
+		"clear": "Clear",
+		"export": "Export Image",
+		"exportPadding": "Image Padding",
+		"exportScale": "Export Scale",
+		"exportScaleHint": "Higher scale means clearer image but larger file size. 1x is original size, 2x for general use, 3x for high-quality printing",
+		"exportSuccess": "Heatmap exported",
+		"customColor": "Custom Color"
 	}
 }
