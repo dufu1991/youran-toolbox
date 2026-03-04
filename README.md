@@ -1,8 +1,14 @@
-# 悠然工具箱
+<p align="center">
+  <img src="https://youran-toolbox.du-fu.com/logo.png" alt="悠然工具箱 Logo" width="120" />
+</p>
 
-一款跨平台、本地离线、注重隐私的轻量级桌面工具集，专注于提升日常办公效率。
+<h1 align="center">悠然工具箱</h1>
 
-🌐 **站点**：[youran-toolbox.du-fu.com](https://youran-toolbox.du-fu.com)
+<p align="center">一款跨平台、本地离线、注重隐私的轻量级桌面工具集，专注于提升日常办公效率。</p>
+
+<p align="center">
+  <a href="https://youran-toolbox.du-fu.com">官网</a>
+</p>
 
 ## ✨ 特性
 
