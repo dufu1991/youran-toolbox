@@ -40,9 +40,27 @@
 
 ## 📦 安装说明
 
-### macOS
+### 方式一：通过 GitHub Release 安装
 
-如果打开应用时提示「已损坏」或「无法验证开发者」，请在终端执行：
+前往 [GitHub Releases](https://github.com/dufu1991/youran-toolbox/releases) 页面，下载对应系统的安装包后直接安装。
+
+### 方式二：通过 Homebrew 安装（macOS）
+
+```sh
+brew install --cask dufu1991/tap/youran-toolbox
+```
+
+### macOS 常见问题
+
+在 macOS 上，从网络下载的应用会被系统打上 `com.apple.quarantine` 隔离属性。若应用未使用 Apple Developer ID 签名或尚未完成 Apple 公证，Gatekeeper 可能会拦截并显示「已损坏」或「无法验证开发者」。
+
+如果打开应用时提示「已损坏」或「无法验证开发者」，建议先执行（仅移除隔离属性）：
+
+```sh
+xattr -dr com.apple.quarantine "/Applications/youran-toolbox.app"
+```
+
+如果仍然无法打开，再执行（清空全部扩展属性）：
 
 ```sh
 xattr -cr /Applications/youran-toolbox.app
@@ -52,7 +70,12 @@ xattr -cr /Applications/youran-toolbox.app
 
 ### Windows
 
-直接运行安装程序即可。
+直接运行安装程序即可。Windows 安装一般不会出现 macOS 的「已损坏」提示，但可能会遇到以下情况：
+
+- `SmartScreen` 提示「Windows 已保护你的电脑」：点击「更多信息」，再点击「仍要运行」。
+- 安装权限不足：建议右键安装程序，选择「以管理员身份运行」。
+- 安全软件拦截或误报：将安装程序加入白名单后重试。
+- 系统版本不符合：建议使用 `Windows 10（1803+）` 或 `Windows 11` 的 `x64` 系统。
 
 ## 💻 开发
 

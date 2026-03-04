@@ -480,9 +480,157 @@ function detectOS() {
   return 'other';
 }
 
+// 复制文本到剪贴板（降级方案）
+function copyByExecCommand(text) {
+  const textarea = document.createElement('textarea');
+  textarea.value = text;
+  textarea.setAttribute('readonly', '');
+  textarea.style.position = 'fixed';
+  textarea.style.top = '-9999px';
+  document.body.appendChild(textarea);
+  textarea.focus();
+  textarea.select();
+  const copied = document.execCommand('copy');
+  document.body.removeChild(textarea);
+  return copied;
+}
+
+// 首页 brew 命令复制
+function setupHeroBrewCopy() {
+  const copyBtn = document.getElementById('hero-mac-brew-copy');
+  const commandEl = document.getElementById('hero-mac-brew-command');
+  if (!copyBtn || !commandEl) return;
+
+  const defaultTitle = copyBtn.getAttribute('title') || '';
+  let resetTimer = null;
+  const applyCopiedState = () => {
+    copyBtn.setAttribute('title', '已复制');
+    copyBtn.classList.add('is-copied');
+    copyBtn.classList.add('border-green-400/40', 'bg-green-500/10', 'text-green-200');
+    copyBtn.classList.remove('border-indigo-400/40', 'bg-indigo-500/10', 'text-indigo-200');
+    if (resetTimer) window.clearTimeout(resetTimer);
+    resetTimer = window.setTimeout(() => {
+      if (defaultTitle) copyBtn.setAttribute('title', defaultTitle);
+      copyBtn.classList.remove('is-copied');
+      copyBtn.classList.remove('border-green-400/40', 'bg-green-500/10', 'text-green-200');
+      copyBtn.classList.add('border-indigo-400/40', 'bg-indigo-500/10', 'text-indigo-200');
+    }, 1200);
+  };
+
+  copyBtn.addEventListener('click', () => {
+    const command = commandEl.textContent.trim();
+    if (!command) return;
+
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(command).then(applyCopiedState);
+      return;
+    }
+
+    if (copyByExecCommand(command)) applyCopiedState();
+  });
+}
+
+// 常见问题命令复制
+function setupFaqCommandCopy() {
+  const copyButtons = document.querySelectorAll('[data-copy-target]');
+  copyButtons.forEach((copyBtn) => {
+    const targetId = copyBtn.getAttribute('data-copy-target');
+    const commandEl = targetId ? document.getElementById(targetId) : null;
+    if (!commandEl) return;
+
+    const defaultTitle = copyBtn.getAttribute('title') || '';
+    let resetTimer = null;
+    const applyCopiedState = () => {
+      copyBtn.setAttribute('title', '已复制');
+      copyBtn.classList.add('is-copied');
+      copyBtn.classList.add('border-green-400/40', 'bg-green-500/10', 'text-green-200');
+      copyBtn.classList.remove('border-neutral-500/40', 'bg-white/5', 'text-neutral-200');
+      if (resetTimer) window.clearTimeout(resetTimer);
+      resetTimer = window.setTimeout(() => {
+        if (defaultTitle) copyBtn.setAttribute('title', defaultTitle);
+        copyBtn.classList.remove('is-copied');
+        copyBtn.classList.remove('border-green-400/40', 'bg-green-500/10', 'text-green-200');
+        copyBtn.classList.add('border-neutral-500/40', 'bg-white/5', 'text-neutral-200');
+      }, 1200);
+    };
+
+    copyBtn.addEventListener('click', () => {
+      const command = commandEl.textContent.trim();
+      if (!command) return;
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(command).then(applyCopiedState);
+        return;
+      }
+
+      if (copyByExecCommand(command)) applyCopiedState();
+    });
+  });
+}
+
+// 常见问题展开收缩动画
+function setupFaqToggleAnimation() {
+  const faqDetails = document.querySelectorAll('#faq details');
+  faqDetails.forEach((detail) => {
+    const summary = detail.querySelector('.faq-summary');
+    const content = detail.querySelector('.faq-content');
+    if (!summary || !content) return;
+
+    let isAnimating = false;
+    content.style.height = detail.open ? 'auto' : '0px';
+    content.style.opacity = detail.open ? '1' : '0';
+
+    summary.addEventListener('click', (event) => {
+      event.preventDefault();
+      if (isAnimating) return;
+      isAnimating = true;
+
+      if (detail.open) {
+        detail.classList.add('is-collapsing');
+        content.style.height = `${content.scrollHeight}px`;
+        content.style.opacity = '1';
+        content.offsetHeight;
+        content.style.transition = 'height 0.25s ease, opacity 0.2s ease';
+        content.style.height = '0px';
+        content.style.opacity = '0';
+
+        const onCloseEnd = (evt) => {
+          if (evt.propertyName !== 'height') return;
+          content.removeEventListener('transitionend', onCloseEnd);
+          detail.open = false;
+          detail.classList.remove('is-collapsing');
+          content.style.transition = '';
+          isAnimating = false;
+        };
+        content.addEventListener('transitionend', onCloseEnd);
+        return;
+      }
+
+      detail.open = true;
+      const targetHeight = content.scrollHeight;
+      content.style.height = '0px';
+      content.style.opacity = '0';
+      content.offsetHeight;
+      content.style.transition = 'height 0.25s ease, opacity 0.2s ease';
+      content.style.height = `${targetHeight}px`;
+      content.style.opacity = '1';
+
+      const onOpenEnd = (evt) => {
+        if (evt.propertyName !== 'height') return;
+        content.removeEventListener('transitionend', onOpenEnd);
+        content.style.height = 'auto';
+        content.style.transition = '';
+        isAnimating = false;
+      };
+      content.addEventListener('transitionend', onOpenEnd);
+    });
+  });
+}
+
 // 智能下载按钮
 function setupSmartDownload() {
   const downloadArea = document.getElementById('hero-download-area');
+  const macBrewTip = document.getElementById('hero-mac-brew-tip');
   const mobileTip = document.getElementById('hero-mobile-tip');
 
   if (isMobile()) {
@@ -499,10 +647,13 @@ function setupSmartDownload() {
 
   if (os === 'mac') {
     heroBtn.innerHTML = svgIcon + ' 下载 macOS 版';
+    macBrewTip.classList.remove('hidden');
   } else if (os === 'windows') {
     heroBtn.innerHTML = svgIcon + ' 下载 Windows 版';
+    macBrewTip.classList.add('hidden');
   } else {
     heroBtn.innerHTML = svgIcon + ' 前往 GitHub 下载';
+    macBrewTip.classList.add('hidden');
   }
 }
 
@@ -568,5 +719,8 @@ setupMobileMenu();
 setupScrollNav();
 setupRouter();
 loadChangelog();
+setupHeroBrewCopy();
+setupFaqCommandCopy();
+setupFaqToggleAnimation();
 setupSmartDownload();
 loadDownloads();

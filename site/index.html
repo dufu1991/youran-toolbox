@@ -80,6 +80,17 @@
             下载应用
           </a>
         </div>
+        <div id="hero-mac-brew-tip" class="mt-4 mb-2 hidden">
+          <div class="relative mx-auto my-2 w-full max-w-2xl">
+            <pre class="w-full overflow-x-auto rounded-lg border border-indigo-400/40 bg-indigo-500/10 px-3 py-2 pr-10 text-left text-sm"><code id="hero-mac-brew-command" class="text-indigo-200">brew install --cask dufu1991/tap/youran-toolbox</code></pre>
+            <button id="hero-mac-brew-copy" type="button" aria-label="复制命令" title="复制命令" class="copy-btn absolute right-2 top-1/2 -translate-y-1/2 rounded-md border border-indigo-400/40 bg-indigo-500/10 p-1.5 text-indigo-200 transition-colors hover:bg-indigo-500/20">
+              <span class="copy-icon-wrap">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon lucide lucide-clipboard-icon lucide-clipboard"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-icon lucide lucide-clipboard-check-icon lucide-clipboard-check"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
+              </span>
+            </button>
+          </div>
+        </div>
         <div id="hero-mobile-tip" class="mt-4 hidden">
           <div class="inline-flex items-center gap-2 rounded-xl border border-neutral-700 bg-white/5 px-6 py-3 text-sm" style="color: var(--color-muted)">
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="shrink-0"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
@@ -162,6 +173,66 @@
           <p style="color: var(--color-muted)">现代化的技术选型</p>
         </div>
         <div id="tech-grid" class="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5"></div>
+      </div>
+    </section>
+
+    <!-- 常见问题 -->
+    <section id="faq" class="scroll-mt-14 py-24" style="background-color: color-mix(in srgb, var(--color-surface) 45%, var(--color-bg));">
+      <div class="mx-auto max-w-5xl px-6">
+        <div class="mb-10 text-center">
+          <h2 class="mb-4 text-3xl font-bold">常见问题</h2>
+        </div>
+        <div class="space-y-3">
+          <details class="rounded-2xl border px-5 py-4" style="border-color: var(--color-border); background-color: var(--color-surface);">
+            <summary class="faq-summary flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold" style="color: var(--color-fg);">
+              <span>安装与 macOS 提示说明：为什么会提示「已损坏」或「无法验证开发者」，该怎么处理？</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="faq-chevron lucide lucide-chevron-right-icon lucide-chevron-right shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+            </summary>
+            <div class="faq-content">
+              <div class="faq-content-inner pt-3 text-sm leading-relaxed" style="color: var(--color-muted);">
+                <p>在 macOS 上，从网络下载的应用会被系统打上 <code>com.apple.quarantine</code> 隔离属性。若应用未使用 Apple Developer ID 签名或尚未完成 Apple 公证，Gatekeeper 可能会拦截并提示「已损坏」或「无法验证开发者」。</p>
+                <p class="mt-2">建议先执行（仅移除隔离属性）：</p>
+                <div class="relative my-2">
+                  <pre class="overflow-x-auto rounded-lg border p-3 pr-10" style="border-color: var(--color-border); background-color: color-mix(in srgb, var(--color-surface) 70%, transparent);"><code id="faq-quarantine-command">xattr -dr com.apple.quarantine "/Applications/youran-toolbox.app"</code></pre>
+                  <button type="button" data-copy-target="faq-quarantine-command" aria-label="复制命令" title="复制命令" class="copy-btn absolute right-2 top-1/2 -translate-y-1/2 rounded-md border border-neutral-500/40 bg-white/5 p-1.5 text-neutral-200 transition-colors hover:bg-white/10">
+                    <span class="copy-icon-wrap">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon lucide lucide-clipboard-icon lucide-clipboard"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-icon lucide lucide-clipboard-check-icon lucide-clipboard-check"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
+                    </span>
+                  </button>
+                </div>
+                <p class="mt-2">如果仍然无法打开，再执行（清空全部扩展属性）：</p>
+                <div class="relative my-2">
+                  <pre class="overflow-x-auto rounded-lg border p-3 pr-10" style="border-color: var(--color-border); background-color: color-mix(in srgb, var(--color-surface) 70%, transparent);"><code id="faq-clear-attrs-command">xattr -cr /Applications/youran-toolbox.app</code></pre>
+                  <button type="button" data-copy-target="faq-clear-attrs-command" aria-label="复制命令" title="复制命令" class="copy-btn absolute right-2 top-1/2 -translate-y-1/2 rounded-md border border-neutral-500/40 bg-white/5 p-1.5 text-neutral-200 transition-colors hover:bg-white/10">
+                    <span class="copy-icon-wrap">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="copy-icon lucide lucide-clipboard-icon lucide-clipboard"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="check-icon lucide lucide-clipboard-check-icon lucide-clipboard-check"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg>
+                    </span>
+                  </button>
+                </div>
+                <p class="mt-2">请将路径替换为你本机的实际应用路径。</p>
+              </div>
+            </div>
+          </details>
+          <details class="rounded-2xl border px-5 py-4" style="border-color: var(--color-border); background-color: var(--color-surface);">
+            <summary class="faq-summary flex cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold" style="color: var(--color-fg);">
+              <span>Windows 安装常见问题</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="faq-chevron lucide lucide-chevron-right-icon lucide-chevron-right shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+            </summary>
+            <div class="faq-content">
+              <div class="faq-content-inner pt-3 text-sm leading-relaxed" style="color: var(--color-muted);">
+                <p>Windows 安装一般不会出现 macOS 的「已损坏」提示，但可能会遇到以下情况：</p>
+                <ul class="mt-2 list-disc space-y-1 pl-5">
+                  <li><code>SmartScreen</code> 提示「Windows 已保护你的电脑」：点击「更多信息」，再点击「仍要运行」。</li>
+                  <li>安装权限不足：建议右键安装程序，选择「以管理员身份运行」。</li>
+                  <li>安全软件拦截或误报：将安装程序加入白名单后重试。</li>
+                  <li>系统版本不符合：建议使用 <code>Windows 10（1803+）</code> 或 <code>Windows 11</code> 的 <code>x64</code> 系统。</li>
+                </ul>
+              </div>
+            </div>
+          </details>
+        </div>
       </div>
     </section>
   </div>
