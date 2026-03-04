@@ -3,7 +3,7 @@
 		"name": "English"
 	},
 	"app": {
-		"title": "Serene Toolbox",
+		"title": "Youran Toolbox",
 		"subtitle": "Desktop tools for daily productivity",
 		"moreFeatures": "More features coming..."
 	},
@@ -211,7 +211,15 @@
 		"openOutputFolder": "Open Output Folder",
 		"createSubfolder": "Create subfolder",
 		"subfolderPlaceholder": "Enter folder name",
-		"outputPath": "Output path"
+		"outputPath": "Output path",
+		"rulePixel": "Pixel",
+		"pixelMode": "Display mode",
+		"pixelBoth": "WxH",
+		"pixelWidth": "Width only",
+		"pixelHeight": "Height only",
+		"pixelRatio": "Aspect ratio",
+		"pixelSeparator": "Pixel Separator",
+		"ratioSeparator": "Ratio Separator"
 	},
 	"imageCompress": {
 		"uploadHint": "Drop images here or click to select",
@@ -443,5 +451,43 @@
 		"exportScaleHint": "Higher scale means clearer image but larger file size. 1x is original size, 2x for general use, 3x for high-quality printing",
 		"exportSuccess": "Heatmap exported",
 		"customColor": "Custom Color"
+	},
+	"settings": {
+		"title": "Settings",
+		"desc": "Personalize your toolbox appearance",
+		"primaryColor": "Theme Color",
+		"primaryColorDesc": "Choose the primary color for the app",
+		"color_default": "Default",
+		"color_blue": "Blue",
+		"color_cyan": "Cyan",
+		"color_green": "Green",
+		"color_lime": "Lime",
+		"color_yellow": "Yellow",
+		"color_orange": "Orange",
+		"color_red": "Red",
+		"color_rose": "Rose",
+		"color_pink": "Pink",
+		"color_purple": "Purple",
+		"color_indigo": "Indigo",
+		"visualEffects": "Visual Effects",
+		"visualEffectsDesc": "Adjust animations and blur effects",
+		"glassmorphism": "Glassmorphism",
+		"glassmorphismHint": "Add translucent blur background to cards and navigation bar",
+		"blurIntensity": "Blur Intensity",
+		"blur_light": "Light",
+		"blur_medium": "Medium",
+		"blur_heavy": "Heavy",
+		"contentFullWidth": "Full Width Content",
+		"contentFullWidthHint": "When off, content is centered with max width. When on, content fills the entire width",
+		"opacity": "Background Opacity",
+		"opacityHint": "Adjust the transparency of the window background. Lower values are more transparent",
+		"reset": "Reset to Default",
+		"language": "Language",
+		"themeMode": "Appearance",
+		"color_sky": "Sky",
+		"color_teal": "Teal",
+		"color_fuchsia": "Fuchsia",
+		"color_violet": "Violet",
+		"windowSize": "Remember Window Size"
 	}
 }

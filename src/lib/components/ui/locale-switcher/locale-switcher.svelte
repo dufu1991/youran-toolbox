@@ -4,6 +4,8 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Globe } from 'lucide-svelte';
 
+	let { title = '' }: { title?: string } = $props();
+
 	let locales: { code: string; name: string }[] = $state([]);
 	let showDropdown = $state(false);
 	let currentLocale = $state('zh-CN');
@@ -44,15 +46,15 @@
 </script>
 
 <div class="locale-switcher relative">
-	<Button variant="ghost" size="icon" onclick={toggleDropdown} class="w-9 h-9">
+	<Button variant="ghost" size="icon" onclick={toggleDropdown} class="w-9 h-9" {title}>
 		<Globe class="w-5 h-5" />
 	</Button>
 
 	{#if showDropdown}
-		<div class="absolute right-0 top-full mt-1 bg-card border rounded-lg shadow-lg py-1 min-w-32 z-50">
+		<div class="absolute left-0 bottom-full mb-2 bg-card border border-border rounded-lg shadow-lg p-1 min-w-36 z-50 flex flex-col gap-0.5">
 			{#each locales as loc}
 				<button
-					class="w-full px-3 py-2 text-sm text-left hover:bg-accent transition-colors {loc.code === currentLocale ? 'bg-accent' : ''}"
+					class="w-full px-3 py-1.5 text-sm text-left rounded-md transition-colors {loc.code === currentLocale ? 'bg-primary text-primary-foreground' : 'hover:bg-accent'}"
 					onclick={() => handleSelect(loc.code)}
 				>
 					{loc.name}

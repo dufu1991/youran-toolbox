@@ -1,7 +1,7 @@
 {
 	"name": "youran-toolbox",
 	"private": true,
-	"version": "0.0.8",
+	"version": "0.1.0",
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
@@ -36,6 +36,7 @@
 		"@tauri-apps/plugin-dialog": "^2.6.0",
 		"@tauri-apps/plugin-fs": "^2.4.5",
 		"@tauri-apps/plugin-opener": "^2.5.3",
+		"@tauri-apps/plugin-os": "^2.3.2",
 		"bits-ui": "^2.15.4",
 		"browser-image-compression": "^2.0.2",
 		"clsx": "^2.1.1",

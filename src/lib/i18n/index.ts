@@ -9,6 +9,11 @@ const supportedLocales = Object.keys(localeFiles).map((path) =>
 	path.replace('./locales/', '').replace('.json', '')
 );
 
+// 语言排序（按通用程度）
+const localeOrder = [
+	'zh-CN', 'en', 'zh-TW', 'es-ES', 'fr-FR', 'de-DE', 'ja-JP', 'ko-KR', 'ru-RU', 'it-IT'
+];
+
 // 获取所有可用语言
 export async function getAvailableLocales(): Promise<{ code: string; name: string; flag: string }[]> {
 	const locales: { code: string; name: string; flag: string }[] = [];
@@ -23,6 +28,12 @@ export async function getAvailableLocales(): Promise<{ code: string; name: strin
 			flag: meta.flag
 		});
 	}
+
+	locales.sort((a, b) => {
+		const ai = localeOrder.indexOf(a.code);
+		const bi = localeOrder.indexOf(b.code);
+		return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
+	});
 
 	return locales;
 }
