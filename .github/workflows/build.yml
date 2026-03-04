@@ -146,8 +146,8 @@ jobs:
       - name: Extract changelog
         id: changelog
         run: |
-          # 提取第一个 ## 到第二个 ## 之间的内容
-          BODY=$(awk '/^## /{if(n++)exit}n' CHANGELOG.md)
+          # 提取第一个 ## 和第二个 ## 之间的内容，跳过标题行
+          BODY=$(awk '/^## /{if(seen++){exit} next} seen{print}' CHANGELOG.md)
           # 写入多行输出
           echo "body<<EOF" >> $GITHUB_OUTPUT
           echo "$BODY" >> $GITHUB_OUTPUT
