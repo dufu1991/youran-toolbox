@@ -192,6 +192,16 @@ const techs = [
   { name: 'Tailwind', description: '原子化 CSS 框架', color: '#06b6d4', icon: '/tailwindcss-icon.svg' },
 ];
 
+const guideTips = {
+  rename: ['建议先开启复制模式，确认结果后再直接重命名。', '预览名称支持手动改名，适合处理少量特殊文件。'],
+  classify: ['先确认表头行数，再选择分类列，结果会更准确。', '分类值为空的行会被跳过，可在统计区查看数量。'],
+  image: ['压缩模式建议质量在 60% 到 80% 之间。', '转换模式会保留原图，适合批量统一图片格式。'],
+  pdf: ['合并前先调整顺序，导出的页面顺序会完全一致。', '页码范围支持单页与区间混合，例如 1-3，5，7-10。'],
+  qrcode: ['添加 Logo 后建议执行一次识别测试。', '识别模式支持上传图片，也支持快捷键粘贴截图。'],
+  textdiff: ['短文案推荐按字符，长文本推荐按行。', '对比结果可一键复制，便于粘贴到文档或消息。'],
+  heatmap: ['从 Excel 粘贴时，第一行首格留空，第一列为行标签。', '导出前可调整内边距和倍图，便于报告或打印。'],
+};
+
 // 渲染功能卡片
 function renderFeatureCards() {
   const container = document.getElementById('feature-cards');
@@ -267,43 +277,86 @@ function renderExample(feature) {
   return '';
 }
 
+function renderGuideIntro() {
+  const quickJump = features.map(f => `
+    <a href="#guide/${f.id}-detail" data-page="guide" data-scroll-to="${f.id}-detail"
+      class="rounded-md border px-3 py-1.5 text-xs font-medium transition-colors hover:border-white/40"
+      style="border-color: var(--color-border); color: ${f.color}; background-color: color-mix(in srgb, ${f.color} 12%, transparent);">
+      ${f.name}
+    </a>
+  `).join('');
+
+  return `<div class="mb-10 grid grid-cols-1 gap-4 lg:grid-cols-2">
+    <div class="rounded-xl border p-5" style="border-color: var(--color-border); background-color: var(--color-surface);">
+      <h3 class="mb-3 text-base font-bold" style="color: var(--color-fg)">先看这里</h3>
+      <ol class="space-y-2 text-sm" style="color: var(--color-muted)">
+        <li><span class="mr-2 font-mono" style="color: var(--color-syn-blue)">1.</span>先看「使用流程」，按步骤做一遍。</li>
+        <li><span class="mr-2 font-mono" style="color: var(--color-syn-blue)">2.</span>遇到细节问题，再展开「常用设置」。</li>
+        <li><span class="mr-2 font-mono" style="color: var(--color-syn-blue)">3.</span>先用少量文件测试，再批量处理正式文件。</li>
+      </ol>
+    </div>
+    <div class="rounded-xl border p-5" style="border-color: var(--color-border); background-color: var(--color-surface);">
+      <h3 class="mb-3 text-base font-bold" style="color: var(--color-fg)">快速跳转</h3>
+      <div class="flex flex-wrap gap-2">${quickJump}</div>
+    </div>
+  </div>`;
+}
+
 // 渲染功能详情
 function renderFeatureDetails() {
   const container = document.getElementById('feature-details');
-  container.innerHTML = features.map((f, i) => {
-    const reverse = i % 2 === 1;
-    const detailsHtml = f.details.map(d => `
-      <div class="mb-5">
-        <h4 class="mb-2 flex items-center gap-2 text-sm font-bold uppercase tracking-wider">
-          <span class="inline-block h-px w-4" style="background-color: ${f.color}"></span>
-          <span style="color: ${f.color}">${d.title}</span>
-        </h4>
-        <ul class="space-y-1.5 pl-6">${d.items.map(item => `<li class="text-sm leading-relaxed" style="color: var(--color-fg)"><span style="color: ${f.color}" class="mr-1">·</span>${item}</li>`).join('')}</ul>
-      </div>`).join('');
+  const sections = features.map((f) => {
     const workflowHtml = f.workflow.map((step, si) =>
       `<li class="flex items-start gap-2 text-sm"><span class="font-mono shrink-0 font-bold" style="color: ${f.color}">${si + 1}.</span><span style="color: var(--color-muted)">${step}</span></li>`
     ).join('');
-    return `<div id="${f.id}-detail" class="scroll-mt-24"><div class="mx-auto max-w-6xl">
-      <div class="grid grid-cols-1 items-start gap-12 lg:grid-cols-2">
-        <div class="${reverse ? 'lg:order-2' : ''}">
-          <div class="mb-4 flex items-center gap-3">
-            <span style="color: ${f.color}; display: inline-flex;">${f.icon.replace('width="24"', 'width="32"').replace('height="24"', 'height="32"')}</span>
-            <h3 class="text-2xl font-bold" style="color: ${f.color}">${f.name}</h3>
+
+    const highlightsHtml = f.highlights.map(h =>
+      `<li class="flex items-start gap-1.5 text-sm" style="color: var(--color-fg)"><span style="color: ${f.color}" class="mt-0.5 shrink-0">·</span>${h}</li>`
+    ).join('');
+
+    const detailsHtml = f.details.map(d => `
+      <details class="rounded-lg border p-4" style="border-color: var(--color-border); background-color: color-mix(in srgb, var(--color-surface) 65%, var(--color-bg));">
+        <summary class="cursor-pointer text-sm font-semibold" style="color: ${f.color}">${d.title}</summary>
+        <ul class="mt-3 space-y-1.5">${d.items.map(item => `<li class="text-sm leading-relaxed" style="color: var(--color-fg)"><span style="color: ${f.color}" class="mr-1">·</span>${item}</li>`).join('')}</ul>
+      </details>
+    `).join('');
+
+    const tips = (guideTips[f.id] || []).map(tip =>
+      `<li class="flex items-start gap-1.5 text-sm" style="color: var(--color-muted)"><span style="color: ${f.color}" class="mt-0.5 shrink-0">·</span>${tip}</li>`
+    ).join('');
+
+    return `<article id="${f.id}-detail" class="scroll-mt-24 rounded-2xl border p-6 lg:p-7" style="border-color: var(--color-border); background-color: color-mix(in srgb, var(--color-surface) 70%, var(--color-bg));">
+      <div class="mb-5 flex items-center gap-3">
+        <span style="color: ${f.color}; display: inline-flex;">${f.icon.replace('width="24"', 'width="30"').replace('height="24"', 'height="30"')}</span>
+        <h3 class="text-2xl font-bold" style="color: ${f.color}">${f.name}</h3>
+      </div>
+      <p class="mb-5 text-sm leading-relaxed" style="color: var(--color-muted)">${f.description}</p>
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div>
+          <div class="mb-4 rounded-lg border p-4" style="border-color: var(--color-border); background-color: var(--color-surface);">
+            <h4 class="mb-2 text-sm font-bold" style="color: ${f.color}">核心能力</h4>
+            <ul class="space-y-1.5">${highlightsHtml}</ul>
           </div>
-          <div class="mb-6 rounded-lg border-l-2 py-1 pl-4" style="border-color: ${f.color};">
-            <p class="text-sm leading-relaxed" style="color: var(--color-fg)">${f.usp}</p>
-          </div>
-          ${renderExample(f)}
-          ${detailsHtml}
-          <div class="mt-6 rounded-lg border p-4" style="background-color: color-mix(in srgb, var(--color-surface) 50%, var(--color-bg)); border-color: var(--color-border);">
-            <h4 class="mb-3 text-sm font-bold" style="color: ${f.color}">使用流程</h4>
+          <div class="mb-4 rounded-lg border p-4" style="border-color: var(--color-border); background-color: var(--color-surface);">
+            <h4 class="mb-2 text-sm font-bold" style="color: ${f.color}">使用流程</h4>
             <ol class="space-y-1.5">${workflowHtml}</ol>
           </div>
+          ${renderExample(f)}
+          <div class="mb-4 space-y-3">
+            <h4 class="text-sm font-bold" style="color: ${f.color}">常用设置（按需展开）</h4>
+            ${detailsHtml}
+          </div>
+          <div class="rounded-lg border p-4" style="border-color: var(--color-border); background-color: var(--color-surface);">
+            <h4 class="mb-2 text-sm font-bold" style="color: ${f.color}">使用建议</h4>
+            <ul class="space-y-1.5">${tips}</ul>
+          </div>
         </div>
-        <div class="lg:sticky lg:top-24 ${reverse ? 'lg:order-1' : ''}">${renderPreviewCard(f.snippet, f.color)}</div>
+        <div>${renderPreviewCard(f.snippet, f.color)}</div>
       </div>
-    </div></div>`;
+    </article>`;
   }).join('');
+
+  container.innerHTML = `${renderGuideIntro()}<div class="space-y-8">${sections}</div>`;
 }
 
 // 渲染技术栈
