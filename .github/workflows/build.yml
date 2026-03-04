@@ -139,6 +139,20 @@ jobs:
     needs: [check-version, build]
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 从 CHANGELOG.md 提取当前版本的更新内容
+      - name: Extract changelog
+        id: changelog
+        run: |
+          # 提取第一个 ## 到第二个 ## 之间的内容
+          BODY=$(awk '/^## /{if(n++)exit}n' CHANGELOG.md)
+          # 写入多行输出
+          echo "body<<EOF" >> $GITHUB_OUTPUT
+          echo "$BODY" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
       # 下载所有构建产物
       - name: Download all artifacts
         uses: actions/download-artifact@v4
@@ -155,6 +169,7 @@ jobs:
         with:
           tag_name: v${{ needs.check-version.outputs.version }}
           name: v${{ needs.check-version.outputs.version }}
+          body: ${{ steps.changelog.outputs.body }}
           files: artifacts/**/*
           draft: false
           prerelease: false
