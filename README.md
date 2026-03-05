@@ -57,16 +57,16 @@ brew install --cask dufu1991/tap/youran-toolbox
 如果打开应用时提示「已损坏」或「无法验证开发者」，建议先执行（仅移除隔离属性）：
 
 ```sh
-xattr -dr com.apple.quarantine "/Applications/youran-toolbox.app"
+xattr -dr com.apple.quarantine "/Applications/Youran Toolbox.app"
 ```
 
 如果仍然无法打开，再执行（清空全部扩展属性）：
 
 ```sh
-xattr -cr /Applications/youran-toolbox.app
+xattr -cr "/Applications/Youran Toolbox.app"
 ```
 
-或者将 `/Applications/youran-toolbox.app` 替换为实际的应用路径。
+或者将 `/Applications/Youran Toolbox.app` 替换为实际的应用路径。
 
 ### Windows
 

@@ -22,7 +22,7 @@
 	}
 </script>
 
-<div class="pointer-events-auto flex items-center">
+<div class="pointer-events-auto flex h-full items-stretch">
 	<button
 		class="h-full w-[46px] flex items-center justify-center hover:bg-accent transition-colors"
 		onclick={minimize}

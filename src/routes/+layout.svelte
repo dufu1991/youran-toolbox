@@ -281,7 +281,7 @@
 					<div class="flex-1 h-full pointer-events-auto" data-tauri-drag-region></div>
 				{:else}
 					<div class="flex-1 h-full pointer-events-auto" data-tauri-drag-region></div>
-					<div class="pointer-events-auto">
+					<div class="pointer-events-auto h-full">
 						<Titlebar />
 					</div>
 				{/if}

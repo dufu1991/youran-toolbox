@@ -31,8 +31,9 @@
 	type DateTimeSeparator = 'underscore' | 'dash' | 'none';
 	type SizeUnit = 'B' | 'KB' | 'MB' | 'GB' | 'TB' | 'auto';
 	type PixelMode = 'both' | 'width' | 'height' | 'ratio';
-	type PixelSeparator = 'x' | 'X' | '*';
-	type RatioSeparator = '-' | '_' | '.';
+	const pixelSeparatorOptions = ['x', 'X', '*', '-', '_', '.'] as const;
+	type PixelSeparator = typeof pixelSeparatorOptions[number];
+	type RatioSeparator = typeof pixelSeparatorOptions[number];
 
 	// 常用连接符
 	const separatorOptions = ['-', '_', '.', "'", '(', ')', '[', ']', '{', '}', '+', ',', ';', '=', '@'] as const;
@@ -811,7 +812,7 @@
 			return formatSizeWithUnit(file.size, rule.sizeUnit, rule.sizeShowUnit);
 		}
 		if (rule.type === 'pixel') {
-			return formatPixel(file.width, file.height, rule.pixelMode, rule.pixelSeparator);
+			return formatPixel(file.width, file.height, rule.pixelMode, rule.pixelSeparator, rule.ratioSeparator);
 		}
 		if (rule.type === 'name') {
 			const baseName = file.name.includes('.') ? file.name.slice(0, file.name.lastIndexOf('.')) : file.name;
@@ -1393,10 +1394,10 @@
 								<div>
 									<p class="text-xs text-slate-500 mb-2">{$_('rename.pixelSeparator')}</p>
 									<div class="flex gap-2">
-										{#each ['x', 'X', '*'] as sep}
+										{#each pixelSeparatorOptions as sep}
 											<button
 												class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.pixelSeparator === sep ? 'bg-primary text-primary-foreground' : 'bg-transparent border border-border'}"
-												onclick={() => editingRule.pixelSeparator = sep as PixelSeparator}
+												onclick={() => editingRule.pixelSeparator = sep}
 											>{sep}</button>
 										{/each}
 									</div>
@@ -1406,10 +1407,10 @@
 								<div>
 									<p class="text-xs text-slate-500 mb-2">{$_('rename.ratioSeparator')}</p>
 									<div class="flex gap-2">
-										{#each ['-', '_', '.'] as sep}
+										{#each pixelSeparatorOptions as sep}
 											<button
 												class="px-3 py-1.5 text-sm rounded-md transition-colors {editingRule.ratioSeparator === sep ? 'bg-primary text-primary-foreground' : 'bg-transparent border border-border'}"
-												onclick={() => editingRule.ratioSeparator = sep as RatioSeparator}
+												onclick={() => editingRule.ratioSeparator = sep}
 											>{sep}</button>
 										{/each}
 									</div>

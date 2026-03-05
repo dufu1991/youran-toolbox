@@ -448,7 +448,7 @@
 		"outputPath": "输出路径",
 		"rulePixel": "像素",
 		"pixelMode": "显示模式",
-		"pixelBoth": "宽x高",
+		"pixelBoth": "宽高",
 		"pixelWidth": "仅宽度",
 		"pixelHeight": "仅高度",
 		"pixelRatio": "宽高比",
