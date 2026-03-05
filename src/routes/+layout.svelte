@@ -9,6 +9,7 @@
 	import { LocaleSwitcher } from '$lib/components/ui/locale-switcher';
 	import { Titlebar } from '$lib/components/ui/titlebar';
 	import { Switch } from '$lib/components/ui/switch';
+	import { HintIcon } from '$lib/components/ui/hint-icon';
 
 	import {
 		appSettings,
@@ -17,6 +18,7 @@
 		theme
 	} from '$lib/stores/settings.svelte';
 	import { getCurrentWindow } from '@tauri-apps/api/window';
+	import { getVersion } from '@tauri-apps/api/app';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
 	import {
@@ -43,11 +45,17 @@
 	let { children } = $props();
 
 	let isMacOS = $state(false);
+	let appVersion = $state('v --');
 
 	onMount(() => {
 		theme.init();
 		applyPrimaryColor(appSettings.current.primaryColor);
 		isMacOS = navigator.platform.toUpperCase().includes('MAC');
+		if ('__TAURI_INTERNALS__' in window) {
+			getVersion().then((version) => {
+				appVersion = `v ${version}`;
+			});
+		}
 
 		// 窗口尺寸和位置由 Rust 端在显示前恢复，前端只负责监听变化并保存
 		const win = getCurrentWindow();
@@ -110,9 +118,13 @@
 
 	// 设置面板
 	let showSettings = $state(false);
+	let showResetConfirm = $state(false);
 
 	function toggleSettings() {
 		showSettings = !showSettings;
+		if (!showSettings) {
+			showResetConfirm = false;
+		}
 	}
 
 	async function toggleWindowRemember() {
@@ -138,7 +150,21 @@
 		const target = event.target as HTMLElement;
 		if (!target.closest('.settings-panel-wrapper')) {
 			showSettings = false;
+			showResetConfirm = false;
 		}
+	}
+
+	function handleResetSettings() {
+		showResetConfirm = true;
+	}
+
+	function cancelResetSettings() {
+		showResetConfirm = false;
+	}
+
+	function confirmResetSettings() {
+		appSettings.reset();
+		showResetConfirm = false;
 	}
 
 	$effect(() => {
@@ -325,10 +351,9 @@
 					</Button>
 
 					{#if showSettings}
-						<!-- svelte-ignore a11y_no_static_element_interactions -->
 						<div
 							class="absolute bottom-full left-0 mb-2 w-64 bg-card border border-border rounded-xl shadow-xl z-50 overflow-hidden"
-							onclick={(e) => e.stopPropagation()}
+							data-tooltip-boundary
 						>
 							<div class="max-h-[70vh] overflow-y-auto p-4 space-y-4">
 								<!-- 主题色 -->
@@ -375,24 +400,54 @@
 										<Switch size="sm" checked={settings.contentFullWidth} onchange={() => appSettings.update({ contentFullWidth: !settings.contentFullWidth })} />
 									</div>
 
-									<!-- 记住窗口大小 -->
-									<div class="flex items-center justify-between">
-										<span class="text-xs text-muted-foreground">{$_('settings.windowSize')}</span>
+									<!-- 记住窗口 -->
+									<div class="flex items-start justify-between gap-2">
+										<span class="inline-flex min-w-0 items-start gap-1 text-xs text-muted-foreground">
+											<span class="leading-4 break-words">{$_('settings.windowSize')}</span>
+											<HintIcon
+												text={$_('settings.windowSizeHint')}
+												position="top"
+												tooltipMinWidth="160px"
+												tooltipMaxWidth="260px"
+											/>
+										</span>
 										<Switch size="sm" checked={settings.windowSizeMode === 'remember'} onchange={toggleWindowRemember} />
 									</div>
 								</div>
 
-								<!-- 重置 -->
-								<div class="pt-2 border-t border-border/40">
+								<div class="pt-2 border-t border-border/40 flex items-center justify-between">
 									<button
-										class="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
-										onclick={() => appSettings.reset()}
+										class="inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent/60 hover:text-foreground"
+										onclick={handleResetSettings}
+										title={$_('settings.reset')}
+										aria-label={$_('settings.reset')}
 									>
-										<RotateCcw class="w-3 h-3" />
-										{$_('settings.reset')}
+										<RotateCcw class="w-3.5 h-3.5" />
 									</button>
+									<p class="text-[11px] text-muted-foreground">{appVersion}</p>
 								</div>
 							</div>
+
+								{#if showResetConfirm}
+									<div class="absolute inset-0 z-10 bg-background/75 backdrop-blur-sm p-3">
+										<div class="flex h-full items-center">
+											<div class="w-full rounded-lg border border-border bg-card p-3">
+												<div class="space-y-2">
+													<p class="text-sm font-medium text-foreground">{$_('settings.reset')}</p>
+													<p class="text-xs leading-5 text-muted-foreground">{$_('settings.resetConfirm')}</p>
+												</div>
+												<div class="flex items-center justify-end gap-2 pt-3">
+													<Button variant="outline" size="sm" onclick={cancelResetSettings}>
+														{$_('rename.cancel')}
+													</Button>
+													<Button variant="default" size="sm" onclick={confirmResetSettings}>
+														{$_('rename.confirm')}
+													</Button>
+												</div>
+											</div>
+										</div>
+									</div>
+								{/if}
 						</div>
 					{/if}
 				</div>

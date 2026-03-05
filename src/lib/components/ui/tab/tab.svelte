@@ -28,11 +28,11 @@
 </script>
 
 <div
-	class="inline-flex rounded-lg bg-muted/60 p-0.5 {size === 'sm' ? 'text-xs' : 'text-sm'}"
+	class="inline-flex rounded-md border border-border/50 bg-muted/90 p-0.5 dark:border-border/30 dark:bg-muted/60 {size === 'sm' ? 'text-xs' : 'text-sm'}"
 >
 	{#each options as option}
 		<button
-			class="rounded-md transition-all flex items-center justify-center gap-1.5
+			class="rounded-sm transition-all flex items-center justify-center gap-1.5
 				{size === 'sm' ? 'px-2.5 py-1' : 'px-3 py-1.5'}
 				{value === option.value
 				? 'bg-background text-foreground shadow-sm font-medium'

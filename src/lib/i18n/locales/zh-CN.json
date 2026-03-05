@@ -5,7 +5,10 @@
 	"app": {
 		"title": "悠然工具箱",
 		"subtitle": "提升日常办公效率的桌面工具集",
-		"moreFeatures": "功能持续增加中..."
+		"moreFeatures": "功能持续增加中...",
+		"website": "官网",
+		"guide": "使用手册",
+		"changelog": "更新说明"
 	},
 	"nav": {
 		"backHome": "返回首页"
@@ -482,12 +485,14 @@
 		"opacity": "背景透明度",
 		"opacityHint": "调整窗口背景的透明程度，数值越低越透明",
 		"reset": "恢复默认",
+		"resetConfirm": "确定恢复默认设置吗？",
 		"language": "语言",
 		"themeMode": "外观",
 		"color_sky": "天空蓝",
 		"color_teal": "青碧",
 		"color_fuchsia": "紫红",
 		"color_violet": "紫罗兰",
-		"windowSize": "记住窗口大小"
+		"windowSize": "记住窗口",
+		"windowSizeHint": "自动记住窗口大小和位置，下次启动时恢复"
 	}
 }

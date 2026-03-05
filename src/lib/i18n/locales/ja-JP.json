@@ -5,7 +5,10 @@
 	"app": {
 		"title": "悠然ツールボックス",
 		"subtitle": "日常業務の効率を高めるデスクトップツール",
-		"moreFeatures": "機能追加中..."
+		"moreFeatures": "機能追加中...",
+		"website": "公式サイト",
+		"guide": "ガイド",
+		"changelog": "更新履歴"
 	},
 	"nav": {
 		"backHome": "戻る"
@@ -482,12 +485,14 @@
 		"opacity": "背景の透明度",
 		"opacityHint": "ウィンドウ背景の透明度を調整します。値が低いほど透明になります",
 		"reset": "デフォルトに戻す",
+		"resetConfirm": "デフォルト設定にリセットしてもよろしいですか？",
 		"language": "言語",
 		"themeMode": "外観",
 		"color_sky": "スカイ",
 		"color_teal": "ティール",
 		"color_fuchsia": "フクシア",
 		"color_violet": "バイオレット",
-		"windowSize": "ウィンドウサイズを記憶"
+		"windowSize": "ウィンドウを記憶",
+		"windowSizeHint": "ウィンドウのサイズと位置を自動で保存し、次回起動時に復元します"
 	}
 }

@@ -5,7 +5,10 @@
 	"app": {
 		"title": "Youran 툴박스",
 		"subtitle": "일상 업무 효율을 높이는 데스크톱 도구",
-		"moreFeatures": "기능 추가 중..."
+		"moreFeatures": "기능 추가 중...",
+		"website": "공식 사이트",
+		"guide": "가이드",
+		"changelog": "업데이트"
 	},
 	"nav": {
 		"backHome": "돌아가기"
@@ -482,12 +485,14 @@
 		"opacity": "배경 투명도",
 		"opacityHint": "창 배경의 투명도를 조절합니다. 값이 낮을수록 더 투명해집니다",
 		"reset": "기본값으로 복원",
+		"resetConfirm": "기본 설정으로 재설정하시겠습니까?",
 		"language": "언어",
 		"themeMode": "외관",
 		"color_sky": "스카이",
 		"color_teal": "틸",
 		"color_fuchsia": "푸시아",
 		"color_violet": "바이올렛",
-		"windowSize": "창 크기 기억"
+		"windowSize": "창 기억",
+		"windowSizeHint": "창의 크기와 위치를 자동으로 저장하고 다음 실행 때 복원합니다"
 	}
 }

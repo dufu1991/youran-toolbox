@@ -5,7 +5,10 @@
 	"app": {
 		"title": "Youran Toolbox",
 		"subtitle": "Desktop tools for daily productivity",
-		"moreFeatures": "More features coming..."
+		"moreFeatures": "More features coming...",
+		"website": "Website",
+		"guide": "Guide",
+		"changelog": "Changelog"
 	},
 	"nav": {
 		"backHome": "Back"
@@ -482,12 +485,14 @@
 		"opacity": "Background Opacity",
 		"opacityHint": "Adjust the transparency of the window background. Lower values are more transparent",
 		"reset": "Reset to Default",
+		"resetConfirm": "Are you sure you want to reset to default settings?",
 		"language": "Language",
 		"themeMode": "Appearance",
 		"color_sky": "Sky",
 		"color_teal": "Teal",
 		"color_fuchsia": "Fuchsia",
 		"color_violet": "Violet",
-		"windowSize": "Remember Window Size"
+		"windowSize": "Remember Window",
+		"windowSizeHint": "Automatically save the window size and position, and restore them on next launch"
 	}
 }

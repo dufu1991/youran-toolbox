@@ -5,7 +5,10 @@
 	"app": {
 		"title": "Youran Toolbox",
 		"subtitle": "Desktop-Werkzeuge zur Steigerung der täglichen Produktivität",
-		"moreFeatures": "Weitere Funktionen folgen..."
+		"moreFeatures": "Weitere Funktionen folgen...",
+		"website": "Website",
+		"guide": "Anleitung",
+		"changelog": "Änderungen"
 	},
 	"nav": {
 		"backHome": "Zurück"
@@ -482,12 +485,14 @@
 		"opacity": "Hintergrund-Transparenz",
 		"opacityHint": "Passen Sie die Transparenz des Fensterhintergrunds an. Niedrigere Werte sind transparenter",
 		"reset": "Standard wiederherstellen",
+		"resetConfirm": "Möchten Sie die Standardeinstellungen wirklich wiederherstellen?",
 		"language": "Sprache",
 		"themeMode": "Aussehen",
 		"color_sky": "Himmel",
 		"color_teal": "Petrol",
 		"color_fuchsia": "Fuchsie",
 		"color_violet": "Violett",
-		"windowSize": "Fenstergröße merken"
+		"windowSize": "Fenster merken",
+		"windowSizeHint": "Fenstergröße und -position automatisch speichern und beim nächsten Start wiederherstellen"
 	}
 }

@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "youran-toolbox",
+  "productName": "Youran Toolbox",
   "version": "0.1.0",
   "identifier": "com.youran.toolbox",
   "build": {
@@ -37,6 +37,23 @@
       "icons/icon.icns",
       "icons/icon.ico"
     ],
+    "macOS": {
+      "bundleName": "Youran Toolbox",
+      "files": {
+        "Resources/en.lproj/InfoPlist.strings": "locales/macos/en.lproj/InfoPlist.strings",
+        "Resources/zh-Hans.lproj/InfoPlist.strings": "locales/macos/zh-Hans.lproj/InfoPlist.strings",
+        "Resources/zh-Hant.lproj/InfoPlist.strings": "locales/macos/zh-Hant.lproj/InfoPlist.strings",
+        "Resources/zh-CN.lproj/InfoPlist.strings": "locales/macos/zh-CN.lproj/InfoPlist.strings",
+        "Resources/zh-TW.lproj/InfoPlist.strings": "locales/macos/zh-TW.lproj/InfoPlist.strings",
+        "Resources/ja.lproj/InfoPlist.strings": "locales/macos/ja.lproj/InfoPlist.strings",
+        "Resources/ko.lproj/InfoPlist.strings": "locales/macos/ko.lproj/InfoPlist.strings",
+        "Resources/de.lproj/InfoPlist.strings": "locales/macos/de.lproj/InfoPlist.strings",
+        "Resources/es.lproj/InfoPlist.strings": "locales/macos/es.lproj/InfoPlist.strings",
+        "Resources/fr.lproj/InfoPlist.strings": "locales/macos/fr.lproj/InfoPlist.strings",
+        "Resources/it.lproj/InfoPlist.strings": "locales/macos/it.lproj/InfoPlist.strings",
+        "Resources/ru.lproj/InfoPlist.strings": "locales/macos/ru.lproj/InfoPlist.strings"
+      }
+    },
     "windows": {
       "nsis": {
         "languages": ["SimpChinese"],
