@@ -36,7 +36,7 @@
 
 ## 🛠️ 技术栈
 
-[Svelte](https://svelte.dev) · [SvelteKit](https://svelte.dev/docs/kit) · [Tauri](https://tauri.app) · [Tailwind CSS](https://tailwindcss.com) · [TypeScript](https://www.typescriptlang.org) · [Rust](https://www.rust-lang.org)
+[Svelte](https://svelte.dev) · [Tauri](https://tauri.app) · [Tailwind](https://tailwindcss.com) · [TypeScript](https://www.typescriptlang.org) · [Rust](https://www.rust-lang.org)
 
 ## 📦 安装说明
 

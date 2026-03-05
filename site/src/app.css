@@ -93,4 +93,13 @@
 		opacity: 1;
 		transform: scale(1);
 	}
+	.hero-chip-label {
+		display: block;
+		max-width: 100%;
+		text-align: center;
+		line-height: 1.2;
+		overflow-wrap: anywhere;
+		word-break: break-word;
+		hyphens: auto;
+	}
 }
