@@ -177,7 +177,79 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   # ============================================
-  # 第四步：同步 Homebrew Cask
+  # 第四步：上传安装包到 阿里云 OSS
+  # ============================================
+  upload-oss:
+    needs: [check-version, build, release]
+    if: needs.check-version.outputs.should_release == 'true' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    env:
+      ALIBABA_CLOUD_ACCESS_KEY_ID: ${{ secrets.ALIYUN_ACCESS_KEY_ID }}
+      ALIBABA_CLOUD_ACCESS_KEY_SECRET: ${{ secrets.ALIYUN_ACCESS_KEY_SECRET }}
+      ALIBABA_CLOUD_REGION_ID: ${{ secrets.ALIYUN_REGION_ID }}
+      OSS_BUCKET: ${{ secrets.ALIYUN_OSS_BUCKET }}
+      PUBLIC_BASE_URL: ${{ secrets.ALIYUN_OSS_PUBLIC_BASE_URL }}
+    steps:
+      - name: Validate OSS secrets
+        run: |
+          set -euo pipefail
+          [ -n "${ALIBABA_CLOUD_ACCESS_KEY_ID}" ] || (echo "Missing secret: ALIYUN_ACCESS_KEY_ID" && exit 1)
+          [ -n "${ALIBABA_CLOUD_ACCESS_KEY_SECRET}" ] || (echo "Missing secret: ALIYUN_ACCESS_KEY_SECRET" && exit 1)
+          [ -n "${ALIBABA_CLOUD_REGION_ID}" ] || (echo "Missing secret: ALIYUN_REGION_ID" && exit 1)
+          [ -n "${OSS_BUCKET}" ] || (echo "Missing secret: ALIYUN_OSS_BUCKET" && exit 1)
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Install Alibaba Cloud CLI
+        run: |
+          /bin/bash -c "$(curl -fsSL https://aliyuncli.alicdn.com/install.sh)"
+          echo "$HOME/.aliyun/bin" >> "$GITHUB_PATH"
+
+      - name: Prepare installers
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          find artifacts -type f \( -name "*.dmg" -o -name "*.exe" \) -print0 | while IFS= read -r -d '' file; do
+            cp "$file" dist/
+          done
+
+          if ! ls dist/* >/dev/null 2>&1; then
+            echo "No installer files found in artifacts"
+            exit 1
+          fi
+
+          ls -lah dist
+
+      - name: Upload installers to OSS
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION="${{ needs.check-version.outputs.version }}"
+
+          # 固定版本目录：oss://<bucket>/vX.Y.Z/
+          aliyun ossutil cp dist/ "oss://${OSS_BUCKET}/v${VERSION}/" -r -f --no-progress
+
+          # 最新版本目录：oss://<bucket>/latest/
+          aliyun ossutil rm "oss://${OSS_BUCKET}/latest/" -r -f || true
+          aliyun ossutil cp dist/ "oss://${OSS_BUCKET}/latest/" -r -f --no-progress
+
+      - name: Print download paths
+        shell: bash
+        run: |
+          VERSION="${{ needs.check-version.outputs.version }}"
+          echo "OSS version path: oss://${OSS_BUCKET}/v${VERSION}/"
+          echo "OSS latest path: oss://${OSS_BUCKET}/latest/"
+          if [ -n "${PUBLIC_BASE_URL:-}" ]; then
+            echo "Public version URL: ${PUBLIC_BASE_URL}/v${VERSION}/"
+            echo "Public latest URL: ${PUBLIC_BASE_URL}/latest/"
+          fi
+
+  # ============================================
+  # 第五步：同步 Homebrew Cask
   # ============================================
   publish-homebrew:
     needs: [check-version, release]
