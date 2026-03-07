@@ -146,6 +146,8 @@ const siteI18nEn = {
   techDescRust: 'High-performance system-level backend',
   techDescVite: 'Next-generation front-end build tool',
   techDescTailwind: 'Utility-first CSS framework',
+  copyToast: 'Copied. Ready for the next step.',
+  brewToast: 'Homebrew command copied.',
 };
 
 const siteI18n = {
@@ -231,6 +233,8 @@ const siteI18n = {
     techDescRust: '高性能系统级后端',
     techDescVite: '下一代前端构建工具',
     techDescTailwind: '原子化 CSS 框架',
+    copyToast: '已复制，继续下一步吧。',
+    brewToast: '已复制 Homebrew 命令。',
   },
   'zh-TW': {
     ...siteI18nEn,
@@ -313,6 +317,8 @@ const siteI18n = {
     techDescRust: '高效能系統級後端',
     techDescVite: '新一代前端建置工具',
     techDescTailwind: '原子化 CSS 框架',
+    copyToast: '已複製，繼續下一步吧。',
+    brewToast: '已複製 Homebrew 指令。',
   },
   'ja-JP': {
     ...siteI18nEn,
@@ -395,6 +401,8 @@ const siteI18n = {
     techDescRust: '高性能なシステムレベルバックエンド',
     techDescVite: '次世代フロントエンドビルドツール',
     techDescTailwind: 'ユーティリティファースト CSS フレームワーク',
+    copyToast: 'コピーしました。次の操作へ進めます。',
+    brewToast: 'Homebrew コマンドをコピーしました。',
   },
   'ko-KR': {
     ...siteI18nEn,
@@ -477,6 +485,8 @@ const siteI18n = {
     techDescRust: '고성능 시스템 레벨 백엔드',
     techDescVite: '차세대 프런트엔드 빌드 도구',
     techDescTailwind: '유틸리티 우선 CSS 프레임워크',
+    copyToast: '복사되었습니다. 다음 단계로 진행하세요.',
+    brewToast: 'Homebrew 명령을 복사했습니다.',
   },
   'fr-FR': {
     ...siteI18nEn,
@@ -559,6 +569,8 @@ const siteI18n = {
     techDescRust: 'Backend système haute performance',
     techDescVite: 'Outil de build front-end nouvelle génération',
     techDescTailwind: 'Framework CSS utilitaire',
+    copyToast: 'Copié. Vous pouvez passer à l’étape suivante.',
+    brewToast: 'Commande Homebrew copiée.',
   },
   'de-DE': {
     ...siteI18nEn,
@@ -641,6 +653,8 @@ const siteI18n = {
     techDescRust: 'Leistungsstarkes systemnahes Backend',
     techDescVite: 'Frontend-Build-Tool der nächsten Generation',
     techDescTailwind: 'Utility-first CSS Framework',
+    copyToast: 'Kopiert. Sie können mit dem nächsten Schritt weitermachen.',
+    brewToast: 'Homebrew-Befehl kopiert.',
   },
   'es-ES': {
     ...siteI18nEn,
@@ -723,6 +737,8 @@ const siteI18n = {
     techDescRust: 'Backend de sistema de alto rendimiento',
     techDescVite: 'Herramienta de build front-end de nueva generación',
     techDescTailwind: 'Framework CSS utility-first',
+    copyToast: 'Copiado. Puedes seguir con el siguiente paso.',
+    brewToast: 'Comando de Homebrew copiado.',
   },
   'it-IT': {
     ...siteI18nEn,
@@ -805,6 +821,8 @@ const siteI18n = {
     techDescRust: 'Backend di sistema ad alte prestazioni',
     techDescVite: 'Strumento di build front-end di nuova generazione',
     techDescTailwind: 'Framework CSS utility-first',
+    copyToast: 'Copiato. Puoi passare al passaggio successivo.',
+    brewToast: 'Comando Homebrew copiato.',
   },
   'ru-RU': {
     ...siteI18nEn,
@@ -887,6 +905,8 @@ const siteI18n = {
     techDescRust: 'Высокопроизводительный системный backend',
     techDescVite: 'Инструмент сборки фронтенда нового поколения',
     techDescTailwind: 'Utility-first CSS фреймворк',
+    copyToast: 'Скопировано. Можно переходить к следующему шагу.',
+    brewToast: 'Команда Homebrew скопирована.',
   },
 };
 
@@ -2781,6 +2801,7 @@ function setupLanguageSwitcher() {
     renderFeatureDetails();
     renderTechStack();
     setupSmartDownload();
+    setupMotionEnhancements();
     loadChangelog();
     loadDownloads();
   };
@@ -2910,6 +2931,95 @@ function getDateLocale() {
   return supportedLocales.includes(currentLocale) ? currentLocale : 'zh-CN';
 }
 
+function prefersReducedMotion() {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+function showDelightToast(message) {
+  if (!message) return;
+  let toast = document.getElementById('delight-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'delight-toast';
+    toast.className = 'delight-toast';
+    document.body.appendChild(toast);
+  }
+
+  toast.textContent = message;
+  toast.classList.remove('is-visible');
+  if (toast.hideTimer) window.clearTimeout(toast.hideTimer);
+
+  requestAnimationFrame(() => {
+    toast.classList.add('is-visible');
+  });
+
+  toast.hideTimer = window.setTimeout(() => {
+    toast.classList.remove('is-visible');
+  }, 1600);
+}
+
+function triggerCopyBurst(button) {
+  if (!button || prefersReducedMotion()) return;
+  const burst = document.createElement('span');
+  burst.className = 'copy-btn-burst';
+  Array.from({ length: 7 }).forEach((_, index) => {
+    const dot = document.createElement('span');
+    dot.style.setProperty('--burst-angle', `${index * 51}deg`);
+    dot.style.setProperty('--burst-distance', `${1.2 + (index % 3) * 0.45}rem`);
+    burst.appendChild(dot);
+  });
+  button.appendChild(burst);
+  window.setTimeout(() => burst.remove(), 760);
+}
+
+function setupMotionEnhancements() {
+  const interactiveCards = document.querySelectorAll('.feature-card, .tech-card, #downloads-content a');
+  interactiveCards.forEach((element) => {
+    element.classList.add('motion-card');
+  });
+
+  const summaryNodes = document.querySelectorAll('.faq-summary');
+  summaryNodes.forEach((element) => {
+    element.classList.add('summary-motion');
+  });
+
+  const revealNodes = [
+    ...document.querySelectorAll('#hero > .relative > *'),
+    ...document.querySelectorAll('#page-home section > div > .mb-14, #page-home section > div > .mb-10'),
+    ...document.querySelectorAll('.feature-card, .tech-card, #page-guide article, #downloads-content > div, #downloads-content details.download-history'),
+  ];
+
+  revealNodes.forEach((element, index) => {
+    if (element.dataset.motionBound === '1') return;
+    element.dataset.motionBound = '1';
+    element.classList.add('motion-enter');
+    element.style.setProperty('--motion-delay', `${Math.min(index * 35, 220)}ms`);
+  });
+
+  if (prefersReducedMotion()) {
+    revealNodes.forEach((element) => element.classList.add('motion-visible'));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('motion-visible');
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.16, rootMargin: '0px 0px -8% 0px' });
+
+  revealNodes.forEach((element, index) => {
+    if (index < 6) {
+      requestAnimationFrame(() => {
+        element.classList.add('motion-visible');
+      });
+      return;
+    }
+    observer.observe(element);
+  });
+}
+
 // 检测是否为移动设备
 function isMobile() {
   return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
@@ -2958,6 +3068,8 @@ function setupHeroBrewCopy() {
       copyBtn.classList.remove('border-green-400/40', 'bg-green-500/10', 'text-green-200');
       copyBtn.classList.add('border-indigo-400/40', 'bg-indigo-500/10', 'text-indigo-200');
     }, 1200);
+    triggerCopyBurst(copyBtn);
+    showDelightToast(t('brewToast'));
   };
 
   copyBtn.addEventListener('click', () => {
@@ -2995,6 +3107,8 @@ function setupFaqCommandCopy() {
         copyBtn.classList.remove('border-green-400/40', 'bg-green-500/10', 'text-green-200');
         copyBtn.classList.add('border-neutral-500/40', 'bg-white/5', 'text-neutral-200');
       }, 1200);
+      triggerCopyBurst(copyBtn);
+      showDelightToast(t('copyToast'));
     };
 
     copyBtn.addEventListener('click', () => {
@@ -3276,6 +3390,7 @@ async function loadDownloads() {
       ${olderReleasesHtml}
     `;
     setupFaqToggleAnimation();
+    setupMotionEnhancements();
   } catch {
     container.innerHTML = `<p class="text-center" style="color: var(--color-muted)">${t('loadFailed')}<a href="https://github.com/dufu1991/youran-toolbox/releases" target="_blank" rel="noopener noreferrer" class="text-indigo-400 hover:text-indigo-300">${t('goGithub')}</a></p>`;
   }
@@ -3296,4 +3411,5 @@ setupHeroBrewCopy();
 setupFaqCommandCopy();
 setupFaqToggleAnimation();
 setupSmartDownload();
+setupMotionEnhancements();
 loadDownloads();
