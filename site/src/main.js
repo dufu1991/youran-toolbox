@@ -69,6 +69,7 @@ const siteI18nEn = {
   navGuide: 'Guide',
   navChangelog: 'Changelog',
   navPrivacy: 'Privacy',
+  navSupport: 'Support',
   language: 'Language',
   heroTagline: 'Cross-platform · Local-first · Privacy-focused desktop tools',
   heroMainlandPrefix: 'This is the GitHub download link. If it is slow in Mainland China, use',
@@ -148,6 +149,18 @@ const siteI18nEn = {
   techDescTailwind: 'Utility-first CSS framework',
   copyToast: 'Copied. Ready for the next step.',
   brewToast: 'Homebrew command copied.',
+  supportModalEyebrow: 'Support',
+  supportModalTitle: 'Support YouranToolbox',
+  supportModalDesc: 'If this project helps you, you can support it with any of the four methods below.',
+  supportModalNote: 'If you leave your GitHub or other social profile link in the donation message, I can thank you on the project repository and website.',
+  supportMethodCoffeeTitle: 'Buy Me a Coffee',
+  supportMethodCoffeeDesc: 'A simple way to support ongoing updates with a coffee.',
+  supportMethodPaypalTitle: 'PayPal',
+  supportMethodPaypalDesc: 'Best for international supporters. Open the PayPal page and complete support directly.',
+  supportMethodWechatTitle: 'WeChat Reward',
+  supportMethodWechatDesc: 'Open WeChat, scan the code, and complete your support in one step.',
+  supportMethodAlipayTitle: 'Alipay',
+  supportMethodAlipayDesc: 'Open Alipay, scan the code, and complete your support quickly.',
 };
 
 const siteI18n = {
@@ -158,6 +171,7 @@ const siteI18n = {
     navGuide: '使用手册',
     navChangelog: '版本说明',
     navPrivacy: '隐私政策',
+    navSupport: '支持',
     language: '语言',
     heroTagline: '跨平台 · 本地离线 · 注重隐私的轻量桌面工具集',
     heroMainlandPrefix: '以上为 GitHub 下载地址，速度可能较慢。中国大陆地区推荐',
@@ -235,6 +249,18 @@ const siteI18n = {
     techDescTailwind: '原子化 CSS 框架',
     copyToast: '已复制，继续下一步吧。',
     brewToast: '已复制 Homebrew 命令。',
+    supportModalEyebrow: '支持项目',
+    supportModalTitle: '支持悠然工具箱',
+    supportModalDesc: '如果这个项目对你有帮助，欢迎选择一种你最方便的方式支持。',
+    supportModalNote: '欢迎在留言中附上您的 GitHub 或其他社交账号链接，我会在项目仓库和官网中展示感谢名单。',
+    supportMethodCoffeeTitle: 'Buy Me a Coffee',
+    supportMethodCoffeeDesc: '适合直接跳转支持，请作者喝一杯咖啡，也为项目更新加一点动力。',
+    supportMethodPaypalTitle: 'PayPal',
+    supportMethodPaypalDesc: '适合海外朋友，打开 PayPal 页面后即可直接完成支持。',
+    supportMethodWechatTitle: '微信赞赏',
+    supportMethodWechatDesc: '打开微信扫一扫，识别二维码后即可完成赞赏。',
+    supportMethodAlipayTitle: '支付宝收款',
+    supportMethodAlipayDesc: '打开支付宝扫一扫，识别二维码后即可完成支持。',
   },
   'zh-TW': {
     ...siteI18nEn,
@@ -242,6 +268,7 @@ const siteI18n = {
     navGuide: '使用手冊',
     navChangelog: '版本說明',
     navPrivacy: '隱私政策',
+    navSupport: '支持',
     language: '語言',
     heroTagline: '跨平台 · 本地離線 · 注重隱私的輕量桌面工具集',
     heroMainlandPrefix: '以上為 GitHub 下載地址，速度可能較慢。中國大陸地區推薦',
@@ -250,6 +277,18 @@ const siteI18n = {
     mobileTip: '本應用為桌面端軟體，請在電腦上訪問下載',
     supportText: '支援 Apple 晶片 Mac 和 Windows 10 及以上系統，暫不支援 Linux。',
     moreDownloads: '更多版本 →',
+    supportModalEyebrow: '支持項目',
+    supportModalTitle: '支持悠然工具箱',
+    supportModalDesc: '如果這個項目對你有幫助，歡迎選擇一種你最方便的方式支持。',
+    supportModalNote: '歡迎在留言中附上您的 GitHub 或其他社交帳號連結，我會在專案倉庫與官網中展示感謝名單。',
+    supportMethodCoffeeTitle: 'Buy Me a Coffee',
+    supportMethodCoffeeDesc: '適合直接跳轉支持，請作者喝一杯咖啡，也為專案更新加一點動力。',
+    supportMethodPaypalTitle: 'PayPal',
+    supportMethodPaypalDesc: '適合海外朋友，打開 PayPal 頁面後即可直接完成支持。',
+    supportMethodWechatTitle: '微信讚賞',
+    supportMethodWechatDesc: '打開微信掃一掃，識別 QR Code 後即可完成讚賞。',
+    supportMethodAlipayTitle: '支付寶收款',
+    supportMethodAlipayDesc: '打開支付寶掃一掃，識別 QR Code 後即可完成支持。',
     featuresTitle: '功能特色',
     featuresSubtitle: '7 個實用工具，覆蓋日常辦公場景',
     techTitle: '技術棧',
@@ -2710,9 +2749,11 @@ function applySiteLanguage() {
   setText('nav-guide', appTexts.guide || t('navGuide'));
   setText('nav-changelog', appTexts.changelog || t('navChangelog'));
   setText('nav-privacy', t('navPrivacy'));
+  setText('nav-support', t('navSupport'));
   setText('m-nav-guide', appTexts.guide || t('navGuide'));
   setText('m-nav-changelog', appTexts.changelog || t('navChangelog'));
   setText('m-nav-privacy', t('navPrivacy'));
+  setText('m-nav-support', t('navSupport'));
 
   setText('hero-title-text', appTexts.title || 'YouranToolbox');
   setText('brand-title', appTexts.title || 'YouranToolbox');
@@ -2761,6 +2802,18 @@ function applySiteLanguage() {
   setText('downloads-platform-note-title', t('platformNoteTitle'));
   setText('privacy-title', t('privacyTitle'));
   setText('privacy-subtitle', t('privacySubtitle'));
+  setText('support-modal-eyebrow', t('supportModalEyebrow'));
+  setText('support-modal-title', t('supportModalTitle'));
+  setText('support-modal-desc', t('supportModalDesc'));
+  setText('support-modal-note', t('supportModalNote'));
+  setText('support-method-coffee-title', t('supportMethodCoffeeTitle'));
+  setText('support-method-coffee-desc', t('supportMethodCoffeeDesc'));
+  setText('support-method-paypal-title', t('supportMethodPaypalTitle'));
+  setText('support-method-paypal-desc', t('supportMethodPaypalDesc'));
+  setText('support-method-wechat-title', t('supportMethodWechatTitle'));
+  setText('support-method-wechat-desc', t('supportMethodWechatDesc'));
+  setText('support-method-alipay-title', t('supportMethodAlipayTitle'));
+  setText('support-method-alipay-desc', t('supportMethodAlipayDesc'));
   renderLocalizedStaticSections();
 }
 
@@ -2861,6 +2914,62 @@ function setupMobileMenu() {
   menu.querySelectorAll('.mobile-nav-link').forEach(link => {
     link.addEventListener('click', () => menu.classList.add('hidden'));
   });
+}
+
+function setupSupportModal() {
+  const modal = document.getElementById('support-modal');
+  const closeBtn = document.getElementById('support-modal-close');
+  const backdrop = document.getElementById('support-modal-backdrop');
+  const triggers = document.querySelectorAll('[data-support-trigger="true"]');
+  if (!modal || !closeBtn || !backdrop || triggers.length === 0) return;
+
+  const shouldOpenByQuery = () => {
+    const value = new URLSearchParams(window.location.search).get('support');
+    if (!value) return false;
+    return ['1', 'true', 'yes', 'open'].includes(value.toLowerCase());
+  };
+
+  const clearSupportQuery = () => {
+    const url = new URL(window.location.href);
+    url.searchParams.delete('support');
+    const nextSearch = url.searchParams.toString();
+    const nextUrl = `${url.pathname}${nextSearch ? `?${nextSearch}` : ''}${url.hash}`;
+    window.history.replaceState({}, '', nextUrl);
+  };
+
+  const openModal = () => {
+    modal.classList.remove('hidden');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeModal = () => {
+    modal.classList.add('hidden');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  };
+
+  triggers.forEach((trigger) => {
+    trigger.addEventListener('click', (event) => {
+      event.preventDefault();
+      const mobileMenu = document.getElementById('mobile-menu');
+      mobileMenu?.classList.add('hidden');
+      openModal();
+    });
+  });
+
+  closeBtn.addEventListener('click', closeModal);
+  backdrop.addEventListener('click', closeModal);
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape' || modal.classList.contains('hidden')) return;
+    closeModal();
+  });
+
+  if (shouldOpenByQuery()) {
+    openModal();
+    clearSupportQuery();
+  }
 }
 
 // 滚动导航栏效果
@@ -3404,6 +3513,7 @@ renderFeatureDetails();
 renderTechStack();
 setupHoverEffects();
 setupMobileMenu();
+setupSupportModal();
 setupScrollNav();
 setupRouter();
 loadChangelog();
