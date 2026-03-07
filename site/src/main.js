@@ -84,7 +84,7 @@ const siteI18nEn = {
   faqTitle: 'FAQ',
   faqMacTitle: 'macOS says the app is damaged or unverified?',
   faqMacDesc: 'Run the command below in Terminal to remove quarantine:',
-  faqMacCmd: 'xattr -dr com.apple.quarantine "/Applications/Youran Toolbox.app"',
+  faqMacCmd: 'xattr -dr com.apple.quarantine "/Applications/YouranToolbox.app"',
   faqWindowsTitle: 'Windows installation tips',
   faqWindowsDesc: 'If SmartScreen blocks the installer, click "More info" and then "Run anyway".',
   guideTitle: 'Guide',
@@ -100,7 +100,7 @@ const siteI18nEn = {
   privacyTitle: 'Privacy Policy',
   privacySubtitle: 'How we protect your privacy',
   privacyOverviewTitle: 'Overview',
-  privacyOverviewDesc: 'Youran Toolbox runs locally and does not collect, upload, or store user data.',
+  privacyOverviewDesc: 'YouranToolbox runs locally and does not collect, upload, or store user data.',
   privacyDataTitle: 'Data Handling',
   privacyDataItems: ['All processing is local', 'No network request during normal usage', 'No tracking code or third-party analytics'],
   privacyOpenSourceTitle: 'Open Source',
@@ -350,7 +350,7 @@ const siteI18n = {
     privacyTitle: 'プライバシーポリシー',
     privacySubtitle: 'プライバシー保護について',
     privacyOverviewTitle: '概要',
-    privacyOverviewDesc: 'Youran Toolbox はローカルで動作し、データを収集・送信・保存しません。',
+    privacyOverviewDesc: 'YouranToolbox はローカルで動作し、データを収集・送信・保存しません。',
     privacyDataTitle: 'データ処理',
     privacyDataItems: ['処理はすべてローカルで実行', '通常利用時にネットワークリクエストは発生しない', 'トラッキングや第三者分析は含まない'],
     privacyOpenSourceTitle: 'オープンソース',
@@ -432,7 +432,7 @@ const siteI18n = {
     privacyTitle: '개인정보 처리방침',
     privacySubtitle: '개인정보 보호 방식',
     privacyOverviewTitle: '개요',
-    privacyOverviewDesc: 'Youran Toolbox 는 로컬에서 실행되며 데이터를 수집, 업로드, 저장하지 않습니다.',
+    privacyOverviewDesc: 'YouranToolbox 는 로컬에서 실행되며 데이터를 수집, 업로드, 저장하지 않습니다.',
     privacyDataTitle: '데이터 처리',
     privacyDataItems: ['모든 처리는 로컬에서 수행', '일반 사용 중 네트워크 요청 없음', '추적 코드 및 타사 분석 없음'],
     privacyOpenSourceTitle: '오픈소스',
@@ -514,7 +514,7 @@ const siteI18n = {
     privacyTitle: 'Politique de confidentialité',
     privacySubtitle: 'Comment nous protégeons votre vie privée',
     privacyOverviewTitle: 'Vue d’ensemble',
-    privacyOverviewDesc: 'Youran Toolbox fonctionne en local et ne collecte, n’envoie ni ne stocke vos données.',
+    privacyOverviewDesc: 'YouranToolbox fonctionne en local et ne collecte, n’envoie ni ne stocke vos données.',
     privacyDataTitle: 'Traitement des données',
     privacyDataItems: ['Tout est traité localement', 'Aucune requête réseau en usage normal', 'Aucun suivi ni analyse tierce'],
     privacyOpenSourceTitle: 'Open source',
@@ -596,7 +596,7 @@ const siteI18n = {
     privacyTitle: 'Datenschutzerklärung',
     privacySubtitle: 'So schützen wir Ihre Daten',
     privacyOverviewTitle: 'Überblick',
-    privacyOverviewDesc: 'Youran Toolbox läuft lokal und sammelt, überträgt oder speichert keine Nutzerdaten.',
+    privacyOverviewDesc: 'YouranToolbox läuft lokal und sammelt, überträgt oder speichert keine Nutzerdaten.',
     privacyDataTitle: 'Datenverarbeitung',
     privacyDataItems: ['Alle Verarbeitung erfolgt lokal', 'Keine Netzwerkanfragen bei normaler Nutzung', 'Kein Tracking oder Drittanbieter-Analyse'],
     privacyOpenSourceTitle: 'Open Source',
@@ -678,7 +678,7 @@ const siteI18n = {
     privacyTitle: 'Política de privacidad',
     privacySubtitle: 'Cómo protegemos tu privacidad',
     privacyOverviewTitle: 'Resumen',
-    privacyOverviewDesc: 'Youran Toolbox funciona en local y no recopila, sube ni almacena datos de usuario.',
+    privacyOverviewDesc: 'YouranToolbox funciona en local y no recopila, sube ni almacena datos de usuario.',
     privacyDataTitle: 'Tratamiento de datos',
     privacyDataItems: ['Todo el procesamiento es local', 'Sin solicitudes de red en uso normal', 'Sin rastreo ni analítica de terceros'],
     privacyOpenSourceTitle: 'Código abierto',
@@ -760,7 +760,7 @@ const siteI18n = {
     privacyTitle: 'Informativa sulla privacy',
     privacySubtitle: 'Come proteggiamo la tua privacy',
     privacyOverviewTitle: 'Panoramica',
-    privacyOverviewDesc: 'Youran Toolbox funziona in locale e non raccoglie, carica o memorizza dati utente.',
+    privacyOverviewDesc: 'YouranToolbox funziona in locale e non raccoglie, carica o memorizza dati utente.',
     privacyDataTitle: 'Gestione dati',
     privacyDataItems: ['Elaborazione completamente locale', 'Nessuna richiesta di rete durante l’uso normale', 'Nessun tracciamento o analisi di terze parti'],
     privacyOpenSourceTitle: 'Open source',
@@ -842,7 +842,7 @@ const siteI18n = {
     privacyTitle: 'Политика конфиденциальности',
     privacySubtitle: 'Как мы защищаем вашу приватность',
     privacyOverviewTitle: 'Обзор',
-    privacyOverviewDesc: 'Youran Toolbox работает локально и не собирает, не загружает и не хранит данные пользователя.',
+    privacyOverviewDesc: 'YouranToolbox работает локально и не собирает, не загружает и не хранит данные пользователя.',
     privacyDataTitle: 'Обработка данных',
     privacyDataItems: ['Вся обработка выполняется локально', 'Нет сетевых запросов при обычном использовании', 'Нет трекинга и сторонней аналитики'],
     privacyOpenSourceTitle: 'Открытый код',
@@ -915,7 +915,7 @@ const siteI18nEnhancements = {
     genericAfterLabel: 'After',
     faqMacExplain: 'On macOS, apps downloaded from the internet may be marked with quarantine attributes. If the app is blocked, use the commands below.',
     faqMacCmdHint1: 'Recommended command (remove quarantine only):',
-    faqMacCmd2: 'xattr -cr "/Applications/Youran Toolbox.app"',
+    faqMacCmd2: 'xattr -cr "/Applications/YouranToolbox.app"',
     faqMacCmdHint2: 'If it still cannot open, run (clear all extended attributes):',
     faqMacPathNote: 'Replace the path with the actual app path on your Mac.',
     faqWindowsIntro: 'On Windows, you may encounter the following during installation:',
@@ -955,7 +955,7 @@ const siteI18nEnhancements = {
     genericAfterLabel: '处理后',
     faqMacExplain: '在 macOS 上，从网络下载的应用可能会被系统打上隔离属性。若应用被拦截，可按以下命令处理。',
     faqMacCmdHint1: '建议先执行（仅移除隔离属性）：',
-    faqMacCmd2: 'xattr -cr "/Applications/Youran Toolbox.app"',
+    faqMacCmd2: 'xattr -cr "/Applications/YouranToolbox.app"',
     faqMacCmdHint2: '如果仍然无法打开，再执行（清空全部扩展属性）：',
     faqMacPathNote: '请将路径替换为你本机的实际应用路径。',
     faqWindowsIntro: 'Windows 安装一般不会出现 macOS 的相关提示，但可能会遇到以下情况：',
@@ -1391,34 +1391,34 @@ const guideFeatureDetailsEn = {
     tips: ['Confirm header row count before selecting the category column for better accuracy.', 'Rows with empty category values are skipped, and you can check the count in statistics.'],
   },
   image: {
-    highlights: ['Local processing, no image upload to any server', 'Supports conversion between JPEG, PNG, and WebP', 'Adjustable compression quality from 1 percent to 100 percent', 'Per-image individual parameter settings', 'Real-time compression ratio and size comparison'],
+    highlights: ['Local processing, no image upload to any server', 'Two separate paths: keep pixel size or resize by maximum width or height', 'Keep Pixels supports fixed quality for all images or target file size threshold', 'The file list shows original file size and pixels plus estimated or actual output size and pixels', 'Unified settings and per-image settings are both supported'],
     snippet: {
       title: 'Compression result',
       lines: [
-        { text: 'photo_01.jpg 2.4 MB -> 320 KB down 86.7%', color: 'var(--color-syn-green)' },
-        { text: 'photo_02.png 5.1 MB -> 890 KB down 82.9%', color: 'var(--color-syn-green)' },
-        { text: 'banner.webp 1.8 MB -> 245 KB down 86.7%', color: 'var(--color-syn-green)' },
-        { text: '------------------------------' },
-        { text: 'Total: 9.3 MB -> 1.4 MB, saved 84.9%', color: 'var(--color-syn-yellow)' },
+        { text: 'Original: photo_01.jpg 2.4 MB | 4032 x 3024', color: 'var(--color-fg)' },
+        { text: 'Estimated: 480 KB | 4032 x 3024', color: 'var(--color-syn-blue)' },
+        { text: 'Target size mode: only compress files above 500 KB', color: 'var(--color-syn-orange)' },
+        { text: 'Resize Pixels: max width 1920 px, aspect ratio preserved', color: 'var(--color-syn-purple)' },
+        { text: 'Result: saved 80.0%', color: 'var(--color-syn-green)' },
       ],
     },
     example: {
       type: 'before-after',
-      title: 'Example: Batch compress product images',
-      before: { label: 'Before compression', items: ['photo_01.jpg - 2.4 MB', 'photo_02.png - 5.1 MB', 'banner.webp - 1.8 MB', 'Total 9.3 MB'] },
-      after: { label: 'After compression (quality 75 percent)', items: ['photo_01.jpg - 320 KB down 86.7%', 'photo_02.png - 890 KB down 82.9%', 'banner.webp - 245 KB down 86.7%', 'Total 1.4 MB, saved 84.9%'] },
+      title: 'Example: Prepare product images for upload limits',
+      before: { label: 'Original files', items: ['photo_01.jpg - 2.4 MB - 4032 x 3024', 'photo_02.png - 5.1 MB - 3000 x 2000', 'banner.webp - 1.8 MB - 2560 x 1440', 'Some files are already below the target size'] },
+      after: { label: 'Processing strategy', items: ['Keep Pixels + target size 500 KB: only compress oversized files', 'Keep Pixels + fixed quality: compress all images with the same quality', 'Resize Pixels + max width 1920 px: reduce dimensions while keeping aspect ratio', 'The list shows estimated output size and pixels before running'] },
     },
     details: [
-      { title: 'Processing modes', items: ['Compress image: reduce file size while keeping or converting format', 'Convert format: mainly for format conversion with high quality'] },
-      { title: 'Processing parameters', items: ['Compression quality: 1 percent to 100 percent, recommended 60 percent to 80 percent', 'Max width: scale down proportionally when width exceeds this value, smaller images are not enlarged', 'Output format: keep original, JPEG, PNG, or WebP'] },
-      { title: 'Setting modes', items: ['Unified settings: all images use the same parameters', 'Individual settings: each image can set quality, width, and format separately'] },
-      { title: 'Output methods', items: ['Browser download: download processed files directly in browser', 'In-place copy: save processed files in the same folder', 'Archive copy: save processed files to a selected folder'] },
+      { title: 'Processing modes', items: ['Compress image: optimize file size or pixel dimensions locally', 'Convert format: mainly for format conversion with high quality output', 'All processing runs locally without uploading images anywhere'] },
+      { title: 'Keep Pixels', items: ['Fixed quality: compress every image with the same quality percentage', 'Target size: only process files larger than the threshold and try to reduce them to that size', 'Images already below the target threshold are kept as original and marked in the list', 'Suitable when upload platforms care about file size but not pixel dimensions'] },
+      { title: 'Resize Pixels', items: ['No quality slider in this mode; control output by max width or max height only', 'The image is resized proportionally and the aspect ratio is always preserved', 'Smaller images are not enlarged', 'The file list shows estimated output pixel dimensions before processing'] },
+      { title: 'File list and output', items: ['Each image shows original file size and original pixels', 'Before processing, the list shows estimated output size and pixels or tells you the file will be kept as original', 'After processing, the list shows actual output size, actual pixels, and saved percentage', 'Unified settings and per-image settings are both supported', 'Output supports browser download, in-place copy, and archive copy'] },
     ],
-    workflow: ['Choose compress mode or convert mode', 'Add image files', 'Adjust quality, max width, and output format', 'Select output method', 'Run processing and review compression ratio and file size', 'Save all files or download one by one'],
-    tips: ['For compression mode, quality from 60 percent to 80 percent is recommended.', 'Convert mode keeps the original image and is suitable for batch format normalization.'],
+    workflow: ['Choose compress mode or convert mode', 'Add image files and review original size and pixel data in the list', 'For compress mode, choose Keep Pixels or Resize Pixels', 'If you use Keep Pixels, choose fixed quality or target size; if you use Resize Pixels, choose max width or max height', 'Review estimated output size and pixel information before running', 'Select output method, run processing, then save all files or download them one by one'],
+    tips: ['Use Keep Pixels plus target size when a platform limits upload size but you want to preserve resolution as much as possible.', 'Use Resize Pixels when the real requirement is maximum width or height rather than file size alone.'],
   },
   pdf: {
-    highlights: ['Local processing to keep PDF content private', 'Merge multiple files with drag-and-drop order adjustment', 'Flexible split by page or page range', 'Custom page ranges such as 1-3, 5, 7-10', 'Auto download after processing'],
+    highlights: ['Local processing to keep PDF content private', 'Merge multiple files with drag-and-drop order adjustment', 'Split by page or grouped page ranges', 'Right-side page preview while selecting ranges', 'Output directory supports subfolder checks and safe duplicate naming'],
     snippet: {
       title: 'Operation sample',
       lines: [
@@ -1427,22 +1427,23 @@ const guideFeatureDetailsEn = {
         { text: '-> merged.pdf (42 pages)', color: 'var(--color-syn-green)' },
         { text: '' },
         { text: 'Split PDF', color: 'var(--color-syn-orange)' },
-        { text: 'document.pdf, page range: 1-3, 5, 7-10', color: 'var(--color-fg)' },
-        { text: '-> 3 separate files', color: 'var(--color-syn-green)' },
+        { text: 'document.pdf, groups: 1-3 / 5 / 7-10', color: 'var(--color-fg)' },
+        { text: '-> preview pages on the right, then save into a target folder', color: 'var(--color-syn-green)' },
       ],
     },
     example: {
       type: 'before-after',
-      title: 'Example: Merge multiple PDF files',
-      before: { label: 'Before merge (3 files)', items: ['cover.pdf - 1 page', 'report.pdf - 35 pages', 'appendix.pdf - 6 pages'] },
-      after: { label: 'After merge (1 file)', items: ['merged.pdf - total 42 pages', 'Ordered as cover -> report -> appendix', 'Downloaded automatically to local'] },
+      title: 'Example: Split a handbook into grouped chapters',
+      before: { label: 'Split settings', items: ['chapter-handbook.pdf - 28 pages', 'Range groups: 1-3, 4-9, 10-18, 19-28', 'Subfolder: chapter-handbook'] },
+      after: { label: 'Split result', items: ['pages_1-3.pdf, pages_4-9.pdf, pages_10-18.pdf, pages_19-28.pdf', 'If the subfolder already exists, confirm before continuing', 'Duplicate names append -1 automatically'] },
     },
     details: [
-      { title: 'Merge PDF', items: ['Select multiple PDF files', 'Show page count of each file', 'Adjust merge order with move up and move down', 'Remove unnecessary files', 'Output merged.pdf in selected order'] },
-      { title: 'Split PDF', items: ['One file per page: split every page into independent PDFs', 'Split by range: custom range such as 1-3, 5, 7-10', 'Supports mixed single pages and ranges', 'Automatically validates page range', 'Auto download after processing'] },
+      { title: 'Merge PDF', items: ['Select multiple PDF files', 'Show page count of each file', 'Adjust merge order with drag-and-drop', 'Remove unnecessary files', 'Save the merged file to the selected output directory'] },
+      { title: 'Split PDF', items: ['One file per page: split every page into independent PDFs', 'Grouped ranges: custom groups such as 1-3, 5, 7-10', 'Drag page numbers to create or remove colored groups', 'Right-side preview follows the selected or hovered page', 'Validate page ranges automatically before running'] },
+      { title: 'Output handling', items: ['Choose an output directory before splitting', 'Optional subfolder is enabled by default and uses the PDF file name', 'If the subfolder already exists, the app asks for confirmation before saving', 'If a split file name already exists, the new file appends -1 to avoid overwriting'] },
     ],
-    workflow: ['Choose merge mode or split mode', 'For merge: add multiple PDFs and adjust order', 'For split: select one PDF and set split mode', 'Click run and download output automatically'],
-    tips: ['Adjust order before merging because export order will match exactly.', 'Page range supports mixed single pages and ranges such as 1-3, 5, 7-10.'],
+    workflow: ['Choose merge mode or split mode', 'For merge: add multiple PDFs and adjust order', 'For split: select one PDF, create range groups by input or drag selection, and review the page preview', 'Choose the output directory and optional subfolder', 'Run processing and open the saved folder'],
+    tips: ['Adjust order before merging because export order will match exactly.', 'For split mode, you can combine typed ranges with drag-based grouping to verify chapters visually before saving.'],
   },
   qrcode: {
     highlights: ['24 preset color schemes plus custom colors', '5 styles for dots and finder patterns', 'Supports adding brand logo', 'Built-in scan test to ensure availability', 'Scan QR code from image or clipboard'],
@@ -1481,8 +1482,8 @@ const guideFeatureDetailsEn = {
       lines: [
         { text: 'Compare mode: by character', color: 'var(--color-fg)' },
         { text: '' },
-        { text: 'Original: Youran Toolbox v0.0.6', color: 'var(--color-syn-red)' },
-        { text: 'Changed: Youran Toolbox v0.0.7', color: 'var(--color-syn-green)' },
+        { text: 'Original: YouranToolbox v0.0.6', color: 'var(--color-syn-red)' },
+        { text: 'Changed: YouranToolbox v0.0.7', color: 'var(--color-syn-green)' },
         { text: '------------------', color: 'var(--color-fg)' },
         { text: 'Added 1 char, removed 1 char, unchanged 19 chars', color: 'var(--color-syn-cyan)' },
       ],
@@ -1490,8 +1491,8 @@ const guideFeatureDetailsEn = {
     example: {
       type: 'before-after',
       title: 'Example: Proofread copy updates',
-      before: { label: 'Original text', items: ['Youran Toolbox is a lightweight utility', 'Supports macOS and Windows', 'Version v0.0.6'] },
-      after: { label: 'Updated text', items: ['Youran Toolbox is a lightweight desktop toolkit', 'Supports macOS and Windows dual platform', 'Version v0.0.7'] },
+      before: { label: 'Original text', items: ['YouranToolbox is a lightweight utility', 'Supports macOS and Windows', 'Version v0.0.6'] },
+      after: { label: 'Updated text', items: ['YouranToolbox is a lightweight desktop toolkit', 'Supports macOS and Windows dual platform', 'Version v0.0.7'] },
     },
     details: [
       { title: 'Compare modes', items: ['By character: precise character-level differences for small edits', 'By word: compare by words separated by spaces', 'By line: compare by line breaks, suitable for code and config files'] },
@@ -1529,6 +1530,465 @@ const guideFeatureDetailsEn = {
     ],
     workflow: ['Copy data from Excel and paste to the page', 'Choose preset palette or custom colors', 'Adjust cell size, spacing, and label angle', 'Add chart title and axis titles if needed', 'Click export, choose scale and save path'],
     tips: ['When pasting from Excel, keep the first cell in first row empty and use first column as row labels.', 'Adjust padding and export scale before exporting for reports or print.'],
+  },
+};
+
+const guideFeatureDetailsLocalized = {
+  'zh-TW': {
+    image: {
+      highlights: ['本地處理，圖片不會上傳到任何伺服器', '壓縮分成保持像素與縮小像素兩條路徑', '保持像素支援固定品質與目標體積兩種策略', '清單可同時看到原始資訊與壓縮後預估或實際資訊', '支援統一設定與單張圖片獨立設定'],
+      snippet: {
+        title: '壓縮示例',
+        lines: [
+          { text: '原始：photo_01.jpg 2.4 MB | 4032 x 3024', color: 'var(--color-fg)' },
+          { text: '預估：480 KB | 4032 x 3024', color: 'var(--color-syn-blue)' },
+          { text: '目標體積模式：只處理超過 500 KB 的圖片', color: 'var(--color-syn-orange)' },
+          { text: '縮小像素：最大寬度 1920 px，保持原始比例', color: 'var(--color-syn-purple)' },
+          { text: '結果：節省 80.0%', color: 'var(--color-syn-green)' },
+        ],
+      },
+      example: {
+        type: 'before-after',
+        title: '示例：整理受上傳限制的產品圖',
+        before: { label: '原始圖片', items: ['photo_01.jpg - 2.4 MB - 4032 x 3024', 'photo_02.png - 5.1 MB - 3000 x 2000', 'banner.webp - 1.8 MB - 2560 x 1440', '部分圖片其實已低於目標體積'] },
+        after: { label: '處理策略', items: ['保持像素 + 目標體積 500 KB：只壓縮超標圖片', '保持像素 + 固定品質：所有圖片統一品質壓縮', '縮小像素 + 最大寬度 1920 px：等比縮圖', '執行前可先看清單中的預估體積與預估像素'] },
+      },
+      details: [
+        { title: '處理模式', items: ['壓縮圖片：針對檔案體積與像素尺寸做本地優化', '轉換格式：主要用於高品質格式轉換', '所有處理都在本機完成，不會上傳圖片'] },
+        { title: '保持像素', items: ['固定品質：所有圖片用相同品質百分比壓縮', '目標體積：只有超過指定體積的圖片才會壓縮，並盡量壓到目標體積內', '若圖片本身未超過目標體積，清單中會明確標示「不會壓縮，保留原圖」', '適合平台只限制檔案大小，不限制像素尺寸的場景'] },
+        { title: '縮小像素', items: ['這個模式不再調整壓縮品質，只設定最大寬度或最大高度', '縮放時會自動保持原始寬高比，不會拉伸變形', '若原圖本來就更小，不會被放大', '清單會先顯示預估輸出像素尺寸'] },
+        { title: '清單與輸出', items: ['每張圖都會顯示原始檔案大小與原始像素', '處理前顯示壓縮後預估大小與預估像素', '處理後顯示實際大小、實際像素與節省比例', '支援統一設定與單張獨立設定', '輸出支援瀏覽器下載、原地複製與歸檔複製'] },
+      ],
+      workflow: ['選擇壓縮模式或轉換模式', '加入圖片後先查看清單中的原始大小與像素', '若使用壓縮模式，先選擇保持像素或縮小像素', '保持像素可再選固定品質或目標體積；縮小像素則選最大寬度或最大高度', '執行前先確認預估結果', '開始處理後再全部儲存或逐張下載'],
+      tips: ['若平台限制的是上傳大小，優先使用保持像素 + 目標體積。', '若需求是限制顯示尺寸，直接用縮小像素會更直觀。'],
+    },
+    pdf: {
+      highlights: ['本地處理，PDF 內容不外洩', '多檔合併，拖曳調整順序', '可按頁或按分組範圍靈活拆分', '選頁時右側即時預覽頁面內容', '輸出目錄支援子資料夾檢查與重名自動追加 -1'],
+      snippet: {
+        title: '操作示例',
+        lines: [
+          { text: '合併 PDF', color: 'var(--color-syn-blue)' },
+          { text: '報告.pdf + 附錄.pdf + 封面.pdf', color: 'var(--color-fg)' },
+          { text: '→ merged.pdf（共 42 頁）', color: 'var(--color-syn-green)' },
+          { text: '' },
+          { text: '拆分 PDF', color: 'var(--color-syn-orange)' },
+          { text: '文件.pdf，頁碼分組：1-3 / 5 / 7-10', color: 'var(--color-fg)' },
+          { text: '→ 右側預覽頁面，確認後儲存到輸出目錄', color: 'var(--color-syn-green)' },
+        ],
+      },
+      example: {
+        type: 'before-after',
+        title: '示例：按章節拆分培訓手冊',
+        before: { label: '拆分設定', items: ['chapter-handbook.pdf — 28 頁', '頁碼分組：1-3、4-9、10-18、19-28', '子資料夾：chapter-handbook'] },
+        after: { label: '拆分結果', items: ['pages_1-3.pdf、pages_4-9.pdf、pages_10-18.pdf、pages_19-28.pdf', '若子資料夾已存在，會先跳出確認提示', '遇到同名檔案時自動在檔名後追加 -1'] },
+      },
+      details: [
+        { title: '合併 PDF', items: ['支援選擇多個 PDF 檔案', '顯示每個檔案的頁數', '透過拖曳調整合併順序', '支援移除不需要的檔案', '合併後儲存到指定輸出目錄'] },
+        { title: '拆分 PDF', items: ['每頁一個檔案：將每一頁拆分為獨立 PDF（page_1.pdf、page_2.pdf...）', '按分組範圍拆分：支援輸入 1-3、5、7-10 這類頁碼分組', '可直接拖曳下方頁碼塊建立或移除彩色分組', '選中或懸停頁碼時，右側同步預覽對應頁面', '執行前自動驗證頁碼範圍是否合法'] },
+        { title: '輸出控制', items: ['拆分前先選擇輸出目錄', '預設開啟「新建子資料夾」，並自動帶入 PDF 檔名', '若子資料夾已存在，開始拆分前會先提示確認', '若拆分出的檔名已存在，會自動在檔名後追加 -1，避免覆蓋舊檔'] },
+      ],
+      workflow: ['選擇合併或拆分模式', '合併：加入多個 PDF 檔案並調整順序', '拆分：選擇一個 PDF 檔案，透過輸入或拖曳建立頁碼分組，並觀察右側預覽', '設定輸出目錄與子資料夾', '開始處理，並在儲存後打開輸出目錄檢查結果'],
+      tips: ['合併前先調整順序，導出的頁面順序會完全一致。', '拆分模式可混合使用輸入分組與拖曳分組，先看預覽再儲存更穩妥。'],
+    },
+  },
+  'ja-JP': {
+    image: {
+      highlights: ['画像はローカル処理のみで外部送信しない', '圧縮は「ピクセルを維持」と「ピクセルを縮小」の 2 系統', 'ピクセルを維持では固定品質と目標サイズの 2 方式を選択可能', '一覧で元情報と圧縮後の予測または実結果を確認できる', '共通設定と画像ごとの個別設定の両方に対応'],
+      snippet: {
+        title: '圧縮例',
+        lines: [
+          { text: '元画像: photo_01.jpg 2.4 MB | 4032 x 3024', color: 'var(--color-fg)' },
+          { text: '予測: 480 KB | 4032 x 3024', color: 'var(--color-syn-blue)' },
+          { text: '目標サイズ方式: 500 KB を超える画像だけ処理', color: 'var(--color-syn-orange)' },
+          { text: 'ピクセル縮小: 最大幅 1920 px、縦横比を維持', color: 'var(--color-syn-purple)' },
+          { text: '結果: 80.0% 削減', color: 'var(--color-syn-green)' },
+        ],
+      },
+      example: {
+        type: 'before-after',
+        title: '例: アップロード制限に合わせて商品画像を整理',
+        before: { label: '元画像', items: ['photo_01.jpg - 2.4 MB - 4032 x 3024', 'photo_02.png - 5.1 MB - 3000 x 2000', 'banner.webp - 1.8 MB - 2560 x 1440', '一部の画像はすでに目標サイズ以下'] },
+        after: { label: '処理方針', items: ['ピクセル維持 + 目標サイズ 500 KB: 上限超過画像のみ圧縮', 'ピクセル維持 + 固定品質: すべて同じ品質で圧縮', 'ピクセル縮小 + 最大幅 1920 px: 縦横比を保って縮小', '実行前に一覧で予測サイズと予測ピクセルを確認'] },
+      },
+      details: [
+        { title: '処理モード', items: ['画像圧縮: ファイルサイズまたはピクセル寸法をローカルで最適化', '形式変換: 高品質で形式を統一したい場合に便利', '画像はすべてローカルで処理される'] },
+        { title: 'ピクセルを維持', items: ['固定品質: すべての画像を同じ品質率で圧縮', '目標サイズ: 上限を超える画像だけを処理し、目標サイズに近づける', '元画像が上限以下なら一覧で「圧縮しない」と表示', 'アップロード容量だけを制限したい場面に向く'] },
+        { title: 'ピクセルを縮小', items: ['このモードでは品質スライダーは使わず、最大幅または最大高さだけを指定', '縮小時は常に元の縦横比を維持', '小さい画像は拡大しない', '一覧で処理前に予測ピクセル寸法を確認できる'] },
+        { title: '一覧と出力', items: ['各画像に元のサイズと元のピクセル寸法を表示', '処理前は予測サイズと予測ピクセル、処理後は実サイズと実ピクセルを表示', '共通設定と個別設定を切り替え可能', '出力はブラウザダウンロード、元フォルダ保存、別フォルダ保存に対応'] },
+      ],
+      workflow: ['圧縮モードまたは変換モードを選択', '画像を追加して一覧で元のサイズとピクセルを確認', '圧縮ではピクセル維持かピクセル縮小を選ぶ', 'ピクセル維持では固定品質または目標サイズ、ピクセル縮小では最大幅または最大高さを設定', '実行前に予測結果を確認', '処理後にまとめて保存または個別にダウンロード'],
+      tips: ['容量制限だけが要件なら、ピクセル維持 + 目標サイズが使いやすいです。', '表示寸法を揃えたい場合は、ピクセル縮小のほうが分かりやすいです。'],
+    },
+    pdf: {
+      highlights: ['ローカル処理で PDF の内容を外部に送信しない', '複数ファイルの結合順をドラッグで調整', 'ページ単位またはグループ範囲で柔軟に分割', 'ページ選択中は右側で即時プレビュー', '出力先はサブフォルダ確認と重名時の -1 追加に対応'],
+      snippet: {
+        title: '操作例',
+        lines: [
+          { text: 'PDF 結合', color: 'var(--color-syn-blue)' },
+          { text: 'report.pdf + appendix.pdf + cover.pdf', color: 'var(--color-fg)' },
+          { text: '→ merged.pdf（42 ページ）', color: 'var(--color-syn-green)' },
+          { text: '' },
+          { text: 'PDF 分割', color: 'var(--color-syn-orange)' },
+          { text: 'document.pdf、ページグループ：1-3 / 5 / 7-10', color: 'var(--color-fg)' },
+          { text: '→ 右側で確認してから保存', color: 'var(--color-syn-green)' },
+        ],
+      },
+      example: {
+        type: 'before-after',
+        title: '例：研修マニュアルを章ごとに分割',
+        before: { label: '分割設定', items: ['chapter-handbook.pdf - 28 ページ', 'ページグループ：1-3、4-9、10-18、19-28', 'サブフォルダ：chapter-handbook'] },
+        after: { label: '分割結果', items: ['pages_1-3.pdf、pages_4-9.pdf、pages_10-18.pdf、pages_19-28.pdf', 'サブフォルダが既にある場合は保存前に確認', '同名ファイルは末尾に -1 を付けて保存'] },
+      },
+      details: [
+        { title: 'PDF 結合', items: ['複数の PDF ファイルを選択', '各ファイルのページ数を表示', 'ドラッグで結合順を調整', '不要なファイルを削除', '結合後は指定した出力フォルダへ保存'] },
+        { title: 'PDF 分割', items: ['1 ページごとに分割：各ページを独立した PDF として保存', 'グループ範囲で分割：1-3、5、7-10 のような指定に対応', '下部のページ番号をドラッグして色付きグループを作成・削除', '選択またはホバーしたページを右側でプレビュー', '実行前にページ範囲を自動検証'] },
+        { title: '出力管理', items: ['分割前に出力フォルダを選択', 'サブフォルダ作成は既定で有効、PDF 名を自動入力', '既存サブフォルダへ保存する前に確認ダイアログを表示', '同名ファイルがある場合は末尾に -1 を付けて上書きを回避'] },
+      ],
+      workflow: ['結合モードまたは分割モードを選択', '結合：複数の PDF を追加して順序を調整', '分割：1 つの PDF を選び、入力またはドラッグでページグループを作成しプレビューを確認', '出力フォルダとサブフォルダを設定', '実行後に保存先フォルダを開いて結果を確認'],
+      tips: ['結合前に順序を調整すると、出力順もそのまま反映されます。', '分割では入力指定とドラッグ指定を組み合わせると章構成を確認しやすくなります。'],
+    },
+  },
+  'ko-KR': {
+    image: {
+      highlights: ['이미지는 모두 로컬에서 처리되어 외부로 업로드되지 않음', '압축은 픽셀 유지 와 픽셀 축소 두 방식으로 구분됨', '픽셀 유지 는 고정 품질 과 목표 크기 두 전략을 지원', '목록에서 원본 정보와 압축 후 예상 또는 실제 결과를 함께 확인', '통합 설정과 이미지별 개별 설정을 모두 지원'],
+      snippet: {
+        title: '압축 예시',
+        lines: [
+          { text: '원본: photo_01.jpg 2.4 MB | 4032 x 3024', color: 'var(--color-fg)' },
+          { text: '예상: 480 KB | 4032 x 3024', color: 'var(--color-syn-blue)' },
+          { text: '목표 크기 모드: 500 KB 를 넘는 파일만 처리', color: 'var(--color-syn-orange)' },
+          { text: '픽셀 축소: 최대 너비 1920 px, 비율 유지', color: 'var(--color-syn-purple)' },
+          { text: '결과: 80.0% 절감', color: 'var(--color-syn-green)' },
+        ],
+      },
+      example: {
+        type: 'before-after',
+        title: '예시: 업로드 제한에 맞춰 상품 이미지를 정리',
+        before: { label: '원본 파일', items: ['photo_01.jpg - 2.4 MB - 4032 x 3024', 'photo_02.png - 5.1 MB - 3000 x 2000', 'banner.webp - 1.8 MB - 2560 x 1440', '일부 파일은 이미 목표 크기 이하'] },
+        after: { label: '처리 전략', items: ['픽셀 유지 + 목표 크기 500 KB: 초과 파일만 압축', '픽셀 유지 + 고정 품질: 모든 이미지를 같은 품질로 압축', '픽셀 축소 + 최대 너비 1920 px: 비율을 유지하며 축소', '실행 전에 목록에서 예상 용량과 예상 픽셀을 확인'] },
+      },
+      details: [
+        { title: '처리 모드', items: ['이미지 압축: 파일 크기 또는 픽셀 크기를 로컬에서 최적화', '형식 변환: 높은 품질로 형식을 통일할 때 적합', '모든 이미지는 로컬에서만 처리됨'] },
+        { title: '픽셀 유지', items: ['고정 품질: 모든 이미지를 같은 품질 비율로 압축', '목표 크기: 한도를 넘는 이미지만 처리하고 목표 크기에 가깝게 조정', '원본이 이미 작으면 목록에 원본 유지로 표시', '업로드 용량만 제한되는 환경에 적합'] },
+        { title: '픽셀 축소', items: ['이 모드에서는 품질 슬라이더를 쓰지 않고 최대 너비 또는 최대 높이만 설정', '축소 시 원본 가로세로 비율이 항상 유지됨', '작은 이미지는 확대하지 않음', '처리 전에 예상 출력 픽셀 크기를 확인 가능'] },
+        { title: '목록과 출력', items: ['각 이미지에 원본 용량과 원본 픽셀 정보를 표시', '처리 전에는 예상 용량과 예상 픽셀, 처리 후에는 실제 용량과 실제 픽셀을 표시', '통합 설정과 개별 설정을 모두 지원', '브라우저 다운로드, 원본 폴더 저장, 별도 폴더 저장을 지원'] },
+      ],
+      workflow: ['압축 모드 또는 변환 모드를 선택', '이미지를 추가한 뒤 목록에서 원본 용량과 픽셀을 확인', '압축 모드에서는 픽셀 유지 또는 픽셀 축소를 선택', '픽셀 유지 는 고정 품질 또는 목표 크기, 픽셀 축소 는 최대 너비 또는 최대 높이를 설정', '실행 전에 예상 결과를 확인', '처리 후 전체 저장 또는 개별 다운로드'],
+      tips: ['업로드 용량 제한만 맞추려면 픽셀 유지 + 목표 크기가 가장 실용적입니다.', '표시 크기 자체를 줄여야 한다면 픽셀 축소가 더 직접적입니다.'],
+    },
+    pdf: {
+      highlights: ['로컬 처리로 PDF 내용이 외부로 나가지 않음', '여러 파일 병합 순서를 드래그로 조정', '페이지 단위 또는 그룹 범위로 유연하게 분할', '페이지를 고를 때 오른쪽에서 즉시 미리보기', '출력 폴더는 하위 폴더 확인과 중복 이름 -1 추가를 지원'],
+      snippet: {
+        title: '사용 예시',
+        lines: [
+          { text: 'PDF 병합', color: 'var(--color-syn-blue)' },
+          { text: 'report.pdf + appendix.pdf + cover.pdf', color: 'var(--color-fg)' },
+          { text: '→ merged.pdf (42 페이지)', color: 'var(--color-syn-green)' },
+          { text: '' },
+          { text: 'PDF 분할', color: 'var(--color-syn-orange)' },
+          { text: 'document.pdf, 페이지 그룹: 1-3 / 5 / 7-10', color: 'var(--color-fg)' },
+          { text: '→ 오른쪽 미리보기 후 대상 폴더에 저장', color: 'var(--color-syn-green)' },
+        ],
+      },
+      example: {
+        type: 'before-after',
+        title: '예시: 교육 자료를 장별로 분할',
+        before: { label: '분할 설정', items: ['chapter-handbook.pdf - 28 페이지', '페이지 그룹: 1-3, 4-9, 10-18, 19-28', '하위 폴더: chapter-handbook'] },
+        after: { label: '분할 결과', items: ['pages_1-3.pdf, pages_4-9.pdf, pages_10-18.pdf, pages_19-28.pdf', '하위 폴더가 이미 있으면 저장 전에 확인', '같은 이름의 파일은 뒤에 -1 을 붙여 저장'] },
+      },
+      details: [
+        { title: 'PDF 병합', items: ['여러 PDF 파일 선택', '각 파일의 페이지 수 표시', '드래그로 병합 순서 조정', '불필요한 파일 제거', '병합 후 지정한 출력 폴더에 저장'] },
+        { title: 'PDF 분할', items: ['페이지별 분할: 각 페이지를 독립 PDF 로 저장', '그룹 범위 분할: 1-3, 5, 7-10 같은 그룹 입력 지원', '아래 페이지 번호를 드래그해 색상 그룹 생성 또는 제거', '선택 또는 hover 한 페이지를 오른쪽에서 미리보기', '실행 전에 페이지 범위를 자동 검증'] },
+        { title: '출력 제어', items: ['분할 전에 출력 폴더 선택', '하위 폴더 생성은 기본으로 켜져 있고 PDF 파일명을 자동 입력', '하위 폴더가 이미 있으면 저장 전에 확인', '같은 파일명이 있으면 뒤에 -1 을 붙여 덮어쓰기를 방지'] },
+      ],
+      workflow: ['병합 모드 또는 분할 모드 선택', '병합: 여러 PDF 를 추가하고 순서 조정', '분할: 하나의 PDF 를 선택하고 입력 또는 드래그로 페이지 그룹을 만든 뒤 오른쪽 미리보기 확인', '출력 폴더와 하위 폴더 설정', '실행 후 저장된 폴더를 열어 결과 확인'],
+      tips: ['병합 전에 순서를 조정하면 내보낸 페이지 순서가 그대로 유지됩니다.', '분할에서는 입력 방식과 드래그 방식을 함께 쓰면 장 구성을 확인하기 쉽습니다.'],
+    },
+  },
+  'fr-FR': {
+    image: {
+      highlights: ['Traitement local sans envoyer les images vers un serveur', 'Deux voies de compression : conserver les pixels ou reduire les pixels', 'Conserver les pixels prend en charge qualite fixe ou taille cible', 'La liste montre les informations d origine et le resultat estime ou reel', 'Parametres communs et parametres par image sont tous deux disponibles'],
+      snippet: {
+        title: 'Exemple de compression',
+        lines: [
+          { text: 'Original : photo_01.jpg 2.4 MB | 4032 x 3024', color: 'var(--color-fg)' },
+          { text: 'Estime : 480 KB | 4032 x 3024', color: 'var(--color-syn-blue)' },
+          { text: 'Mode taille cible : seules les images au-dessus de 500 KB sont traitees', color: 'var(--color-syn-orange)' },
+          { text: 'Reduction de pixels : largeur max 1920 px, proportions conservees', color: 'var(--color-syn-purple)' },
+          { text: 'Resultat : 80.0% economises', color: 'var(--color-syn-green)' },
+        ],
+      },
+      example: {
+        type: 'before-after',
+        title: 'Exemple : preparer des visuels produits pour une limite d upload',
+        before: { label: 'Fichiers d origine', items: ['photo_01.jpg - 2.4 MB - 4032 x 3024', 'photo_02.png - 5.1 MB - 3000 x 2000', 'banner.webp - 1.8 MB - 2560 x 1440', 'Certaines images sont deja sous la taille cible'] },
+        after: { label: 'Strategie de traitement', items: ['Conserver les pixels + taille cible 500 KB : compresser seulement les fichiers trop lourds', 'Conserver les pixels + qualite fixe : meme qualite pour toutes les images', 'Reduire les pixels + largeur max 1920 px : reduction proportionnelle', 'La liste affiche la taille et les pixels estimes avant execution'] },
+      },
+      details: [
+        { title: 'Modes de traitement', items: ['Compression d image : optimisation locale de la taille ou des dimensions en pixels', 'Conversion de format : utile pour normaliser les formats avec une haute qualite', 'Toutes les images sont traitees localement'] },
+        { title: 'Conserver les pixels', items: ['Qualite fixe : toutes les images sont compressees avec le meme pourcentage', 'Taille cible : seules les images depassant le seuil sont traitees et rapprochees de la taille cible', 'Si une image est deja sous le seuil, la liste indique qu elle sera conservee telle quelle', 'Adapte aux plateformes qui limitent surtout la taille du fichier'] },
+        { title: 'Reduire les pixels', items: ['Dans ce mode il n y a pas de curseur de qualite, seulement une largeur ou hauteur maximale', 'Le redimensionnement conserve toujours le ratio d aspect', 'Les petites images ne sont pas agrandies', 'La liste affiche aussi les dimensions estimees avant traitement'] },
+        { title: 'Liste et sortie', items: ['Chaque image affiche sa taille d origine et ses pixels d origine', 'Avant traitement : taille et pixels estimes ; apres traitement : taille et pixels reels', 'Mode commun et mode par image disponibles', 'Sortie via telechargement navigateur, copie sur place ou dossier d archivage'] },
+      ],
+      workflow: ['Choisir le mode compression ou conversion', 'Ajouter des images et verifier leur taille et leurs pixels d origine', 'En compression, choisir conserver les pixels ou reduire les pixels', 'Avec conserver les pixels, choisir qualite fixe ou taille cible ; avec reduire les pixels, choisir largeur max ou hauteur max', 'Verifier les estimations avant de lancer', 'Executer puis enregistrer tous les fichiers ou les telecharger un par un'],
+      tips: ['Pour une contrainte de poids uniquement, utiliser conserver les pixels + taille cible.', 'Si la vraie contrainte porte sur les dimensions, reduire les pixels est plus direct.'],
+    },
+    pdf: {
+      highlights: ['Traitement local sans exposer le contenu PDF', 'Fusion de plusieurs fichiers avec ordre ajustable par glisser-deposer', 'Decoupage par page ou par groupes de plages', 'Apercu instantane de la page a droite pendant la selection', 'Le dossier de sortie gere la verification du sous-dossier et les doublons avec -1'],
+      snippet: {
+        title: 'Exemple d utilisation',
+        lines: [
+          { text: 'Fusion PDF', color: 'var(--color-syn-blue)' },
+          { text: 'report.pdf + appendix.pdf + cover.pdf', color: 'var(--color-fg)' },
+          { text: '-> merged.pdf (42 pages)', color: 'var(--color-syn-green)' },
+          { text: '' },
+          { text: 'Decoupage PDF', color: 'var(--color-syn-orange)' },
+          { text: 'document.pdf, groupes de pages : 1-3 / 5 / 7-10', color: 'var(--color-fg)' },
+          { text: '-> apercu a droite puis enregistrement dans le dossier cible', color: 'var(--color-syn-green)' },
+        ],
+      },
+      example: {
+        type: 'before-after',
+        title: 'Exemple : decouper un manuel par chapitres',
+        before: { label: 'Parametres de decoupage', items: ['chapter-handbook.pdf - 28 pages', 'Groupes : 1-3, 4-9, 10-18, 19-28', 'Sous-dossier : chapter-handbook'] },
+        after: { label: 'Resultat', items: ['pages_1-3.pdf, pages_4-9.pdf, pages_10-18.pdf, pages_19-28.pdf', 'Si le sous-dossier existe deja, confirmation avant de continuer', 'Les noms en doublon recoivent automatiquement -1'] },
+      },
+      details: [
+        { title: 'Fusion PDF', items: ['Selectionner plusieurs fichiers PDF', 'Afficher le nombre de pages de chaque fichier', 'Ajuster l ordre de fusion par glisser-deposer', 'Supprimer les fichiers inutiles', 'Enregistrer le fichier fusionne dans le dossier choisi'] },
+        { title: 'Decoupage PDF', items: ['Un fichier par page : chaque page devient un PDF independant', 'Decoupage par groupes : accepte des groupes comme 1-3, 5, 7-10', 'Glisser les numeros de page pour creer ou retirer des groupes colores', 'La page selectionnee ou survolee est previsualisee a droite', 'Verification automatique des plages avant execution'] },
+        { title: 'Gestion de sortie', items: ['Choisir le dossier de sortie avant le decoupage', 'Le sous-dossier est active par defaut avec le nom du PDF', 'Si le sous-dossier existe deja, l application demande confirmation', 'Si un nom de fichier existe deja, le nouveau fichier ajoute -1 pour eviter l ecrasement'] },
+      ],
+      workflow: ['Choisir le mode fusion ou decoupage', 'Fusion : ajouter plusieurs PDF et ajuster leur ordre', 'Decoupage : choisir un PDF, creer des groupes par saisie ou glisser, puis verifier l apercu', 'Choisir le dossier de sortie et le sous-dossier', 'Executer puis ouvrir le dossier pour verifier le resultat'],
+      tips: ['Ajustez l ordre avant la fusion, car l export suivra exactement cet ordre.', 'En mode decoupage, combiner saisie manuelle et glisser-deposer permet de verifier visuellement les chapitres.'],
+    },
+  },
+  'de-DE': {
+    image: {
+      highlights: ['Lokale Verarbeitung ohne Upload der Bilder an einen Server', 'Zwei Komprimierungswege: Pixel beibehalten oder Pixel verkleinern', 'Pixel beibehalten unterstuetzt feste Qualitaet oder Zielgroesse', 'Die Liste zeigt Originaldaten sowie geschaetzte oder tatsaechliche Ergebnisse', 'Gemeinsame Einstellungen und Einzelbild Einstellungen werden beide unterstuetzt'],
+      snippet: {
+        title: 'Komprimierungsbeispiel',
+        lines: [
+          { text: 'Original: photo_01.jpg 2.4 MB | 4032 x 3024', color: 'var(--color-fg)' },
+          { text: 'Geschaetzt: 480 KB | 4032 x 3024', color: 'var(--color-syn-blue)' },
+          { text: 'Zielgroessenmodus: nur Dateien ueber 500 KB werden verarbeitet', color: 'var(--color-syn-orange)' },
+          { text: 'Pixel verkleinern: maximale Breite 1920 px, Seitenverhaeltnis bleibt erhalten', color: 'var(--color-syn-purple)' },
+          { text: 'Ergebnis: 80.0% gespart', color: 'var(--color-syn-green)' },
+        ],
+      },
+      example: {
+        type: 'before-after',
+        title: 'Beispiel: Produktbilder fuer Upload Grenzen vorbereiten',
+        before: { label: 'Originaldateien', items: ['photo_01.jpg - 2.4 MB - 4032 x 3024', 'photo_02.png - 5.1 MB - 3000 x 2000', 'banner.webp - 1.8 MB - 2560 x 1440', 'Einige Bilder liegen bereits unter der Zielgroesse'] },
+        after: { label: 'Verarbeitungsstrategie', items: ['Pixel beibehalten + Zielgroesse 500 KB: nur zu grosse Dateien komprimieren', 'Pixel beibehalten + feste Qualitaet: alle Bilder mit derselben Qualitaet komprimieren', 'Pixel verkleinern + maximale Breite 1920 px: proportional verkleinern', 'Die Liste zeigt vorab geschaetzte Groesse und Pixelmasse'] },
+      },
+      details: [
+        { title: 'Verarbeitungsmodi', items: ['Bild komprimieren: lokale Optimierung von Dateigroesse oder Pixelmassen', 'Format konvertieren: geeignet fuer hochwertige Formatvereinheitlichung', 'Alle Bilder bleiben lokal auf dem Geraet'] },
+        { title: 'Pixel beibehalten', items: ['Feste Qualitaet: alle Bilder werden mit derselben Qualitaetsstufe komprimiert', 'Zielgroesse: nur Bilder ueber dem Grenzwert werden verarbeitet und an die Zielgroesse angenaehert', 'Bilder unter dem Grenzwert werden in der Liste als unveraendert markiert', 'Ideal, wenn Plattformen nur die Dateigroesse begrenzen'] },
+        { title: 'Pixel verkleinern', items: ['In diesem Modus gibt es keinen Qualitaetsregler, sondern nur maximale Breite oder maximale Hoehe', 'Das Seitenverhaeltnis bleibt beim Verkleinern immer erhalten', 'Kleinere Bilder werden nicht vergroessert', 'Die Liste zeigt schon vorher die geschaetzten Pixelmasse'] },
+        { title: 'Liste und Ausgabe', items: ['Jedes Bild zeigt Originalgroesse und Originalpixel', 'Vorher werden geschaetzte Werte gezeigt, nachher die tatsaechlichen Werte', 'Gemeinsame Einstellungen und Einzelbild Einstellungen sind verfuegbar', 'Ausgabe per Browser Download, Kopie im Originalordner oder Archivordner'] },
+      ],
+      workflow: ['Komprimierungs oder Konvertierungsmodus waehlen', 'Bilder hinzufuegen und Originalgroesse sowie Pixel in der Liste pruefen', 'Im Komprimierungsmodus Pixel beibehalten oder Pixel verkleinern waehlen', 'Bei Pixel beibehalten feste Qualitaet oder Zielgroesse setzen; bei Pixel verkleinern maximale Breite oder Hoehe setzen', 'Geschaetzte Ergebnisse vor dem Start pruefen', 'Verarbeiten und danach alles speichern oder einzeln herunterladen'],
+      tips: ['Wenn nur die Upload Dateigroesse begrenzt ist, eignet sich Pixel beibehalten + Zielgroesse am besten.', 'Wenn die eigentliche Vorgabe in den Bildmassen liegt, ist Pixel verkleinern direkter.'],
+    },
+    pdf: {
+      highlights: ['Lokale Verarbeitung, damit PDF Inhalte privat bleiben', 'Mehrere Dateien zusammenfugen und Reihenfolge per Drag-and-drop anpassen', 'Aufteilen nach Seite oder nach gruppierten Bereichen', 'Rechte Seitenvorschau wahrend der Seitenauswahl', 'Ausgabeordner mit Unterordner-Prufung und automatischem -1 bei Namenskonflikten'],
+      snippet: {
+        title: 'Beispielablauf',
+        lines: [
+          { text: 'PDF zusammenfugen', color: 'var(--color-syn-blue)' },
+          { text: 'report.pdf + appendix.pdf + cover.pdf', color: 'var(--color-fg)' },
+          { text: '-> merged.pdf (42 Seiten)', color: 'var(--color-syn-green)' },
+          { text: '' },
+          { text: 'PDF aufteilen', color: 'var(--color-syn-orange)' },
+          { text: 'document.pdf, Seitengruppen: 1-3 / 5 / 7-10', color: 'var(--color-fg)' },
+          { text: '-> rechts prufen und dann im Zielordner speichern', color: 'var(--color-syn-green)' },
+        ],
+      },
+      example: {
+        type: 'before-after',
+        title: 'Beispiel: Handbuch nach Kapiteln aufteilen',
+        before: { label: 'Aufteilungseinstellungen', items: ['chapter-handbook.pdf - 28 Seiten', 'Gruppen: 1-3, 4-9, 10-18, 19-28', 'Unterordner: chapter-handbook'] },
+        after: { label: 'Ergebnis', items: ['pages_1-3.pdf, pages_4-9.pdf, pages_10-18.pdf, pages_19-28.pdf', 'Wenn der Unterordner bereits existiert, wird vorher nachgefragt', 'Doppelte Dateinamen erhalten automatisch -1'] },
+      },
+      details: [
+        { title: 'PDF zusammenfugen', items: ['Mehrere PDF Dateien auswahlen', 'Seitenzahl jeder Datei anzeigen', 'Reihenfolge per Drag-and-drop anpassen', 'Nicht benotigte Dateien entfernen', 'Zusammengefugte Datei im gewahlten Ausgabeordner speichern'] },
+        { title: 'PDF aufteilen', items: ['Eine Datei pro Seite: jede Seite als eigenes PDF speichern', 'Gruppierte Bereiche: Eingaben wie 1-3, 5, 7-10 werden unterstutzt', 'Seitennummern unten ziehen, um farbige Gruppen zu erstellen oder zu entfernen', 'Ausgewahlte oder mit der Maus beruhrte Seiten werden rechts angezeigt', 'Seitenbereiche werden vor dem Start automatisch gepruft'] },
+        { title: 'Ausgabesteuerung', items: ['Vor dem Aufteilen den Ausgabeordner auswahlen', 'Unterordner ist standardmassig aktiviert und ubernimmt den PDF Namen', 'Falls der Unterordner existiert, fragt die App vor dem Speichern nach', 'Falls eine Datei bereits existiert, wird -1 angehangt, um Uberschreiben zu vermeiden'] },
+      ],
+      workflow: ['Fusions- oder Aufteilungsmodus auswahlen', 'Fur Fusion: mehrere PDFs hinzufugen und Reihenfolge anpassen', 'Fur Aufteilung: ein PDF auswahlen, Gruppen per Eingabe oder Ziehen erstellen und Vorschau prufen', 'Ausgabeordner und Unterordner festlegen', 'Ausfuhren und danach den Ordner mit dem Ergebnis offnen'],
+      tips: ['Passen Sie die Reihenfolge vor dem Zusammenfugen an, da der Export diese exakt ubernimmt.', 'Im Aufteilungsmodus lassen sich Eingabe und Ziehen kombinieren, um Kapitel visuell zu prufen.'],
+    },
+  },
+  'es-ES': {
+    image: {
+      highlights: ['Procesamiento local sin subir las imágenes a ningún servidor', 'Dos rutas de compresión: mantener píxeles o reducir píxeles', 'Mantener píxeles admite calidad fija o tamaño objetivo', 'La lista muestra la información original y el resultado estimado o real', 'Se admiten ajustes unificados y ajustes por archivo'],
+      snippet: {
+        title: 'Ejemplo de compresión',
+        lines: [
+          { text: 'Original: photo_01.jpg 2.4 MB | 4032 x 3024', color: 'var(--color-fg)' },
+          { text: 'Estimado: 480 KB | 4032 x 3024', color: 'var(--color-syn-blue)' },
+          { text: 'Modo tamaño objetivo: solo se procesan archivos por encima de 500 KB', color: 'var(--color-syn-orange)' },
+          { text: 'Reducir píxeles: ancho máximo 1920 px, proporción conservada', color: 'var(--color-syn-purple)' },
+          { text: 'Resultado: 80.0% ahorrado', color: 'var(--color-syn-green)' },
+        ],
+      },
+      example: {
+        type: 'before-after',
+        title: 'Ejemplo: preparar imágenes de producto para límites de subida',
+        before: { label: 'Archivos originales', items: ['photo_01.jpg - 2.4 MB - 4032 x 3024', 'photo_02.png - 5.1 MB - 3000 x 2000', 'banner.webp - 1.8 MB - 2560 x 1440', 'Algunas imágenes ya están por debajo del tamaño objetivo'] },
+        after: { label: 'Estrategia de procesamiento', items: ['Mantener píxeles + tamaño objetivo 500 KB: comprimir solo archivos que superan el límite', 'Mantener píxeles + calidad fija: comprimir todas las imágenes con la misma calidad', 'Reducir píxeles + ancho máximo 1920 px: redimensionar proporcionalmente', 'La lista muestra tamaño y píxeles estimados antes de ejecutar'] },
+      },
+      details: [
+        { title: 'Modos de procesamiento', items: ['Compresión de imagen: optimización local del tamaño del archivo o de las dimensiones en píxeles', 'Conversión de formato: útil para normalizar formatos con alta calidad', 'Todas las imágenes se procesan localmente'] },
+        { title: 'Mantener píxeles', items: ['Calidad fija: todas las imágenes se comprimen con el mismo porcentaje de calidad', 'Tamaño objetivo: solo se procesan imágenes por encima del umbral e intenta acercarlas al tamaño objetivo', 'Si una imagen ya está por debajo del umbral, la lista indica que se mantendrá el original', 'Ideal cuando la plataforma limita el peso del archivo pero no la resolución'] },
+        { title: 'Reducir píxeles', items: ['En este modo no se usa deslizador de calidad, solo ancho máximo o alto máximo', 'El redimensionado mantiene siempre la proporción original', 'Las imágenes pequeñas no se amplían', 'La lista también muestra los píxeles estimados antes del procesamiento'] },
+        { title: 'Lista y salida', items: ['Cada imagen muestra tamaño y píxeles originales', 'Antes del procesamiento se muestran tamaño y píxeles estimados; después, los valores reales', 'Hay modo unificado y modo individual por imagen', 'La salida admite descarga del navegador, copia en el mismo sitio y carpeta de archivo'] },
+      ],
+      workflow: ['Elige modo de compresión o conversión', 'Añade imágenes y revisa tamaño y píxeles originales en la lista', 'En compresión, elige mantener píxeles o reducir píxeles', 'Con mantener píxeles, elige calidad fija o tamaño objetivo; con reducir píxeles, elige ancho o alto máximo', 'Revisa el resultado estimado antes de ejecutar', 'Procesa y luego guarda todo o descarga archivos individuales'],
+      tips: ['Si la plataforma solo limita el tamaño de subida, usa mantener píxeles + tamaño objetivo.', 'Si la restricción real es el ancho o alto, reducir píxeles es más directo.'],
+    },
+    pdf: {
+      highlights: ['Procesamiento local para mantener privado el contenido PDF', 'Fusion de varios archivos con orden ajustable por arrastrar y soltar', 'Division por pagina o por grupos de rangos', 'Vista previa de la pagina a la derecha mientras eliges paginas', 'La carpeta de salida admite verificacion de subcarpeta y nombres duplicados con -1'],
+      snippet: {
+        title: 'Ejemplo de uso',
+        lines: [
+          { text: 'Fusionar PDF', color: 'var(--color-syn-blue)' },
+          { text: 'report.pdf + appendix.pdf + cover.pdf', color: 'var(--color-fg)' },
+          { text: '-> merged.pdf (42 paginas)', color: 'var(--color-syn-green)' },
+          { text: '' },
+          { text: 'Dividir PDF', color: 'var(--color-syn-orange)' },
+          { text: 'document.pdf, grupos de paginas: 1-3 / 5 / 7-10', color: 'var(--color-fg)' },
+          { text: '-> vista previa a la derecha y guardado en la carpeta destino', color: 'var(--color-syn-green)' },
+        ],
+      },
+      example: {
+        type: 'before-after',
+        title: 'Ejemplo: dividir un manual por capitulos',
+        before: { label: 'Configuracion de division', items: ['chapter-handbook.pdf - 28 paginas', 'Grupos: 1-3, 4-9, 10-18, 19-28', 'Subcarpeta: chapter-handbook'] },
+        after: { label: 'Resultado', items: ['pages_1-3.pdf, pages_4-9.pdf, pages_10-18.pdf, pages_19-28.pdf', 'Si la subcarpeta ya existe, se pide confirmacion antes de continuar', 'Los nombres duplicados agregan -1 automaticamente'] },
+      },
+      details: [
+        { title: 'Fusionar PDF', items: ['Seleccionar varios archivos PDF', 'Mostrar el numero de paginas de cada archivo', 'Ajustar el orden con arrastrar y soltar', 'Quitar archivos innecesarios', 'Guardar el archivo fusionado en la carpeta de salida elegida'] },
+        { title: 'Dividir PDF', items: ['Un archivo por pagina: cada pagina se guarda como PDF independiente', 'Rangos agrupados: admite grupos como 1-3, 5, 7-10', 'Arrastra los numeros de pagina para crear o quitar grupos de color', 'La pagina seleccionada o en hover se previsualiza a la derecha', 'Los rangos de paginas se validan automaticamente antes de ejecutar'] },
+        { title: 'Control de salida', items: ['Elegir la carpeta de salida antes de dividir', 'La subcarpeta esta activada por defecto y usa el nombre del PDF', 'Si la subcarpeta ya existe, la app pide confirmacion antes de guardar', 'Si un nombre de archivo ya existe, se agrega -1 para evitar sobrescrituras'] },
+      ],
+      workflow: ['Elegir modo de fusion o division', 'Fusion: agregar varios PDF y ajustar el orden', 'Division: elegir un PDF, crear grupos por entrada o arrastre y revisar la vista previa', 'Elegir carpeta de salida y subcarpeta', 'Ejecutar y abrir la carpeta guardada para revisar el resultado'],
+      tips: ['Ajusta el orden antes de fusionar, porque el archivo exportado seguira exactamente ese orden.', 'En modo division, combinar la entrada manual con el arrastre ayuda a verificar visualmente los capitulos.'],
+    },
+  },
+  'it-IT': {
+    image: {
+      highlights: ['Elaborazione locale senza caricare immagini su server esterni', 'Due percorsi di compressione: mantieni pixel o riduci pixel', 'Mantieni pixel supporta qualità fissa o dimensione obiettivo', 'La lista mostra informazioni originali e risultato stimato o reale', 'Sono supportate sia impostazioni unificate sia impostazioni per singolo file'],
+      snippet: {
+        title: 'Esempio di compressione',
+        lines: [
+          { text: 'Originale: photo_01.jpg 2.4 MB | 4032 x 3024', color: 'var(--color-fg)' },
+          { text: 'Stimato: 480 KB | 4032 x 3024', color: 'var(--color-syn-blue)' },
+          { text: 'Modalità dimensione obiettivo: vengono elaborati solo i file sopra 500 KB', color: 'var(--color-syn-orange)' },
+          { text: 'Riduci pixel: larghezza massima 1920 px, proporzioni mantenute', color: 'var(--color-syn-purple)' },
+          { text: 'Risultato: 80.0% risparmiato', color: 'var(--color-syn-green)' },
+        ],
+      },
+      example: {
+        type: 'before-after',
+        title: 'Esempio: preparare immagini prodotto per limiti di upload',
+        before: { label: 'File originali', items: ['photo_01.jpg - 2.4 MB - 4032 x 3024', 'photo_02.png - 5.1 MB - 3000 x 2000', 'banner.webp - 1.8 MB - 2560 x 1440', 'Alcune immagini sono già sotto la dimensione obiettivo'] },
+        after: { label: 'Strategia di elaborazione', items: ['Mantieni pixel + dimensione obiettivo 500 KB: comprime solo i file troppo grandi', 'Mantieni pixel + qualità fissa: comprime tutte le immagini con la stessa qualità', 'Riduci pixel + larghezza massima 1920 px: ridimensionamento proporzionale', 'La lista mostra dimensione e pixel stimati prima dell esecuzione'] },
+      },
+      details: [
+        { title: 'Modalità di elaborazione', items: ['Compressione immagini: ottimizzazione locale di dimensione file o dimensioni in pixel', 'Conversione formato: utile per uniformare il formato mantenendo alta qualità', 'Tutte le immagini vengono elaborate localmente'] },
+        { title: 'Mantieni pixel', items: ['Qualità fissa: tutte le immagini sono compresse con la stessa percentuale di qualità', 'Dimensione obiettivo: elabora solo le immagini sopra la soglia e cerca di avvicinarle alla dimensione obiettivo', 'Se un immagine è già sotto soglia, la lista indica che verrà mantenuto l originale', 'Ideale quando la piattaforma limita il peso del file ma non la risoluzione'] },
+        { title: 'Riduci pixel', items: ['In questa modalità non c è cursore qualità, ma solo larghezza massima o altezza massima', 'Il ridimensionamento mantiene sempre il rapporto originale', 'Le immagini piccole non vengono ingrandite', 'La lista mostra anche i pixel stimati prima dell elaborazione'] },
+        { title: 'Lista e output', items: ['Ogni immagine mostra dimensione e pixel originali', 'Prima dell elaborazione vengono mostrati dimensione e pixel stimati; dopo, i valori reali', 'Supporta modalità unificata e modalità per singola immagine', 'Output tramite download browser, copia nella stessa cartella o cartella archivio'] },
+      ],
+      workflow: ['Scegli modalità compressione o conversione', 'Aggiungi le immagini e controlla dimensione e pixel originali', 'In compressione, scegli mantieni pixel o riduci pixel', 'Con mantieni pixel scegli qualità fissa o dimensione obiettivo; con riduci pixel scegli larghezza o altezza massima', 'Controlla il risultato stimato prima di eseguire', 'Avvia l elaborazione e poi salva tutto o scarica i file singolarmente'],
+      tips: ['Se devi rispettare solo un limite di peso, usa mantieni pixel + dimensione obiettivo.', 'Se il vincolo reale riguarda larghezza o altezza, riduci pixel è più diretto.'],
+    },
+    pdf: {
+      highlights: ['Elaborazione locale per mantenere privato il contenuto PDF', 'Unione di piu file con ordine regolabile tramite drag-and-drop', 'Divisione per pagina o per gruppi di intervalli', 'Anteprima della pagina a destra durante la selezione', 'La cartella di output supporta controllo sottocartella e nomi duplicati con -1'],
+      snippet: {
+        title: 'Esempio operativo',
+        lines: [
+          { text: 'Unisci PDF', color: 'var(--color-syn-blue)' },
+          { text: 'report.pdf + appendix.pdf + cover.pdf', color: 'var(--color-fg)' },
+          { text: '-> merged.pdf (42 pagine)', color: 'var(--color-syn-green)' },
+          { text: '' },
+          { text: 'Dividi PDF', color: 'var(--color-syn-orange)' },
+          { text: 'document.pdf, gruppi di pagine: 1-3 / 5 / 7-10', color: 'var(--color-fg)' },
+          { text: '-> anteprima a destra e salvataggio nella cartella di destinazione', color: 'var(--color-syn-green)' },
+        ],
+      },
+      example: {
+        type: 'before-after',
+        title: 'Esempio: dividere un manuale per capitoli',
+        before: { label: 'Impostazioni di divisione', items: ['chapter-handbook.pdf - 28 pagine', 'Gruppi: 1-3, 4-9, 10-18, 19-28', 'Sottocartella: chapter-handbook'] },
+        after: { label: 'Risultato', items: ['pages_1-3.pdf, pages_4-9.pdf, pages_10-18.pdf, pages_19-28.pdf', 'Se la sottocartella esiste gia, viene chiesta conferma prima di continuare', 'I nomi duplicati ricevono automaticamente -1'] },
+      },
+      details: [
+        { title: 'Unisci PDF', items: ['Seleziona piu file PDF', 'Mostra il numero di pagine di ogni file', 'Regola l ordine con drag-and-drop', 'Rimuovi i file non necessari', 'Salva il file unito nella cartella di output selezionata'] },
+        { title: 'Dividi PDF', items: ['Un file per pagina: ogni pagina viene salvata come PDF indipendente', 'Intervalli raggruppati: supporta gruppi come 1-3, 5, 7-10', 'Trascina i numeri di pagina per creare o rimuovere gruppi colorati', 'La pagina selezionata o in hover viene mostrata a destra', 'Gli intervalli vengono validati automaticamente prima dell esecuzione'] },
+        { title: 'Gestione output', items: ['Scegli la cartella di output prima di dividere', 'La sottocartella e attiva di default e usa il nome del PDF', 'Se la sottocartella esiste gia, l app chiede conferma prima di salvare', 'Se un nome file esiste gia, viene aggiunto -1 per evitare sovrascritture'] },
+      ],
+      workflow: ['Scegli la modalita di unione o divisione', 'Unione: aggiungi piu PDF e regola l ordine', 'Divisione: scegli un PDF, crea gruppi tramite input o drag e controlla l anteprima', 'Scegli cartella di output e sottocartella', 'Esegui e apri la cartella salvata per controllare il risultato'],
+      tips: ['Regola l ordine prima dell unione, perche l esportazione seguira esattamente quell ordine.', 'In modalita divisione, combinare input e drag aiuta a verificare visivamente i capitoli.'],
+    },
+  },
+  'ru-RU': {
+    image: {
+      highlights: ['Локальная обработка без загрузки изображений на сервер', 'Два пути сжатия: сохранить пиксели или уменьшить пиксели', 'Сохранить пиксели поддерживает фиксированное качество и целевой размер', 'Список показывает исходные данные и оценочный или фактический результат', 'Поддерживаются общие настройки и индивидуальные настройки для каждого файла'],
+      snippet: {
+        title: 'Пример сжатия',
+        lines: [
+          { text: 'Исходный файл: photo_01.jpg 2.4 MB | 4032 x 3024', color: 'var(--color-fg)' },
+          { text: 'Оценка: 480 KB | 4032 x 3024', color: 'var(--color-syn-blue)' },
+          { text: 'Режим целевого размера: обрабатываются только файлы больше 500 KB', color: 'var(--color-syn-orange)' },
+          { text: 'Уменьшить пиксели: максимальная ширина 1920 px, пропорции сохраняются', color: 'var(--color-syn-purple)' },
+          { text: 'Результат: экономия 80.0%', color: 'var(--color-syn-green)' },
+        ],
+      },
+      example: {
+        type: 'before-after',
+        title: 'Пример: подготовка товарных изображений под лимиты загрузки',
+        before: { label: 'Исходные файлы', items: ['photo_01.jpg - 2.4 MB - 4032 x 3024', 'photo_02.png - 5.1 MB - 3000 x 2000', 'banner.webp - 1.8 MB - 2560 x 1440', 'Часть изображений уже меньше целевого размера'] },
+        after: { label: 'Стратегия обработки', items: ['Сохранить пиксели + целевой размер 500 KB: сжимать только слишком большие файлы', 'Сохранить пиксели + фиксированное качество: сжимать все изображения с одинаковым качеством', 'Уменьшить пиксели + максимальная ширина 1920 px: пропорциональное уменьшение', 'Перед запуском список показывает оценочный размер и пиксели'] },
+      },
+      details: [
+        { title: 'Режимы обработки', items: ['Сжатие изображения: локальная оптимизация размера файла или размеров в пикселях', 'Конвертация формата: подходит для приведения изображений к одному формату с высоким качеством', 'Все изображения обрабатываются локально'] },
+        { title: 'Сохранить пиксели', items: ['Фиксированное качество: все изображения сжимаются с одинаковым процентом качества', 'Целевой размер: обрабатываются только изображения выше порога и пытаются приблизиться к нужному размеру', 'Если изображение уже меньше порога, список показывает, что оригинал будет сохранён', 'Подходит для платформ, где ограничен размер файла, а не разрешение'] },
+        { title: 'Уменьшить пиксели', items: ['В этом режиме нет ползунка качества, только максимальная ширина или максимальная высота', 'При уменьшении всегда сохраняется исходное соотношение сторон', 'Маленькие изображения не увеличиваются', 'Список также показывает оценочные размеры в пикселях до запуска'] },
+        { title: 'Список и вывод', items: ['Для каждого изображения показываются исходный размер и исходные пиксели', 'До обработки показываются оценочные данные, после обработки - фактические', 'Поддерживаются общие и индивидуальные настройки', 'Вывод через загрузку в браузере, копию рядом с оригиналом или отдельную папку'] },
+      ],
+      workflow: ['Выберите режим сжатия или конвертации', 'Добавьте изображения и проверьте исходный размер и пиксели в списке', 'В режиме сжатия выберите сохранить пиксели или уменьшить пиксели', 'Для сохранить пиксели задайте фиксированное качество или целевой размер; для уменьшить пиксели задайте максимальную ширину или высоту', 'Проверьте оценочный результат перед запуском', 'Запустите обработку и затем сохраните всё или скачайте файлы по одному'],
+      tips: ['Если нужно уложиться только в лимит размера файла, используйте сохранить пиксели + целевой размер.', 'Если ограничение относится к ширине или высоте, уменьшить пиксели будет более прямым решением.'],
+    },
+    pdf: {
+      highlights: ['Локальная обработка сохраняет содержимое PDF приватным', 'Объединение нескольких файлов с настройкой порядка через перетаскивание', 'Разделение по страницам или по группам диапазонов', 'Предпросмотр страницы справа во время выбора', 'Папка вывода поддерживает проверку подпапки и добавление -1 при совпадении имен'],
+      snippet: {
+        title: 'Пример работы',
+        lines: [
+          { text: 'Объединение PDF', color: 'var(--color-syn-blue)' },
+          { text: 'report.pdf + appendix.pdf + cover.pdf', color: 'var(--color-fg)' },
+          { text: '-> merged.pdf (42 страницы)', color: 'var(--color-syn-green)' },
+          { text: '' },
+          { text: 'Разделение PDF', color: 'var(--color-syn-orange)' },
+          { text: 'document.pdf, группы страниц: 1-3 / 5 / 7-10', color: 'var(--color-fg)' },
+          { text: '-> предпросмотр справа и сохранение в целевую папку', color: 'var(--color-syn-green)' },
+        ],
+      },
+      example: {
+        type: 'before-after',
+        title: 'Пример: разделение пособия по главам',
+        before: { label: 'Параметры разделения', items: ['chapter-handbook.pdf - 28 страниц', 'Группы: 1-3, 4-9, 10-18, 19-28', 'Подпапка: chapter-handbook'] },
+        after: { label: 'Результат', items: ['pages_1-3.pdf, pages_4-9.pdf, pages_10-18.pdf, pages_19-28.pdf', 'Если подпапка уже существует, перед сохранением будет запрос подтверждения', 'При совпадении имени автоматически добавляется -1'] },
+      },
+      details: [
+        { title: 'Объединение PDF', items: ['Выбрать несколько PDF файлов', 'Показать количество страниц в каждом файле', 'Настроить порядок объединения перетаскиванием', 'Удалить ненужные файлы', 'Сохранить объединенный файл в выбранную папку вывода'] },
+        { title: 'Разделение PDF', items: ['Один файл на страницу: каждая страница сохраняется как отдельный PDF', 'Групповые диапазоны: поддерживаются группы вроде 1-3, 5, 7-10', 'Перетаскивайте номера страниц, чтобы создавать или удалять цветные группы', 'Выбранная или наведенная страница показывается справа', 'Диапазоны страниц автоматически проверяются перед запуском'] },
+        { title: 'Управление выводом', items: ['Перед разделением выбрать папку вывода', 'Подпапка включена по умолчанию и использует имя PDF файла', 'Если подпапка уже существует, приложение запрашивает подтверждение перед сохранением', 'Если имя файла уже занято, к новому файлу добавляется -1, чтобы избежать перезаписи'] },
+      ],
+      workflow: ['Выбрать режим объединения или разделения', 'Объединение: добавить несколько PDF и настроить порядок', 'Разделение: выбрать один PDF, создать группы через ввод или перетаскивание и проверить предпросмотр', 'Выбрать папку вывода и подпапку', 'Запустить и открыть сохраненную папку для проверки результата'],
+      tips: ['Сначала настройте порядок перед объединением, потому что экспорт полностью сохранит его.', 'В режиме разделения удобно сочетать ручной ввод и перетаскивание для визуальной проверки глав.'],
+    },
   },
 };
 
@@ -1654,6 +2114,19 @@ function getLocalizedFeatureDetail(feature) {
     };
   }
 
+  const localizedGuideDetail = guideFeatureDetailsLocalized[currentLocale]?.[feature.id];
+  if (localizedGuideDetail) {
+    return {
+      ...feature,
+      highlights: localizedGuideDetail.highlights || feature.highlights,
+      snippet: localizedGuideDetail.snippet || feature.snippet,
+      example: localizedGuideDetail.example || feature.example,
+      details: localizedGuideDetail.details || feature.details,
+      workflow: localizedGuideDetail.workflow || feature.workflow,
+      tips: localizedGuideDetail.tips || guideTips[feature.id] || [],
+    };
+  }
+
   if (currentLocale !== 'en') {
     const localizedBasics = getLocalizedFeatureBasics(feature);
     return buildLocaleFallbackDetail(feature, localizedBasics);
@@ -1690,13 +2163,13 @@ function isFullGuideLocale() {
 function renderMainlandDownloadCard() {
   const mainlandAssets = [
     {
-      name: `Youran Toolbox_${appVersion}_aarch64.dmg`,
+      name: `YouranToolbox_${appVersion}_aarch64.dmg`,
       platform: 'macOS',
       desc: 'Apple Silicon',
       icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="shrink-0" style="color: var(--color-fg)"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>',
     },
     {
-      name: `Youran Toolbox_${appVersion}_x64-setup.exe`,
+      name: `YouranToolbox_${appVersion}_x64-setup.exe`,
       platform: 'Windows',
       desc: 'x64',
       icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="shrink-0" style="color: var(--color-fg)"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>',
@@ -1782,51 +2255,52 @@ const features = [
   },
   {
     id: 'image', name: '图片压缩', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>', color: 'var(--color-syn-purple)',
-    description: '图片全程不离开本机，支持 JPEG/PNG/WebP 互转，每张可独立调参，实时显示压缩率对比。',
-    usp: '无需上传到在线压缩网站，你的图片全程不离开本机。支持批量处理，每张图片可独立配置参数，实时显示压缩前后的大小对比和压缩率，让你精确掌控画质与体积的平衡。',
-    highlights: ['本地处理，图片不上传到任何服务器', '支持 JPEG/PNG/WebP 格式互转', '可调节压缩质量 1%-100%', '每张图片可独立配置参数', '实时显示压缩率和大小对比'],
-    snippet: { title: '压缩结果', lines: [
-      { text: 'photo_01.jpg　2.4 MB → 320 KB　↓86.7%', color: 'var(--color-syn-green)' },
-      { text: 'photo_02.png　5.1 MB → 890 KB　↓82.9%', color: 'var(--color-syn-green)' },
-      { text: 'banner.webp　 1.8 MB → 245 KB　↓86.7%', color: 'var(--color-syn-green)' },
-      { text: '──────────────────────────' },
-      { text: '总计：9.3 MB → 1.4 MB，节省 84.9%', color: 'var(--color-syn-yellow)' },
+    description: '图片全程不离开本机，支持按体积或按像素控制压缩结果，文件列表还能同时看到原始信息与压缩后预估信息。',
+    usp: '无需上传到在线压缩网站，图片处理全程都在本地完成。新版图片压缩把“保持像素”和“缩小像素”拆成两条清晰路径：前者适合满足上传大小限制，后者适合限制宽度或高度。每张图片都能看到原始体积、原始像素、压缩后预估体积和预估像素，真正做到先判断再处理。',
+    highlights: ['本地处理，图片不上传到任何服务器', '保持像素与缩小像素两种压缩方式清晰分开', '保持像素支持固定质量与目标体积两种策略', '文件列表同时显示原始信息与压缩后预估信息', '支持统一设置和单张图片独立设置'],
+    snippet: { title: '压缩示例', lines: [
+      { text: '原始：photo_01.jpg　2.4 MB | 4032 x 3024', color: 'var(--color-fg)' },
+      { text: '预估：480 KB | 4032 x 3024', color: 'var(--color-syn-blue)' },
+      { text: '目标体积模式：仅处理超过 500 KB 的图片', color: 'var(--color-syn-orange)' },
+      { text: '缩小像素：最大宽度 1920 px，保持原始宽高比', color: 'var(--color-syn-purple)' },
+      { text: '结果：节省 80.0%', color: 'var(--color-syn-green)' },
     ]},
-    example: { type: 'before-after', title: '示例：批量压缩产品图片',
-      before: { label: '压缩前', items: ['photo_01.jpg — 2.4 MB', 'photo_02.png — 5.1 MB', 'banner.webp — 1.8 MB', '合计 9.3 MB'] },
-      after: { label: '压缩后（质量 75%）', items: ['photo_01.jpg — 320 KB ↓86.7%', 'photo_02.png — 890 KB ↓82.9%', 'banner.webp — 245 KB ↓86.7%', '合计 1.4 MB，节省 84.9%'] },
+    example: { type: 'before-after', title: '示例：整理受上传限制的产品图片',
+      before: { label: '原始图片', items: ['photo_01.jpg — 2.4 MB — 4032 x 3024', 'photo_02.png — 5.1 MB — 3000 x 2000', 'banner.webp — 1.8 MB — 2560 x 1440', '部分图片本身就低于目标体积'] },
+      after: { label: '处理策略', items: ['保持像素 + 目标体积 500 KB：只压缩超标图片', '保持像素 + 固定质量：统一品质压缩所有图片', '缩小像素 + 最大宽度 1920 px：按比例缩图', '执行前先查看列表中的预估体积与预估像素'] },
     },
     details: [
-      { title: '处理模式', items: ['压缩图片：减小文件大小，保持或转换格式', '转换格式：主要用于格式转换，保持高质量'] },
-      { title: '处理参数', items: ['压缩质量：1%-100%，建议保持在 60%-80%', '最大宽度：超过此值时等比缩小，原图较小不会放大', '输出格式：保持原格式 / JPEG / PNG / WebP'] },
-      { title: '设置模式', items: ['统一设置：所有图片使用相同参数', '单独设置：每张图片独立配置压缩质量、宽度和格式'] },
-      { title: '输出方式', items: ['浏览器下载：直接通过浏览器下载处理后的文件', '原地复制：处理后的文件放在原文件相同目录', '归档复制：统一存放到指定文件夹'] },
+      { title: '处理模式', items: ['压缩图片：针对文件体积或像素尺寸做本地优化', '转换格式：主要用于高质量格式转换', '所有图片都在本机处理，不上传云端'] },
+      { title: '保持像素', items: ['固定质量：所有图片按同一质量百分比压缩', '目标体积：只有超过目标体积的图片才会压缩，并尽量压到该体积以内', '若图片本身未超过目标体积，列表里会明确显示「不会压缩，保留原图」', '适合平台只限制上传大小，不限制像素尺寸的场景'] },
+      { title: '缩小像素', items: ['不再设置压缩质量，而是设置最大宽度或最大高度', '缩小时始终保持原始宽高比，不会拉伸变形', '若原图本来就更小，不会被放大', '执行前会先显示压缩后的预估像素尺寸'] },
+      { title: '文件列表与输出', items: ['每张图片显示原始体积与原始像素', '处理前显示压缩后预估体积与预估像素', '处理后显示实际体积、实际像素与节省比例', '支持统一设置和单张图片单独设置', '输出支持浏览器下载、原地复制与归档复制'] },
     ],
-    workflow: ['选择压缩或转换模式', '添加图片文件', '调整压缩质量、最大宽度和输出格式', '选择输出方式', '开始处理，查看压缩率和文件大小对比', '全部保存或逐个下载'],
+    workflow: ['选择压缩模式或转换模式', '添加图片文件并先查看原始体积与原始像素', '若是压缩模式，先选择保持像素或缩小像素', '保持像素可选固定质量或目标体积；缩小像素可选最大宽度或最大高度', '确认列表中的预估信息后开始处理', '全部保存或逐个下载处理结果'],
   },
   {
     id: 'pdf', name: 'PDF 工具', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M11 18h2"/><path d="M12 12v6"/><path d="M9 13v-.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 .5.5v.5"/></svg>', color: 'var(--color-syn-orange)',
-    description: '无需安装 Adobe，本地即可合并多个 PDF 或按页码范围灵活拆分，拖拽调整顺序，处理完自动下载。',
-    usp: '无需安装 Adobe Acrobat 等重量级软件，也不用把文件上传到在线 PDF 工具网站。本地即可完成 PDF 的合并与拆分，操作简单直接，支持灵活的页码范围设置。',
-    highlights: ['本地处理，PDF 内容不外泄', '多文件合并，拖拽调整顺序', '按页或按范围灵活拆分', '自定义页码范围（如 1-3, 5, 7-10）', '处理完成自动下载'],
+    description: '无需安装 Adobe，本地即可合并多个 PDF，或通过页码分组拆分并实时预览页面内容，输出目录和子文件夹也能安全控制。',
+    usp: '无需安装 Adobe Acrobat 等重量级软件，也不用把文件上传到在线 PDF 工具网站。本地即可完成 PDF 的合并与拆分。新版拆分支持输入页码分组、拖动页码分组、右侧实时预览，以及输出目录子文件夹检查，适合整理章节、讲义和长文档。',
+    highlights: ['本地处理，PDF 内容不外泄', '多文件合并，拖拽调整顺序', '按页或按分组范围灵活拆分', '选页时右侧实时预览页面内容', '输出目录支持子文件夹校验和重名自动追加 -1'],
     snippet: { title: '操作示例', lines: [
       { text: '合并 PDF', color: 'var(--color-syn-blue)' },
       { text: '报告.pdf + 附录.pdf + 封面.pdf', color: 'var(--color-fg)' },
       { text: '→ merged.pdf（共 42 页）', color: 'var(--color-syn-green)' },
       { text: '' },
       { text: '拆分 PDF', color: 'var(--color-syn-orange)' },
-      { text: '文档.pdf，页码范围：1-3, 5, 7-10', color: 'var(--color-fg)' },
-      { text: '→ 3 个独立文件', color: 'var(--color-syn-green)' },
+      { text: '文档.pdf，页码分组：1-3 / 5 / 7-10', color: 'var(--color-fg)' },
+      { text: '→ 右侧预览页面，确认后保存到输出目录', color: 'var(--color-syn-green)' },
     ]},
-    example: { type: 'before-after', title: '示例：合并多个 PDF 文件',
-      before: { label: '合并前（3 个文件）', items: ['封面.pdf — 1 页', '报告.pdf — 35 页', '附录.pdf — 6 页'] },
-      after: { label: '合并后（1 个文件）', items: ['merged.pdf — 共 42 页', '按封面 → 报告 → 附录顺序排列', '自动下载到本地'] },
+    example: { type: 'before-after', title: '示例：按章节拆分培训手册',
+      before: { label: '拆分设置', items: ['chapter-handbook.pdf — 28 页', '页码分组：1-3、4-9、10-18、19-28', '子文件夹：chapter-handbook'] },
+      after: { label: '拆分结果', items: ['pages_1-3.pdf、pages_4-9.pdf、pages_10-18.pdf、pages_19-28.pdf', '若子文件夹已存在，会先弹出确认提示', '遇到同名文件时自动在文件名后追加 -1'] },
     },
     details: [
-      { title: '合并 PDF', items: ['支持选择多个 PDF 文件', '显示每个文件的页数', '通过上移/下移按钮调整合并顺序', '支持删除不需要的文件', '合并后按顺序排列，输出 merged.pdf'] },
-      { title: '拆分 PDF', items: ['每页一个文件：将每一页拆分为独立 PDF（page_1.pdf、page_2.pdf...）', '按范围拆分：自定义页码范围，格式如 1-3, 5, 7-10', '支持单页和范围混合使用', '自动验证页码范围有效性', '处理完成后自动下载'] },
+      { title: '合并 PDF', items: ['支持选择多个 PDF 文件', '显示每个文件的页数', '通过拖拽调整合并顺序', '支持删除不需要的文件', '合并后保存到指定输出目录'] },
+      { title: '拆分 PDF', items: ['每页一个文件：将每一页拆分为独立 PDF（page_1.pdf、page_2.pdf...）', '按分组范围拆分：支持输入 1-3、5、7-10 这类页码分组', '可直接拖动下方页码块创建或移除彩色分组', '选中或悬停页码时，右侧同步预览对应页面', '执行前自动校验页码范围是否合法'] },
+      { title: '输出控制', items: ['拆分前先选择输出目录', '默认开启“新建子文件夹”，并自动带入 PDF 文件名', '若子文件夹已存在，开始拆分前会先提示确认', '若拆分出的文件名已存在，会自动在文件名后追加 -1，避免覆盖旧文件'] },
     ],
-    workflow: ['选择合并或拆分模式', '合并：添加多个 PDF 文件并调整顺序', '拆分：选择一个 PDF 文件并设置拆分方式', '点击执行，自动下载处理结果'],
+    workflow: ['选择合并或拆分模式', '合并：添加多个 PDF 文件并调整顺序', '拆分：选择一个 PDF 文件，通过输入或拖动创建页码分组，并观察右侧预览', '设置输出目录和子文件夹', '开始处理，并在保存后打开输出目录检查结果'],
   },
   {
     id: 'qrcode', name: '二维码', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg>', color: 'var(--color-syn-yellow)',
@@ -1918,7 +2392,7 @@ const techs = [
 const guideTips = {
   rename: ['建议先开启复制模式，确认结果后再直接重命名。', '预览名称支持手动改名，适合处理少量特殊文件。'],
   classify: ['先确认表头行数，再选择分类列，结果会更准确。', '分类值为空的行会被跳过，可在统计区查看数量。'],
-  image: ['压缩模式建议质量在 60% 到 80% 之间。', '转换模式会保留原图，适合批量统一图片格式。'],
+  image: ['若平台限制的是上传大小，优先使用保持像素 + 目标体积。', '若需求是限制宽度或高度，直接使用缩小像素会更直观。'],
   pdf: ['合并前先调整顺序，导出的页面顺序会完全一致。', '页码范围支持单页与区间混合，例如 1-3，5，7-10。'],
   qrcode: ['添加 Logo 后建议执行一次识别测试。', '识别模式支持上传图片，也支持快捷键粘贴截图。'],
   textdiff: ['短文案推荐按字符，长文本推荐按行。', '对比结果可一键复制，便于粘贴到文档或消息。'],
@@ -2210,20 +2684,18 @@ function applySiteLanguage() {
   const metaDescription = document.querySelector('meta[name="description"]');
 
   document.documentElement.lang = currentLocale;
-  document.title = `${appTexts.title || 'Youran Toolbox'} - ${t('heroTagline')}`;
+  document.title = `${appTexts.title || 'YouranToolbox'} - ${t('heroTagline')}`;
   if (metaDescription) metaDescription.setAttribute('content', t('heroTagline'));
 
-  setText('nav-home', t('navHome'));
   setText('nav-guide', appTexts.guide || t('navGuide'));
   setText('nav-changelog', appTexts.changelog || t('navChangelog'));
   setText('nav-privacy', t('navPrivacy'));
-  setText('m-nav-home', t('navHome'));
   setText('m-nav-guide', appTexts.guide || t('navGuide'));
   setText('m-nav-changelog', appTexts.changelog || t('navChangelog'));
   setText('m-nav-privacy', t('navPrivacy'));
 
-  setText('hero-title-text', appTexts.title || 'Youran Toolbox');
-  setText('brand-title', appTexts.title || 'Youran Toolbox');
+  setText('hero-title-text', appTexts.title || 'YouranToolbox');
+  setText('brand-title', appTexts.title || 'YouranToolbox');
   setText('hero-subtitle-text', t('heroTagline'));
   setText('hero-mainland-tip-prefix', t('heroMainlandPrefix'));
   setText('hero-mainland-link-text', t('heroMainlandLink'));
@@ -2628,19 +3100,19 @@ function setupSmartDownload() {
 
   if (os === 'mac') {
     heroBtn.href = buildGithubLatestDownloadUrl(`Youran.Toolbox_${appVersion}_aarch64.dmg`);
-    mainlandLink.href = buildOssDownloadUrl(`Youran Toolbox_${appVersion}_aarch64.dmg`);
+    mainlandLink.href = buildOssDownloadUrl(`YouranToolbox_${appVersion}_aarch64.dmg`);
     heroBtn.innerHTML = `${svgIcon} ${t('downloadMac')}`;
     macBrewTip.classList.remove('hidden');
   } else if (os === 'windows') {
     heroBtn.href = buildGithubLatestDownloadUrl(`Youran.Toolbox_${appVersion}_x64-setup.exe`);
-    mainlandLink.href = buildOssDownloadUrl(`Youran Toolbox_${appVersion}_x64-setup.exe`);
+    mainlandLink.href = buildOssDownloadUrl(`YouranToolbox_${appVersion}_x64-setup.exe`);
     heroBtn.innerHTML = `${svgIcon} ${t('downloadWindows')}`;
     macBrewTip.classList.add('hidden');
   } else {
     heroBtn.href = 'https://github.com/dufu1991/youran-toolbox/releases/latest';
     heroBtn.setAttribute('target', '_blank');
     heroBtn.setAttribute('rel', 'noopener noreferrer');
-    mainlandLink.href = buildOssDownloadUrl(`Youran Toolbox_${appVersion}_aarch64.dmg`);
+    mainlandLink.href = buildOssDownloadUrl(`YouranToolbox_${appVersion}_aarch64.dmg`);
     mainlandLink.setAttribute('target', '_blank');
     mainlandLink.setAttribute('rel', 'noopener noreferrer');
     heroBtn.innerHTML = `${svgIcon} ${t('downloadGithub')}`;
@@ -2716,13 +3188,13 @@ async function loadDownloads() {
     ].join('');
     const latestOssAssets = [
       ...latestMacAssets.map(a => renderAssetCard({
-        href: buildOssDownloadUrl(`Youran Toolbox_${latestVersion}_aarch64.dmg`),
+        href: buildOssDownloadUrl(`YouranToolbox_${latestVersion}_aarch64.dmg`),
         title: t('downloadMacShort'),
         meta: `${t('downloadArchAppleSilicon')} · ${formatAssetSize(a.size)}`,
         osIcon: macIcon,
       })),
       ...latestWinAssets.map(a => renderAssetCard({
-        href: buildOssDownloadUrl(`Youran Toolbox_${latestVersion}_x64-setup.exe`),
+        href: buildOssDownloadUrl(`YouranToolbox_${latestVersion}_x64-setup.exe`),
         title: t('downloadWindowsShort'),
         meta: `${t('downloadArchX64')} · ${formatAssetSize(a.size)}`,
         osIcon: winIcon,
@@ -2750,11 +3222,11 @@ async function loadDownloads() {
             const showAliyunForVersion = isVersionGte(version, '0.1.1');
             const versionedOssLinks = [
               macAsset ? {
-                href: buildVersionedOssDownloadUrl(version, `Youran Toolbox_${version}_aarch64.dmg`),
+                href: buildVersionedOssDownloadUrl(version, `YouranToolbox_${version}_aarch64.dmg`),
                 label: `${t('downloadMacShort')} · ${formatAssetSize(macAsset.size)}`,
               } : null,
               windowsAsset ? {
-                href: buildVersionedOssDownloadUrl(version, `Youran Toolbox_${version}_x64-setup.exe`),
+                href: buildVersionedOssDownloadUrl(version, `YouranToolbox_${version}_x64-setup.exe`),
                 label: `${t('downloadWindowsShort')} · ${formatAssetSize(windowsAsset.size)}`,
               } : null,
             ].filter(Boolean);

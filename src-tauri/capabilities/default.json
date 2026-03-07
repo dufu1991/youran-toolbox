@@ -22,6 +22,12 @@
     "fs:default",
     "fs:write-all",
     "fs:allow-stat",
+    {
+      "identifier": "fs:allow-exists",
+      "allow": [
+        { "path": "**" }
+      ]
+    },
     "fs:read-all",
     {
       "identifier": "fs:allow-rename",

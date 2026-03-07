@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Youran Toolbox",
+  "productName": "YouranToolbox",
   "version": "0.1.2",
   "identifier": "com.youran.toolbox",
   "build": {
@@ -38,7 +38,7 @@
       "icons/icon.ico"
     ],
     "macOS": {
-      "bundleName": "Youran Toolbox",
+      "bundleName": "YouranToolbox",
       "files": {
         "Resources/en.lproj/InfoPlist.strings": "locales/macos/en.lproj/InfoPlist.strings",
         "Resources/zh-Hans.lproj/InfoPlist.strings": "locales/macos/zh-Hans.lproj/InfoPlist.strings",
@@ -56,7 +56,7 @@
     },
     "windows": {
       "nsis": {
-        "languages": ["English", "SimpChinese", "TradChinese", "Japanese", "Korean", "French", "German", "Spanish", "Italian", "Russian"],
+        "languages": ["SimpChinese", "TradChinese", "English", "Japanese", "Korean", "French", "German", "Spanish", "Italian", "Russian"],
         "displayLanguageSelector": false,
         "installerHooks": "./windows-installer-hooks.nsh"
       }

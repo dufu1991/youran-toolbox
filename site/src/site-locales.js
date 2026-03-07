@@ -19,7 +19,7 @@ const siteLocaleBundles = {
       },
       "imageCompress": {
         "title": "图片压缩/转换",
-        "desc": "批量压缩图片或转换格式，支持 JPEG、PNG、WebP"
+        "desc": "本地批量压缩或转换图片，支持按体积或按像素控制结果"
       },
       "pdf": {
         "title": "PDF 工具",
@@ -59,7 +59,7 @@ const siteLocaleBundles = {
       },
       "imageCompress": {
         "title": "圖片壓縮/轉換",
-        "desc": "批次壓縮圖片或轉換格式，支援 JPEG、PNG、WebP"
+        "desc": "本地批次壓縮或轉換圖片，支援按體積或像素控制結果"
       },
       "pdf": {
         "title": "PDF 工具",
@@ -84,7 +84,7 @@ const siteLocaleBundles = {
       "name": "English"
     },
     "app": {
-      "title": "Youran Toolbox",
+      "title": "YouranToolbox",
       "guide": "Guide",
       "changelog": "Changelog"
     },
@@ -99,7 +99,7 @@ const siteLocaleBundles = {
       },
       "imageCompress": {
         "title": "Image Compress/Convert",
-        "desc": "Batch compress or convert images, supports JPEG, PNG, WebP"
+        "desc": "Compress or convert images locally, with file size and pixel based control"
       },
       "pdf": {
         "title": "PDF Tools",
@@ -139,7 +139,7 @@ const siteLocaleBundles = {
       },
       "imageCompress": {
         "title": "画像圧縮/変換",
-        "desc": "画像の一括圧縮・変換、JPEG、PNG、WebP に対応"
+        "desc": "ローカルで画像を一括圧縮・変換し、容量またはピクセルで結果を調整"
       },
       "pdf": {
         "title": "PDF ツール",
@@ -179,7 +179,7 @@ const siteLocaleBundles = {
       },
       "imageCompress": {
         "title": "이미지 압축/변환",
-        "desc": "이미지 일괄 압축 및 변환, JPEG, PNG, WebP 지원"
+        "desc": "로컬에서 이미지를 일괄 압축 또는 변환하고 용량 또는 픽셀 기준으로 제어"
       },
       "pdf": {
         "title": "PDF 도구",
@@ -204,7 +204,7 @@ const siteLocaleBundles = {
       "name": "Français"
     },
     "app": {
-      "title": "Youran Toolbox",
+      "title": "YouranToolbox",
       "guide": "Guide",
       "changelog": "Nouveautés"
     },
@@ -219,7 +219,7 @@ const siteLocaleBundles = {
       },
       "imageCompress": {
         "title": "Compression/Conversion d'images",
-        "desc": "Compresser ou convertir des images par lot, JPEG, PNG, WebP"
+        "desc": "Compresser ou convertir des images en local avec contrôle par taille ou pixels"
       },
       "pdf": {
         "title": "Outils PDF",
@@ -244,7 +244,7 @@ const siteLocaleBundles = {
       "name": "Deutsch"
     },
     "app": {
-      "title": "Youran Toolbox",
+      "title": "YouranToolbox",
       "guide": "Anleitung",
       "changelog": "Änderungen"
     },
@@ -259,7 +259,7 @@ const siteLocaleBundles = {
       },
       "imageCompress": {
         "title": "Bildkomprimierung/-konvertierung",
-        "desc": "Bilder komprimieren oder konvertieren, JPEG, PNG, WebP"
+        "desc": "Bilder lokal komprimieren oder konvertieren, mit Steuerung nach Größe oder Pixeln"
       },
       "pdf": {
         "title": "PDF-Werkzeuge",
@@ -284,7 +284,7 @@ const siteLocaleBundles = {
       "name": "Español"
     },
     "app": {
-      "title": "Youran Toolbox",
+      "title": "YouranToolbox",
       "guide": "Guía",
       "changelog": "Novedades"
     },
@@ -299,7 +299,7 @@ const siteLocaleBundles = {
       },
       "imageCompress": {
         "title": "Comprimir/Convertir imágenes",
-        "desc": "Comprimir o convertir imágenes por lote, JPEG, PNG, WebP"
+        "desc": "Comprime o convierte imágenes en local con control por tamaño o por píxeles"
       },
       "pdf": {
         "title": "Herramientas PDF",
@@ -324,7 +324,7 @@ const siteLocaleBundles = {
       "name": "Italiano"
     },
     "app": {
-      "title": "Youran Toolbox",
+      "title": "YouranToolbox",
       "guide": "Guida",
       "changelog": "Novità"
     },
@@ -339,7 +339,7 @@ const siteLocaleBundles = {
       },
       "imageCompress": {
         "title": "Comprimi/Converti immagini",
-        "desc": "Comprimi o converti immagini in batch, JPEG, PNG, WebP"
+        "desc": "Comprimi o converti immagini in locale con controllo per dimensione o pixel"
       },
       "pdf": {
         "title": "Strumenti PDF",
@@ -364,7 +364,7 @@ const siteLocaleBundles = {
       "name": "Русский"
     },
     "app": {
-      "title": "Youran Toolbox",
+      "title": "YouranToolbox",
       "guide": "Руководство",
       "changelog": "Обновления"
     },
@@ -379,7 +379,7 @@ const siteLocaleBundles = {
       },
       "imageCompress": {
         "title": "Сжатие/конвертация изображений",
-        "desc": "Сжатие или конвертация изображений, JPEG, PNG, WebP"
+        "desc": "Локально сжимайте или конвертируйте изображения с управлением по размеру файла или пикселям"
       },
       "pdf": {
         "title": "Инструменты PDF",

@@ -14,10 +14,17 @@
 
 	type Mode = 'compress' | 'convert';
 	type OutputFormat = 'original' | 'jpeg' | 'webp' | 'png';
+	type CompressionMethod = 'keepPixels' | 'resizePixels';
+	type KeepPixelsStrategy = 'fixedQuality' | 'targetSize';
+	type ResizeDimension = 'width' | 'height';
 
 	interface ImageSettings {
+		compressionMethod: CompressionMethod;
+		keepPixelsStrategy: KeepPixelsStrategy;
+		resizeDimension: ResizeDimension;
 		quality: number;
-		maxWidth: number;
+		maxPixelSize: number;
+		targetSizeKB: number;
 		outputFormat: OutputFormat;
 	}
 
@@ -25,6 +32,8 @@
 		id: string;
 		file: File;
 		path: string; // 文件完整路径
+		width: number;
+		height: number;
 		originalSize: number;
 		compressedSize: number | null;
 		compressedBlob: Blob | null;
@@ -50,15 +59,23 @@
 	let lastSavedPath: string = $state('');
 
 	// 全局设置
+	let globalCompressionMethod: CompressionMethod = $state('keepPixels');
+	let globalKeepPixelsStrategy: KeepPixelsStrategy = $state('fixedQuality');
+	let globalResizeDimension: ResizeDimension = $state('width');
 	let globalQuality: number = $state(0.8);
-	let globalMaxWidth: number = $state(1920);
+	let globalMaxPixelSize: number = $state(1920);
+	let globalTargetSizeKB: number = $state(500);
 	let globalFormat: OutputFormat = $state('original');
 
 	// 获取默认设置
 	function getDefaultSettings(): ImageSettings {
 		return {
+			compressionMethod: globalCompressionMethod,
+			keepPixelsStrategy: globalKeepPixelsStrategy,
+			resizeDimension: globalResizeDimension,
 			quality: globalQuality,
-			maxWidth: globalMaxWidth,
+			maxPixelSize: globalMaxPixelSize,
+			targetSizeKB: globalTargetSizeKB,
 			outputFormat: mode === 'convert' && globalFormat === 'original' ? 'webp' : globalFormat
 		};
 	}
@@ -94,7 +111,7 @@
 	}
 
 	// 更新单个图片的设置
-	function updateImageSettings(id: string, key: keyof ImageSettings, value: number | OutputFormat) {
+	function updateImageSettings(id: string, key: keyof ImageSettings, value: number | OutputFormat | CompressionMethod | KeepPixelsStrategy | ResizeDimension) {
 		images = images.map(img => {
 			if (img.id === id) {
 				if (img.compressedUrl) URL.revokeObjectURL(img.compressedUrl);
@@ -138,6 +155,91 @@
 		return mimeTypes[ext] || 'application/octet-stream';
 	}
 
+	function loadImageDimensions(objectUrl: string): Promise<{ width: number; height: number }> {
+		return new Promise((resolve, reject) => {
+			const image = new window.Image();
+			image.onload = () => {
+				resolve({ width: image.naturalWidth, height: image.naturalHeight });
+			};
+			image.onerror = () => {
+				reject(new Error('Failed to read image dimensions'));
+			};
+			image.src = objectUrl;
+		});
+	}
+
+	function normalizeTargetSizeKB(value: number): number {
+		if (!Number.isFinite(value)) return 500;
+		return Math.max(10, Math.round(value));
+	}
+
+	function normalizePixelSize(value: number): number {
+		if (!Number.isFinite(value)) return 1920;
+		return Math.max(100, Math.round(value));
+	}
+
+	function getImageMimeType(file: File, settings: ImageSettings): string {
+		if (settings.outputFormat !== 'original') {
+			return `image/${settings.outputFormat}`;
+		}
+		return file.type || 'image/jpeg';
+	}
+
+	function loadImageElement(file: File): Promise<HTMLImageElement> {
+		return new Promise((resolve, reject) => {
+			const objectUrl = URL.createObjectURL(file);
+			const image = new window.Image();
+			image.onload = () => {
+				URL.revokeObjectURL(objectUrl);
+				resolve(image);
+			};
+			image.onerror = () => {
+				URL.revokeObjectURL(objectUrl);
+				reject(new Error('Failed to load image for resize'));
+			};
+			image.src = objectUrl;
+		});
+	}
+
+	async function resizeImageByPixels(file: File, settings: ImageSettings): Promise<File> {
+		const image = await loadImageElement(file);
+		const limit = normalizePixelSize(settings.maxPixelSize);
+		const sourceWidth = image.naturalWidth;
+		const sourceHeight = image.naturalHeight;
+		const resizeByWidth = settings.resizeDimension === 'width';
+		const sourceDimension = resizeByWidth ? sourceWidth : sourceHeight;
+
+		if (sourceDimension <= limit) {
+			return file;
+		}
+
+		const scale = limit / sourceDimension;
+		const targetWidth = Math.max(1, Math.round(sourceWidth * scale));
+		const targetHeight = Math.max(1, Math.round(sourceHeight * scale));
+		const canvas = document.createElement('canvas');
+		canvas.width = targetWidth;
+		canvas.height = targetHeight;
+
+		const ctx = canvas.getContext('2d');
+		if (!ctx) {
+			throw new Error('Failed to create canvas context');
+		}
+
+		ctx.imageSmoothingEnabled = true;
+		ctx.imageSmoothingQuality = 'high';
+		ctx.drawImage(image, 0, 0, targetWidth, targetHeight);
+
+		const mimeType = getImageMimeType(file, settings);
+		const blob = await new Promise<Blob | null>((resolve) => {
+			canvas.toBlob(resolve, mimeType);
+		});
+		if (!blob) {
+			throw new Error('Failed to export resized image');
+		}
+
+		return new File([blob], file.name, { type: mimeType });
+	}
+
 	async function openFileDialog() {
 		const selected = await open({
 			multiple: true,
@@ -175,16 +277,20 @@
 
 				// 创建 File 对象
 				const file = new File([fileData], fileName, { type: mimeType });
+				const previewUrl = URL.createObjectURL(file);
+				const dimensions = await loadImageDimensions(previewUrl);
 
 				const id = crypto.randomUUID();
 				images = [...images, {
 					id,
 					file,
 					path: filePath,
+					width: dimensions.width,
+					height: dimensions.height,
 					originalSize: file.size,
 					compressedSize: null,
 					compressedBlob: null,
-					previewUrl: URL.createObjectURL(file),
+					previewUrl,
 					compressedUrl: null,
 					status: 'pending',
 					settings: getDefaultSettings()
@@ -221,16 +327,9 @@
 			images[i].status = 'compressing';
 			const settings = unifiedMode ? getDefaultSettings() : images[i].settings;
 			try {
-				const options: Parameters<typeof imageCompression>[1] = {
-					maxSizeMB: mode === 'convert' ? 100 : 10,
-					maxWidthOrHeight: mode === 'convert' ? 16384 : settings.maxWidth,
-					useWebWorker: true,
-					initialQuality: mode === 'convert' ? 1 : settings.quality
-				};
-				if (settings.outputFormat !== 'original') {
-					options.fileType = `image/${settings.outputFormat}`;
-				}
-				const compressed = await imageCompression(images[i].file, options);
+				const compressed = mode === 'compress' && settings.compressionMethod === 'keepPixels' && settings.keepPixelsStrategy === 'targetSize'
+					? await compressToTargetSize(images[i], settings)
+					: await compressWithSettings(images[i].file, settings, settings.quality);
 				images[i].compressedBlob = compressed;
 				images[i].compressedSize = compressed.size;
 				images[i].compressedUrl = URL.createObjectURL(compressed);
@@ -252,6 +351,47 @@
 			const msgKey = mode === 'convert' ? 'imageCompress.convertFailed' : 'imageCompress.compressFailed';
 			toast.error($_(msgKey, { values: { count: failCount } }));
 		}
+	}
+
+	async function compressWithSettings(file: File, settings: ImageSettings, quality: number) {
+		if (mode === 'compress' && settings.compressionMethod === 'resizePixels') {
+			return resizeImageByPixels(file, settings);
+		}
+
+		const options: Parameters<typeof imageCompression>[1] = {
+			maxSizeMB: mode === 'convert' ? 100 : 10,
+			maxWidthOrHeight: mode === 'convert' ? 16384 : undefined,
+			useWebWorker: true,
+			initialQuality: mode === 'convert' ? 1 : quality
+		};
+		if (settings.outputFormat !== 'original') {
+			options.fileType = `image/${settings.outputFormat}`;
+		}
+		return imageCompression(file, options);
+	}
+
+	async function compressToTargetSize(img: ImageFile, settings: ImageSettings) {
+		const targetBytes = normalizeTargetSizeKB(settings.targetSizeKB) * 1024;
+		if (img.originalSize <= targetBytes) {
+			return img.file;
+		}
+
+		let bestResult = await compressWithSettings(img.file, settings, 0.95);
+		if (bestResult.size <= targetBytes) {
+			return bestResult;
+		}
+
+		for (const quality of [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1]) {
+			const compressed = await compressWithSettings(img.file, settings, quality);
+			if (compressed.size < bestResult.size) {
+				bestResult = compressed;
+			}
+			if (compressed.size <= targetBytes) {
+				return compressed;
+			}
+		}
+
+		return bestResult;
 	}
 
 	// 计算实际输出目录
@@ -368,9 +508,122 @@
 		return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
 	}
 
+	function formatDimensions(width: number, height: number): string {
+		return `${width} × ${height}`;
+	}
+
+	function getResultDimensions(img: ImageFile): { width: number; height: number } {
+		const settings = unifiedMode ? getDefaultSettings() : img.settings;
+		if (settings.compressionMethod !== 'resizePixels') {
+			return { width: img.width, height: img.height };
+		}
+
+		const sourceDimension = settings.resizeDimension === 'width' ? img.width : img.height;
+		const limitedDimension = normalizePixelSize(settings.maxPixelSize);
+		if (sourceDimension <= limitedDimension) {
+			return { width: img.width, height: img.height };
+		}
+
+		const scale = limitedDimension / sourceDimension;
+		return {
+			width: Math.max(1, Math.round(img.width * scale)),
+			height: Math.max(1, Math.round(img.height * scale))
+		};
+	}
+
+	function getPendingResultText(img: ImageFile): string {
+		if (shouldSkipCompression(img)) {
+			return `${formatSize(img.originalSize)} | ${formatDimensions(img.width, img.height)}`;
+		}
+		const resultDimensions = getResultDimensions(img);
+		return `${formatSize(getEstimatedCompressedSize(img))} | ${formatDimensions(resultDimensions.width, resultDimensions.height)}`;
+	}
+
+	function getSizeDelta(bytesBefore: number, bytesAfter: number): number {
+		return Math.abs(bytesBefore - bytesAfter);
+	}
+
+	function getSizeChangePercent(bytesBefore: number, bytesAfter: number): string {
+		if (bytesBefore <= 0) return '0.0';
+		return (Math.abs((1 - bytesAfter / bytesBefore) * 100)).toFixed(1);
+	}
+
+	function getSizeChangeLabel(bytesBefore: number, bytesAfter: number): string {
+		if (bytesAfter === bytesBefore) {
+			return $_('imageCompress.sizeUnchanged');
+		}
+		return bytesAfter < bytesBefore
+			? $_('imageCompress.sizeSaved', { values: { size: formatSize(getSizeDelta(bytesBefore, bytesAfter)) } })
+			: $_('imageCompress.sizeIncreased', { values: { size: formatSize(getSizeDelta(bytesBefore, bytesAfter)) } });
+	}
+
+	function getEstimatedCompressedSize(img: ImageFile): number {
+		const settings = unifiedMode ? getDefaultSettings() : img.settings;
+		if (mode === 'compress' && settings.compressionMethod === 'keepPixels' && settings.keepPixelsStrategy === 'targetSize') {
+			return Math.min(img.originalSize, normalizeTargetSizeKB(settings.targetSizeKB) * 1024);
+		}
+		const shouldResize = mode === 'compress' && settings.compressionMethod === 'resizePixels';
+		const sourceDimension = settings.resizeDimension === 'width' ? img.width : img.height;
+		const pixelRatio = shouldResize && settings.maxPixelSize > 0 && sourceDimension > settings.maxPixelSize
+			? settings.maxPixelSize / sourceDimension
+			: 1;
+		const areaRatio = Math.min(1, pixelRatio * pixelRatio);
+		const sourceFormat = img.file.type.replace('image/', '').toLowerCase();
+		const targetFormat = settings.outputFormat === 'original'
+			? (sourceFormat === 'jpeg' ? 'jpg' : sourceFormat)
+			: settings.outputFormat;
+
+		const qualityFactorMap: Record<string, number> = {
+			jpg: 0.55,
+			jpeg: 0.55,
+			webp: 0.45,
+			png: 0.9
+		};
+		const sourceFactorMap: Record<string, number> = {
+			jpg: 1,
+			jpeg: 1,
+			png: 1.35,
+			webp: 0.85
+		};
+		const formatFactorMap: Record<string, number> = {
+			jpg: 1,
+			jpeg: 1,
+			webp: 0.82,
+			png: 1.6
+		};
+		const qualityBase = qualityFactorMap[targetFormat] ?? 0.7;
+		const sourceFactor = sourceFactorMap[sourceFormat] ?? 1;
+		const formatFactor = formatFactorMap[targetFormat] ?? 1;
+		const qualityRatio = mode === 'convert' && targetFormat === 'png'
+			? 1
+			: (0.45 + settings.quality * qualityBase);
+		const estimated = img.originalSize * areaRatio * qualityRatio * formatFactor / sourceFactor;
+		return Math.max(1024, Math.round(estimated));
+	}
+
 	function getFormatLabel(format: OutputFormat): string {
 		if (format === 'original') return $_('imageCompress.keepOriginal');
 		return format.toUpperCase();
+	}
+
+	function getCompressionMethodLabel(method: CompressionMethod): string {
+		return method === 'keepPixels' ? $_('imageCompress.keepPixels') : $_('imageCompress.resizePixels');
+	}
+
+	function getKeepPixelsStrategyLabel(strategy: KeepPixelsStrategy): string {
+		return strategy === 'fixedQuality' ? $_('imageCompress.fixedQuality') : $_('imageCompress.targetSizeMode');
+	}
+
+	function getResizeDimensionLabel(dimension: ResizeDimension): string {
+		return dimension === 'width' ? $_('imageCompress.maxWidth') : $_('imageCompress.maxHeight');
+	}
+
+	function shouldSkipCompression(img: ImageFile): boolean {
+		const settings = unifiedMode ? getDefaultSettings() : img.settings;
+		return mode === 'compress'
+			&& settings.compressionMethod === 'keepPixels'
+			&& settings.keepPixelsStrategy === 'targetSize'
+			&& img.originalSize <= normalizeTargetSizeKB(settings.targetSizeKB) * 1024;
 	}
 
 	const totalOriginal = $derived(images.reduce((sum, img) => sum + img.originalSize, 0));
@@ -428,28 +681,81 @@
 						{#if mode === 'compress'}
 							<div>
 								<p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-									{$_('imageCompress.quality')} <HintIcon text={$_('imageCompress.qualityHint')} />
+									{$_('imageCompress.compressionMethod')} <HintIcon text={$_('imageCompress.compressionMethodHint')} />
 								</p>
-								<div class="flex items-center gap-3">
-									<input
-										type="range"
-										min="0.1"
-										max="1"
-										step="0.1"
-										bind:value={globalQuality}
-										onchange={applyGlobalSettings}
-										class="w-48"
-										disabled={processing}
-									/>
-									<span class="text-sm font-medium w-12">{Math.round(globalQuality * 100)}%</span>
+								<Tab options={[
+									{ value: 'keepPixels', label: $_('imageCompress.keepPixels') },
+									{ value: 'resizePixels', label: $_('imageCompress.resizePixels') }
+								]} bind:value={globalCompressionMethod} onchange={applyGlobalSettings} disabled={processing} />
+							</div>
+							{#if globalCompressionMethod === 'keepPixels'}
+								<div>
+									<p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+										{$_('imageCompress.keepPixelsStrategy')} <HintIcon text={$_('imageCompress.keepPixelsStrategyHint')} />
+									</p>
+									<Tab options={[
+										{ value: 'fixedQuality', label: $_('imageCompress.fixedQuality') },
+										{ value: 'targetSize', label: $_('imageCompress.targetSizeMode') }
+									]} bind:value={globalKeepPixelsStrategy} onchange={applyGlobalSettings} disabled={processing} />
 								</div>
-							</div>
-							<div>
-								<p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
-									{$_('imageCompress.maxWidth')} <HintIcon text={$_('imageCompress.maxWidthHint')} />
-								</p>
-								<Tab options={[800, 1280, 1920, 2560, 4096].map(v => ({ value: v, label: `${v}px` }))} bind:value={globalMaxWidth} onchange={applyGlobalSettings} disabled={processing} />
-							</div>
+								{#if globalKeepPixelsStrategy === 'fixedQuality'}
+									<div>
+										<p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+											{$_('imageCompress.quality')} <HintIcon text={$_('imageCompress.qualityHint')} />
+										</p>
+										<div class="flex items-center gap-3">
+											<input
+												type="range"
+												min="0.1"
+												max="1"
+												step="0.1"
+												bind:value={globalQuality}
+												onchange={applyGlobalSettings}
+												class="w-48"
+												disabled={processing}
+											/>
+											<span class="text-sm font-medium w-12">{Math.round(globalQuality * 100)}%</span>
+										</div>
+									</div>
+								{:else}
+									<div>
+										<p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+											{$_('imageCompress.targetSize')} <HintIcon text={$_('imageCompress.targetSizeHint')} />
+										</p>
+										<div class="flex items-center gap-3">
+											<input
+												type="number"
+												min="10"
+												step="10"
+												bind:value={globalTargetSizeKB}
+												onchange={() => {
+													globalTargetSizeKB = normalizeTargetSizeKB(globalTargetSizeKB);
+													applyGlobalSettings();
+												}}
+												class="w-32 rounded-md border border-slate-200 bg-white px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-900"
+												disabled={processing}
+											/>
+											<span class="text-sm text-slate-500 dark:text-slate-400">KB</span>
+										</div>
+									</div>
+								{/if}
+							{:else}
+								<div>
+									<p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+										{$_('imageCompress.resizeDimension')} <HintIcon text={$_('imageCompress.resizeDimensionHint')} />
+									</p>
+									<Tab options={[
+										{ value: 'width', label: $_('imageCompress.maxWidth') },
+										{ value: 'height', label: $_('imageCompress.maxHeight') }
+									]} bind:value={globalResizeDimension} onchange={applyGlobalSettings} disabled={processing} />
+								</div>
+								<div>
+									<p class="text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
+										{globalResizeDimension === 'width' ? $_('imageCompress.maxWidth') : $_('imageCompress.maxHeight')} <HintIcon text={$_('imageCompress.resizePixelHint')} />
+									</p>
+									<Tab options={[800, 1280, 1920, 2560, 4096].map(v => ({ value: v, label: `${v}px` }))} bind:value={globalMaxPixelSize} onchange={applyGlobalSettings} disabled={processing} />
+								</div>
+							{/if}
 						{/if}
 						{#if mode === 'convert'}
 							<div>
@@ -467,6 +773,15 @@
 				{/if}
 			</Card.Root>
 
+			<Card.Root class="mb-6">
+				<Card.Content class="py-4">
+					<div class="rounded-xl border border-amber-200/70 bg-amber-50/70 px-4 py-3 text-sm text-amber-900 dark:border-amber-900/60 dark:bg-amber-950/30 dark:text-amber-100">
+						<p class="font-medium">{$_('imageCompress.sizeExplanationTitle')}</p>
+						<p class="mt-1 leading-6">{$_('imageCompress.sizeExplanationDesc')}</p>
+					</div>
+				</Card.Content>
+			</Card.Root>
+
 			<!-- 图片列表 -->
 			<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mb-6">
 				{#each images as img}
@@ -474,18 +789,51 @@
 						<Card.Header class="pb-3">
 							<div class="flex items-center justify-between">
 								<div class="flex items-center gap-3">
-									<img src={img.previewUrl} alt="" class="w-12 h-12 object-cover rounded" />
+									<img src={img.previewUrl} alt="" class="w-12 h-12 object-cover rounded-sm" />
 									<div>
 										<Card.Title class="text-sm">{img.file.name}</Card.Title>
 										<Card.Description class="text-xs">
-											{formatSize(img.originalSize)}
+											<span class="inline-flex rounded bg-slate-100 px-1.5 py-0.5 text-[11px] font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">{$_('imageCompress.originalInfoLabel')}</span>
+											<span class="ml-2">{formatSize(img.originalSize)} | {formatDimensions(img.width, img.height)}</span>
+										</Card.Description>
+										<p class="mt-1 text-xs text-slate-500 dark:text-slate-400">
+											<span class="inline-flex rounded bg-blue-50 px-1.5 py-0.5 text-[11px] font-medium text-blue-700 dark:bg-blue-950/40 dark:text-blue-300">
+												{img.compressedSize !== null ? $_('imageCompress.resultSizeLabel') : $_('imageCompress.estimatedResultLabel')}
+											</span>
+											<span class="ml-2">
 											{#if img.compressedSize !== null}
-												→ {formatSize(img.compressedSize)}
-												<span class="ml-1" class:text-green-600={img.compressedSize < img.originalSize} class:text-red-600={img.compressedSize >= img.originalSize}>
-													{img.compressedSize < img.originalSize ? '-' : '+'}{Math.abs((1 - img.compressedSize / img.originalSize) * 100).toFixed(1)}%
+												{formatSize(img.compressedSize)} | {formatDimensions(getResultDimensions(img).width, getResultDimensions(img).height)}
+											{:else}
+												{getPendingResultText(img)}
+											{/if}
+											</span>
+										</p>
+										<p
+											class="mt-1 text-xs"
+											class:text-slate-400={img.compressedSize === null}
+											class:text-green-600={img.compressedSize !== null && img.compressedSize < img.originalSize}
+											class:text-red-600={img.compressedSize !== null && img.compressedSize >= img.originalSize}
+										>
+											{#if img.compressedSize !== null}
+												{getSizeChangeLabel(img.originalSize, img.compressedSize)}
+												{#if img.compressedSize !== img.originalSize}
+													（{img.compressedSize < img.originalSize ? '-' : '+'}{getSizeChangePercent(img.originalSize, img.compressedSize)}%）
+												{/if}
+											{:else}
+												<span class="inline-flex items-center gap-1">
+													{#if shouldSkipCompression(img)}
+														{$_('imageCompress.willSkipCompression')}
+														<HintIcon text={$_('imageCompress.willSkipCompressionHint')} tooltipMinWidth="220px" tooltipMaxWidth="280px" />
+													{:else if (unifiedMode ? getDefaultSettings() : img.settings).compressionMethod === 'keepPixels' && (unifiedMode ? getDefaultSettings() : img.settings).keepPixelsStrategy === 'targetSize'}
+														{$_('imageCompress.targetSizeLabel', { values: { size: `${normalizeTargetSizeKB((unifiedMode ? getDefaultSettings() : img.settings).targetSizeKB)} KB` } })}
+														<HintIcon text={$_('imageCompress.targetSizeHint')} tooltipMinWidth="220px" tooltipMaxWidth="280px" />
+													{:else}
+														{$_('imageCompress.estimatedSize', { values: { size: formatSize(getEstimatedCompressedSize(img)) } })}
+														<HintIcon text={$_('imageCompress.estimatedSizeHint')} tooltipMinWidth="220px" tooltipMaxWidth="280px" />
+													{/if}
 												</span>
 											{/if}
-										</Card.Description>
+										</p>
 									</div>
 								</div>
 								<div class="flex items-center gap-2">
@@ -510,25 +858,67 @@
 							<Card.Content class="pt-0 space-y-3">
 								{#if mode === 'compress'}
 									<div>
-										<p class="text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">{$_('imageCompress.quality')}</p>
-										<div class="flex items-center gap-3">
-											<input
-												type="range"
-												min="0.1"
-												max="1"
-												step="0.1"
-												value={img.settings.quality}
-												onchange={(e) => updateImageSettings(img.id, 'quality', parseFloat((e.target as HTMLInputElement).value))}
-												class="w-32"
-												disabled={processing}
-											/>
-											<span class="text-xs font-medium w-10">{Math.round(img.settings.quality * 100)}%</span>
+										<p class="text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">{$_('imageCompress.compressionMethod')}</p>
+										<Tab options={[
+											{ value: 'keepPixels', label: $_('imageCompress.keepPixels') },
+											{ value: 'resizePixels', label: $_('imageCompress.resizePixels') }
+										]} value={img.settings.compressionMethod} onchange={(v) => updateImageSettings(img.id, 'compressionMethod', v as CompressionMethod)} disabled={processing} />
+									</div>
+									{#if img.settings.compressionMethod === 'keepPixels'}
+										<div>
+											<p class="text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">{$_('imageCompress.keepPixelsStrategy')}</p>
+											<Tab options={[
+												{ value: 'fixedQuality', label: $_('imageCompress.fixedQuality') },
+												{ value: 'targetSize', label: $_('imageCompress.targetSizeMode') }
+											]} value={img.settings.keepPixelsStrategy} onchange={(v) => updateImageSettings(img.id, 'keepPixelsStrategy', v as KeepPixelsStrategy)} disabled={processing} />
 										</div>
-									</div>
-									<div>
-										<p class="text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">{$_('imageCompress.maxWidth')}</p>
-										<Tab options={[800, 1280, 1920, 2560, 4096].map(v => ({ value: v, label: String(v) }))} value={img.settings.maxWidth} onchange={(v) => updateImageSettings(img.id, 'maxWidth', v)} disabled={processing} />
-									</div>
+										{#if img.settings.keepPixelsStrategy === 'fixedQuality'}
+											<div>
+												<p class="text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">{$_('imageCompress.quality')}</p>
+												<div class="flex items-center gap-3">
+													<input
+														type="range"
+														min="0.1"
+														max="1"
+														step="0.1"
+														value={img.settings.quality}
+														onchange={(e) => updateImageSettings(img.id, 'quality', parseFloat((e.target as HTMLInputElement).value))}
+														class="w-32"
+														disabled={processing}
+													/>
+													<span class="text-xs font-medium w-10">{Math.round(img.settings.quality * 100)}%</span>
+												</div>
+											</div>
+										{:else}
+											<div>
+												<p class="text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">{$_('imageCompress.targetSize')}</p>
+												<div class="flex items-center gap-3">
+													<input
+														type="number"
+														min="10"
+														step="10"
+														value={img.settings.targetSizeKB}
+														onchange={(e) => updateImageSettings(img.id, 'targetSizeKB', normalizeTargetSizeKB(parseFloat((e.target as HTMLInputElement).value)))}
+														class="w-24 rounded-md border border-slate-200 bg-white px-2 py-1.5 text-xs dark:border-slate-700 dark:bg-slate-900"
+														disabled={processing}
+													/>
+													<span class="text-xs text-slate-500 dark:text-slate-400">KB</span>
+												</div>
+											</div>
+										{/if}
+									{:else}
+										<div>
+											<p class="text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">{$_('imageCompress.resizeDimension')}</p>
+											<Tab options={[
+												{ value: 'width', label: $_('imageCompress.maxWidth') },
+												{ value: 'height', label: $_('imageCompress.maxHeight') }
+											]} value={img.settings.resizeDimension} onchange={(v) => updateImageSettings(img.id, 'resizeDimension', v as ResizeDimension)} disabled={processing} />
+										</div>
+										<div>
+											<p class="text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">{img.settings.resizeDimension === 'width' ? $_('imageCompress.maxWidth') : $_('imageCompress.maxHeight')}</p>
+											<Tab options={[800, 1280, 1920, 2560, 4096].map(v => ({ value: v, label: String(v) }))} value={img.settings.maxPixelSize} onchange={(v) => updateImageSettings(img.id, 'maxPixelSize', v)} disabled={processing} />
+										</div>
+									{/if}
 								{/if}
 								{#if mode === 'convert'}
 									<div>
@@ -548,7 +938,11 @@
 							<Card.Content class="pt-0">
 								<p class="text-xs text-slate-500">
 									{#if mode === 'compress'}
-										{$_('imageCompress.quality')}: {Math.round(globalQuality * 100)}% | {$_('imageCompress.maxWidth')}: {globalMaxWidth}px
+									{#if globalCompressionMethod === 'keepPixels'}
+											{$_('imageCompress.compressionMethod')}: {getCompressionMethodLabel(globalCompressionMethod)} | {$_('imageCompress.keepPixelsStrategy')}: {getKeepPixelsStrategyLabel(globalKeepPixelsStrategy)}{globalKeepPixelsStrategy === 'fixedQuality' ? ` | ${$_('imageCompress.quality')}: ${Math.round(globalQuality * 100)}%` : ` | ${$_('imageCompress.targetSize')}: ${normalizeTargetSizeKB(globalTargetSizeKB)} KB`}
+										{:else}
+											{$_('imageCompress.compressionMethod')}: {getCompressionMethodLabel(globalCompressionMethod)} | {getResizeDimensionLabel(globalResizeDimension)}: {globalMaxPixelSize}px
+										{/if}
 									{:else}
 										{$_('imageCompress.format')}: {getFormatLabel(globalFormat)}
 									{/if}
