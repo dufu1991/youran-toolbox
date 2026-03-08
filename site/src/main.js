@@ -5,9 +5,19 @@ import packageJson from '../../package.json';
 import siteLocaleBundles from './site-locales.js';
 
 const appVersion = packageJson.version;
-const ossRootUrl = 'https://youran-toolbox.oss-cn-beijing.aliyuncs.com';
+const ossRootUrl = 'https://download.du-fu.com';
 const ossBaseUrl = `${ossRootUrl}/latest`;
 const githubDownloadBase = 'https://github.com/dufu1991/youran-toolbox/releases/download';
+
+function getInstallerBaseName(version) {
+  return isVersionGte(version, '0.1.3') ? 'YouranToolbox' : 'Youran.Toolbox';
+}
+
+function buildInstallerFileName(version, suffix) {
+  const normalizedVersion = normalizeTagVersion(version);
+  if (!normalizedVersion) return '';
+  return `${getInstallerBaseName(normalizedVersion)}_${normalizedVersion}_${suffix}`;
+}
 
 function buildOssDownloadUrl(fileName) {
   return `${ossBaseUrl}/${encodeURIComponent(fileName)}`;
@@ -72,8 +82,8 @@ const siteI18nEn = {
   navSupport: 'Support',
   language: 'Language',
   heroTagline: 'Cross-platform · Local-first · Privacy-focused desktop tools',
-  heroMainlandPrefix: 'This is the GitHub download link. If it is slow in Mainland China, use',
-  heroMainlandLink: 'this mirror',
+  heroMainlandPrefix: 'If the download link above is slow in Mainland China, we recommend',
+  heroMainlandLink: 'CDN download',
   heroChipUpdating: 'More coming soon',
   mobileTip: 'This app is desktop only. Please download on a computer.',
   supportText: 'Supports Apple Silicon Mac and Windows 10+ systems. Linux is not supported yet.',
@@ -118,17 +128,23 @@ const siteI18nEn = {
   downloadArchX64: 'x64',
   downloadSizeUnitMb: 'MB',
   latestVersion: 'Latest',
+  downloadRecommended: 'Recommended',
   githubAddress: 'GitHub',
-  aliyunAddress: 'Aliyun',
+  aliyunAddress: 'CDN',
   historyVersions: 'History',
   historySummary: 'versions, click to expand',
   historySourceGithub: 'GitHub',
-  historySourceAliyun: 'Aliyun',
+  historySourceAliyun: 'CDN',
+  downloadsPrimaryHint: 'Recommended. GitHub Releases is the default download source.',
   noPackages: 'No installer available',
   noVersions: 'No version available',
   loadFailed: 'Failed to load. Please',
   goGithub: 'view on GitHub',
-  aliyunFromVersion: 'Aliyun downloads are available from 0.1.1',
+  aliyunFromVersion: 'CDN downloads are available from 0.1.1',
+  cdnFallbackTitle: 'Backup CDN',
+  cdnFallbackSummary: 'Expand only if GitHub is slow in your network',
+  cdnFallbackDesc: 'CDN is only a backup source. Please prefer GitHub when it works normally.',
+  historyCdnSummary: '',
   guideLiteHint: 'This page is simplified in this language. For full details, use the app.',
   advCrossTitle: 'Cross-platform',
   advCrossDesc: 'Native support for macOS and Windows, lightweight installer, fast startup.',
@@ -174,8 +190,8 @@ const siteI18n = {
     navSupport: '支持',
     language: '语言',
     heroTagline: '跨平台 · 本地离线 · 注重隐私的轻量桌面工具集',
-    heroMainlandPrefix: '以上为 GitHub 下载地址，速度可能较慢。中国大陆地区推荐',
-    heroMainlandLink: '这里',
+    heroMainlandPrefix: '以上下载地址在中国大陆地区如果较慢，推荐',
+    heroMainlandLink: 'CDN 下载',
     heroChipUpdating: '持续更新中',
     mobileTip: '本应用为桌面端软件，请在电脑上访问下载',
     supportText: '支持 Apple 芯片的 Mac 和 Windows 10 及以上系统，暂不支持 Linux。',
@@ -219,16 +235,22 @@ const siteI18n = {
     downloadArchX64: 'x64',
     downloadSizeUnitMb: 'MB',
     latestVersion: '最新版本',
+    downloadRecommended: '推荐',
     githubAddress: 'GitHub 地址',
-    aliyunAddress: '阿里云地址',
+    aliyunAddress: 'CDN 地址',
     historyVersions: '历史版本',
     historySummary: '个版本，点击展开',
-    historySourceAliyun: '阿里云',
+    historySourceAliyun: 'CDN',
+    downloadsPrimaryHint: '默认推荐使用 GitHub 下载，版本同步更及时，也更方便反馈问题。',
     noPackages: '暂无可用安装包',
     noVersions: '暂无可用版本',
     loadFailed: '加载失败，请',
     goGithub: '前往 GitHub 查看',
-    aliyunFromVersion: '0.1.1 及以上版本提供阿里云下载',
+    aliyunFromVersion: '0.1.1 及以上版本提供 CDN 下载',
+    cdnFallbackTitle: '备用 CDN',
+    cdnFallbackSummary: '仅在 GitHub 下载较慢时，再展开使用 CDN 备用链接',
+    cdnFallbackDesc: 'CDN 仅作为备用下载源，请优先使用 GitHub 下载。',
+    historyCdnSummary: '',
     guideLiteHint: '该页面为精简说明，建议在应用内查看完整操作细节。',
     advCrossTitle: '跨平台支持',
     advCrossDesc: '原生支持 macOS 和 Windows 双平台，安装包体积轻巧，启动即用。',
@@ -271,8 +293,8 @@ const siteI18n = {
     navSupport: '支持',
     language: '語言',
     heroTagline: '跨平台 · 本地離線 · 注重隱私的輕量桌面工具集',
-    heroMainlandPrefix: '以上為 GitHub 下載地址，速度可能較慢。中國大陸地區推薦',
-    heroMainlandLink: '這裡',
+    heroMainlandPrefix: '以上下載地址在中國大陸地區如果較慢，推薦',
+    heroMainlandLink: 'CDN 下載',
     heroChipUpdating: '持續更新中',
     mobileTip: '本應用為桌面端軟體，請在電腦上訪問下載',
     supportText: '支援 Apple 晶片 Mac 和 Windows 10 及以上系統，暫不支援 Linux。',
@@ -328,16 +350,22 @@ const siteI18n = {
     downloadArchX64: 'x64',
     downloadSizeUnitMb: 'MB',
     latestVersion: '最新版本',
+    downloadRecommended: '推薦',
     githubAddress: 'GitHub 地址',
-    aliyunAddress: '阿里雲地址',
+    aliyunAddress: 'CDN 地址',
     historyVersions: '歷史版本',
     historySummary: '個版本，點擊展開',
-    historySourceAliyun: '阿里雲',
+    historySourceAliyun: 'CDN',
+    downloadsPrimaryHint: '預設推薦使用 GitHub 下載，版本同步更即時，也更方便回報問題。',
     noPackages: '暫無可用安裝包',
     noVersions: '暫無可用版本',
     loadFailed: '載入失敗，請',
     goGithub: '前往 GitHub 查看',
-    aliyunFromVersion: '0.1.1 及以上版本提供阿里雲下載',
+    aliyunFromVersion: '0.1.1 及以上版本提供 CDN 下載',
+    cdnFallbackTitle: '備用 CDN',
+    cdnFallbackSummary: '僅在 GitHub 下載較慢時，再展開使用 CDN 備用連結',
+    cdnFallbackDesc: 'CDN 僅作為備用下載來源，請優先使用 GitHub 下載。',
+    historyCdnSummary: '',
     guideLiteHint: '此頁面為精簡說明，建議在應用內查看完整操作細節。',
     advCrossTitle: '跨平台支援',
     advCrossDesc: '原生支援 macOS 和 Windows 雙平台，安裝包輕巧，啟動即用。',
@@ -367,8 +395,8 @@ const siteI18n = {
     navPrivacy: 'プライバシー',
     language: '言語',
     heroTagline: 'クロスプラットフォーム · ローカル完結 · プライバシー重視のデスクトップツール集',
-    heroMainlandPrefix: 'GitHub のダウンロードが遅い場合は',
-    heroMainlandLink: 'こちら',
+    heroMainlandPrefix: '上記のダウンロードリンクが中国本土で遅い場合は、',
+    heroMainlandLink: 'CDN ダウンロード',
     heroChipUpdating: '継続的に追加予定',
     mobileTip: 'このアプリはデスクトップ専用です。PC でダウンロードしてください。',
     supportText: 'Apple Silicon 搭載 Mac と Windows 10 以降に対応しています。Linux は未対応です。',
@@ -413,15 +441,15 @@ const siteI18n = {
     downloadSizeUnitMb: 'MB',
     latestVersion: '最新',
     githubAddress: 'GitHub',
-    aliyunAddress: 'Aliyun',
+    aliyunAddress: 'CDN',
     historyVersions: '過去バージョン',
     historySummary: '件、クリックで展開',
-    historySourceAliyun: 'Aliyun',
+    historySourceAliyun: 'CDN',
     noPackages: '利用可能なインストーラーはありません',
     noVersions: '利用可能なバージョンはありません',
     loadFailed: '読み込みに失敗しました。',
     goGithub: 'GitHub で確認',
-    aliyunFromVersion: 'Aliyun ダウンロードは 0.1.1 以降で提供されます',
+    aliyunFromVersion: 'CDN ダウンロードは 0.1.1 以降で提供されます',
     guideLiteHint: 'この言語のページは簡略版です。詳細はアプリ内ガイドをご確認ください。',
     advCrossTitle: 'クロスプラットフォーム',
     advCrossDesc: 'macOS と Windows に対応し、軽量で起動も高速です。',
@@ -451,8 +479,8 @@ const siteI18n = {
     navPrivacy: '개인정보',
     language: '언어',
     heroTagline: '크로스 플랫폼 · 로컬 중심 · 개인정보 중심의 데스크톱 도구 모음',
-    heroMainlandPrefix: 'GitHub 다운로드가 느리다면',
-    heroMainlandLink: '여기서 다운로드',
+    heroMainlandPrefix: '위 다운로드 링크가 중국 본토에서 느리다면',
+    heroMainlandLink: 'CDN 다운로드',
     heroChipUpdating: '계속 업데이트 예정',
     mobileTip: '이 앱은 데스크톱 전용입니다. PC 에서 다운로드해 주세요.',
     supportText: 'Apple Silicon Mac 및 Windows 10 이상을 지원합니다. Linux 는 아직 미지원입니다.',
@@ -497,15 +525,15 @@ const siteI18n = {
     downloadSizeUnitMb: 'MB',
     latestVersion: '최신 버전',
     githubAddress: 'GitHub',
-    aliyunAddress: 'Aliyun',
+    aliyunAddress: 'CDN',
     historyVersions: '이전 버전',
     historySummary: '개 버전, 클릭하여 펼치기',
-    historySourceAliyun: 'Aliyun',
+    historySourceAliyun: 'CDN',
     noPackages: '사용 가능한 설치 파일이 없습니다',
     noVersions: '사용 가능한 버전이 없습니다',
     loadFailed: '불러오기에 실패했습니다.',
     goGithub: 'GitHub 에서 보기',
-    aliyunFromVersion: 'Aliyun 다운로드는 0.1.1 버전부터 제공됩니다',
+    aliyunFromVersion: 'CDN 다운로드는 0.1.1 버전부터 제공됩니다',
     guideLiteHint: '이 페이지는 간략 버전입니다. 자세한 내용은 앱 내 가이드를 확인하세요.',
     advCrossTitle: '크로스 플랫폼',
     advCrossDesc: 'macOS 와 Windows 를 기본 지원하며 가볍고 빠릅니다.',
@@ -535,8 +563,8 @@ const siteI18n = {
     navPrivacy: 'Confidentialité',
     language: 'Langue',
     heroTagline: 'Multi-plateforme · Local · Respect de la vie privée',
-    heroMainlandPrefix: 'Si GitHub est lent en Chine continentale, utilisez',
-    heroMainlandLink: 'ce lien',
+    heroMainlandPrefix: 'Si le lien de téléchargement ci-dessus est lent en Chine continentale, nous recommandons',
+    heroMainlandLink: 'le téléchargement CDN',
     heroChipUpdating: 'Encore plus à venir',
     mobileTip: 'Application de bureau uniquement. Veuillez télécharger sur ordinateur.',
     supportText: 'Compatible Mac Apple Silicon et Windows 10+. Linux non pris en charge pour le moment.',
@@ -581,15 +609,15 @@ const siteI18n = {
     downloadSizeUnitMb: 'MB',
     latestVersion: 'Dernière version',
     githubAddress: 'GitHub',
-    aliyunAddress: 'Aliyun',
+    aliyunAddress: 'CDN',
     historyVersions: 'Versions précédentes',
     historySummary: 'versions, cliquer pour déplier',
-    historySourceAliyun: 'Aliyun',
+    historySourceAliyun: 'CDN',
     noPackages: 'Aucun installateur disponible',
     noVersions: 'Aucune version disponible',
     loadFailed: 'Échec du chargement. Veuillez',
     goGithub: 'voir sur GitHub',
-    aliyunFromVersion: 'Les téléchargements Aliyun sont disponibles à partir de 0.1.1',
+    aliyunFromVersion: 'Les téléchargements CDN sont disponibles à partir de 0.1.1',
     guideLiteHint: 'Cette page est simplifiée dans cette langue. Voir le guide complet dans l’application.',
     advCrossTitle: 'Multi-plateforme',
     advCrossDesc: 'Prise en charge native de macOS et Windows, installation légère et rapide.',
@@ -619,8 +647,8 @@ const siteI18n = {
     navPrivacy: 'Datenschutz',
     language: 'Sprache',
     heroTagline: 'Plattformübergreifend · Lokal · Datenschutzorientiert',
-    heroMainlandPrefix: 'Wenn GitHub in Festlandchina langsam ist, nutzen Sie',
-    heroMainlandLink: 'diesen Link',
+    heroMainlandPrefix: 'Wenn der obige Download-Link in Festlandchina langsam ist, empfehlen wir',
+    heroMainlandLink: 'den CDN-Download',
     heroChipUpdating: 'Weitere folgen',
     mobileTip: 'Diese App ist nur für Desktop. Bitte am Computer herunterladen.',
     supportText: 'Unterstützt Apple Silicon Mac und Windows 10+. Linux wird derzeit nicht unterstützt.',
@@ -665,15 +693,15 @@ const siteI18n = {
     downloadSizeUnitMb: 'MB',
     latestVersion: 'Neueste Version',
     githubAddress: 'GitHub',
-    aliyunAddress: 'Aliyun',
+    aliyunAddress: 'CDN',
     historyVersions: 'Frühere Versionen',
     historySummary: 'Versionen, zum Aufklappen klicken',
-    historySourceAliyun: 'Aliyun',
+    historySourceAliyun: 'CDN',
     noPackages: 'Kein Installer verfügbar',
     noVersions: 'Keine Version verfügbar',
     loadFailed: 'Laden fehlgeschlagen. Bitte',
     goGithub: 'auf GitHub ansehen',
-    aliyunFromVersion: 'Aliyun Downloads sind ab Version 0.1.1 verfügbar',
+    aliyunFromVersion: 'CDN Downloads sind ab Version 0.1.1 verfügbar',
     guideLiteHint: 'Diese Seite ist in dieser Sprache vereinfacht. Vollständige Details finden Sie in der App.',
     advCrossTitle: 'Plattformübergreifend',
     advCrossDesc: 'Native Unterstützung für macOS und Windows, leicht und schnell startklar.',
@@ -703,8 +731,8 @@ const siteI18n = {
     navPrivacy: 'Privacidad',
     language: 'Idioma',
     heroTagline: 'Multiplataforma · Local · Enfoque en privacidad',
-    heroMainlandPrefix: 'Si GitHub va lento en China continental, usa',
-    heroMainlandLink: 'este enlace',
+    heroMainlandPrefix: 'Si el enlace de descarga anterior va lento en China continental, recomendamos',
+    heroMainlandLink: 'la descarga por CDN',
     heroChipUpdating: 'Más funciones en camino',
     mobileTip: 'Esta app es solo para escritorio. Descárgala en una computadora.',
     supportText: 'Compatible con Mac Apple Silicon y Windows 10+. Linux aún no está disponible.',
@@ -749,15 +777,15 @@ const siteI18n = {
     downloadSizeUnitMb: 'MB',
     latestVersion: 'Última versión',
     githubAddress: 'GitHub',
-    aliyunAddress: 'Aliyun',
+    aliyunAddress: 'CDN',
     historyVersions: 'Versiones anteriores',
     historySummary: 'versiones, haz clic para expandir',
-    historySourceAliyun: 'Aliyun',
+    historySourceAliyun: 'CDN',
     noPackages: 'No hay instalador disponible',
     noVersions: 'No hay versiones disponibles',
     loadFailed: 'Error al cargar. Por favor',
     goGithub: 'ver en GitHub',
-    aliyunFromVersion: 'Las descargas de Aliyun están disponibles desde la versión 0.1.1',
+    aliyunFromVersion: 'Las descargas de CDN están disponibles desde la versión 0.1.1',
     guideLiteHint: 'Esta página está simplificada en este idioma. Para más detalle, revisa la guía en la app.',
     advCrossTitle: 'Multiplataforma',
     advCrossDesc: 'Soporte nativo para macOS y Windows, instalador ligero y rápido.',
@@ -787,8 +815,8 @@ const siteI18n = {
     navPrivacy: 'Privacy',
     language: 'Lingua',
     heroTagline: 'Multipiattaforma · Locale · Attento alla privacy',
-    heroMainlandPrefix: 'Se GitHub è lento nella Cina continentale, usa',
-    heroMainlandLink: 'questo link',
+    heroMainlandPrefix: 'Se il link di download qui sopra è lento nella Cina continentale, consigliamo',
+    heroMainlandLink: 'il download tramite CDN',
     heroChipUpdating: 'Altre funzioni in arrivo',
     mobileTip: 'Questa app è solo desktop. Scaricala da un computer.',
     supportText: 'Supporta Mac Apple Silicon e Windows 10+. Linux non è ancora supportato.',
@@ -833,15 +861,15 @@ const siteI18n = {
     downloadSizeUnitMb: 'MB',
     latestVersion: 'Ultima versione',
     githubAddress: 'GitHub',
-    aliyunAddress: 'Aliyun',
+    aliyunAddress: 'CDN',
     historyVersions: 'Versioni precedenti',
     historySummary: 'versioni, clicca per espandere',
-    historySourceAliyun: 'Aliyun',
+    historySourceAliyun: 'CDN',
     noPackages: 'Nessun installer disponibile',
     noVersions: 'Nessuna versione disponibile',
     loadFailed: 'Caricamento non riuscito. Per favore',
     goGithub: 'apri GitHub',
-    aliyunFromVersion: 'I download Aliyun sono disponibili dalla versione 0.1.1',
+    aliyunFromVersion: 'I download CDN sono disponibili dalla versione 0.1.1',
     guideLiteHint: 'Questa pagina è semplificata in questa lingua. Per i dettagli completi usa la guida nell’app.',
     advCrossTitle: 'Multipiattaforma',
     advCrossDesc: 'Supporto nativo per macOS e Windows, leggero e pronto all’uso.',
@@ -871,8 +899,8 @@ const siteI18n = {
     navPrivacy: 'Конфиденциальность',
     language: 'Язык',
     heroTagline: 'Кроссплатформенно · Локально · С акцентом на приватность',
-    heroMainlandPrefix: 'Если GitHub медленный в материковом Китае, используйте',
-    heroMainlandLink: 'эту ссылку',
+    heroMainlandPrefix: 'Если ссылка для скачивания выше работает медленно в материковом Китае, рекомендуем',
+    heroMainlandLink: 'скачивание через CDN',
     heroChipUpdating: 'Скоро больше функций',
     mobileTip: 'Приложение только для ПК. Скачайте с компьютера.',
     supportText: 'Поддерживаются Mac на Apple Silicon и Windows 10+. Linux пока не поддерживается.',
@@ -917,15 +945,15 @@ const siteI18n = {
     downloadSizeUnitMb: 'MB',
     latestVersion: 'Последняя версия',
     githubAddress: 'GitHub',
-    aliyunAddress: 'Aliyun',
+    aliyunAddress: 'CDN',
     historyVersions: 'Предыдущие версии',
     historySummary: 'версий, нажмите для раскрытия',
-    historySourceAliyun: 'Aliyun',
+    historySourceAliyun: 'CDN',
     noPackages: 'Нет доступных установщиков',
     noVersions: 'Нет доступных версий',
     loadFailed: 'Не удалось загрузить. Пожалуйста,',
     goGithub: 'смотрите на GitHub',
-    aliyunFromVersion: 'Загрузки с Aliyun доступны начиная с версии 0.1.1',
+    aliyunFromVersion: 'Загрузки с CDN доступны начиная с версии 0.1.1',
     guideLiteHint: 'Эта страница в данном языке упрощена. Полные детали смотрите в приложении.',
     advCrossTitle: 'Кроссплатформенность',
     advCrossDesc: 'Нативная поддержка macOS и Windows, легкая установка и быстрый запуск.',
@@ -2222,13 +2250,13 @@ function isFullGuideLocale() {
 function renderMainlandDownloadCard() {
   const mainlandAssets = [
     {
-      name: `YouranToolbox_${appVersion}_aarch64.dmg`,
+      name: buildInstallerFileName(appVersion, 'aarch64.dmg'),
       platform: 'macOS',
       desc: 'Apple Silicon',
       icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="shrink-0" style="color: var(--color-fg)"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>',
     },
     {
-      name: `YouranToolbox_${appVersion}_x64-setup.exe`,
+      name: buildInstallerFileName(appVersion, 'x64-setup.exe'),
       platform: 'Windows',
       desc: 'x64',
       icon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="shrink-0" style="color: var(--color-fg)"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>',
@@ -2237,8 +2265,8 @@ function renderMainlandDownloadCard() {
 
   return `<div class="mb-6 rounded-2xl border overflow-hidden" style="background-color: var(--color-surface); border-color: var(--color-border);">
     <div class="flex items-center gap-3 px-6 py-4 border-b" style="border-color: var(--color-border);">
-      <h3 class="text-lg font-bold">阿里云 下载</h3>
-      <span class="rounded-full bg-indigo-500/15 px-2.5 py-0.5 text-xs font-semibold text-indigo-300">OSS</span>
+      <h3 class="text-lg font-bold">CDN 下载</h3>
+      <span class="rounded-full bg-indigo-500/15 px-2.5 py-0.5 text-xs font-semibold text-indigo-300">CDN</span>
       <span class="ml-auto text-xs" style="color: var(--color-muted)">版本 ${appVersion}</span>
     </div>
     <div class="px-6 py-4">
@@ -2248,7 +2276,7 @@ function renderMainlandDownloadCard() {
             ${asset.icon}
             <div>
               <div class="text-sm font-semibold">${asset.name}</div>
-              <div class="text-xs" style="color: var(--color-muted)">${asset.platform} · ${asset.desc} · 阿里云</div>
+              <div class="text-xs" style="color: var(--color-muted)">${asset.platform} · ${asset.desc} · CDN</div>
             </div>
           </a>
         `).join('')}
@@ -3322,20 +3350,20 @@ function setupSmartDownload() {
   mainlandLink.removeAttribute('rel');
 
   if (os === 'mac') {
-    heroBtn.href = buildGithubLatestDownloadUrl(`Youran.Toolbox_${appVersion}_aarch64.dmg`);
-    mainlandLink.href = buildOssDownloadUrl(`YouranToolbox_${appVersion}_aarch64.dmg`);
+    heroBtn.href = buildGithubLatestDownloadUrl(buildInstallerFileName(appVersion, 'aarch64.dmg'));
+    mainlandLink.href = buildOssDownloadUrl(buildInstallerFileName(appVersion, 'aarch64.dmg'));
     heroBtn.innerHTML = `${svgIcon} ${t('downloadMac')}`;
     macBrewTip.classList.remove('hidden');
   } else if (os === 'windows') {
-    heroBtn.href = buildGithubLatestDownloadUrl(`Youran.Toolbox_${appVersion}_x64-setup.exe`);
-    mainlandLink.href = buildOssDownloadUrl(`YouranToolbox_${appVersion}_x64-setup.exe`);
+    heroBtn.href = buildGithubLatestDownloadUrl(buildInstallerFileName(appVersion, 'x64-setup.exe'));
+    mainlandLink.href = buildOssDownloadUrl(buildInstallerFileName(appVersion, 'x64-setup.exe'));
     heroBtn.innerHTML = `${svgIcon} ${t('downloadWindows')}`;
     macBrewTip.classList.add('hidden');
   } else {
     heroBtn.href = 'https://github.com/dufu1991/youran-toolbox/releases/latest';
     heroBtn.setAttribute('target', '_blank');
     heroBtn.setAttribute('rel', 'noopener noreferrer');
-    mainlandLink.href = buildOssDownloadUrl(`YouranToolbox_${appVersion}_aarch64.dmg`);
+    mainlandLink.href = buildOssDownloadUrl(buildInstallerFileName(appVersion, 'aarch64.dmg'));
     mainlandLink.setAttribute('target', '_blank');
     mainlandLink.setAttribute('rel', 'noopener noreferrer');
     heroBtn.innerHTML = `${svgIcon} ${t('downloadGithub')}`;
@@ -3380,6 +3408,26 @@ async function loadDownloads() {
     </a>
   `;
 
+  const renderCdnDetails = ({ linksHtml, emptyText, className = '', summaryText = t('cdnFallbackSummary') }) => `
+    <details class="download-history ${className} rounded-xl border overflow-hidden" style="background-color: color-mix(in srgb, var(--color-surface) 94%, transparent); border-color: color-mix(in srgb, var(--color-border) 78%, transparent);">
+      <summary class="faq-summary flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 text-sm font-semibold" style="color: var(--color-fg);">
+        <div class="min-w-0">
+          <div class="text-sm font-semibold">${t('cdnFallbackTitle')}</div>
+          ${summaryText ? `<div class="mt-0.5 text-xs font-normal" style="color: var(--color-muted)">${summaryText}</div>` : ''}
+        </div>
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="faq-chevron lucide lucide-chevron-right-icon lucide-chevron-right shrink-0"><path d="m9 18 6-6-6-6"/></svg>
+      </summary>
+      <div class="faq-content border-t" style="border-color: color-mix(in srgb, var(--color-border) 72%, transparent);">
+        <div class="faq-content-inner px-4 py-4">
+          <p class="mb-3 text-xs" style="color: var(--color-muted)">${t('cdnFallbackDesc')}</p>
+          <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            ${linksHtml || `<p class="text-sm" style="color: var(--color-muted)">${emptyText}</p>`}
+          </div>
+        </div>
+      </div>
+    </details>
+  `;
+
   try {
     const res = await fetch('https://api.github.com/repos/dufu1991/youran-toolbox/releases?per_page=10');
     const releases = await res.json();
@@ -3411,13 +3459,13 @@ async function loadDownloads() {
     ].join('');
     const latestOssAssets = [
       ...latestMacAssets.map(a => renderAssetCard({
-        href: buildOssDownloadUrl(`YouranToolbox_${latestVersion}_aarch64.dmg`),
+        href: buildOssDownloadUrl(a.name),
         title: t('downloadMacShort'),
         meta: `${t('downloadArchAppleSilicon')} · ${formatAssetSize(a.size)}`,
         osIcon: macIcon,
       })),
       ...latestWinAssets.map(a => renderAssetCard({
-        href: buildOssDownloadUrl(`YouranToolbox_${latestVersion}_x64-setup.exe`),
+        href: buildOssDownloadUrl(a.name),
         title: t('downloadWindowsShort'),
         meta: `${t('downloadArchX64')} · ${formatAssetSize(a.size)}`,
         osIcon: winIcon,
@@ -3442,22 +3490,7 @@ async function loadDownloads() {
             const macAsset = releaseAssets.find(a => a.name.endsWith('.dmg'));
             const windowsAsset = releaseAssets.find(a => a.name.endsWith('.exe') || a.name.endsWith('.msi'));
             const version = normalizeTagVersion(release.tag_name || release.name || '');
-            const showAliyunForVersion = isVersionGte(version, '0.1.1');
-            const versionedOssLinks = [
-              macAsset ? {
-                href: buildVersionedOssDownloadUrl(version, `YouranToolbox_${version}_aarch64.dmg`),
-                label: `${t('downloadMacShort')} · ${formatAssetSize(macAsset.size)}`,
-              } : null,
-              windowsAsset ? {
-                href: buildVersionedOssDownloadUrl(version, `YouranToolbox_${version}_x64-setup.exe`),
-                label: `${t('downloadWindowsShort')} · ${formatAssetSize(windowsAsset.size)}`,
-              } : null,
-            ].filter(Boolean);
-
-            const historyLinks = [
-              ...releaseAssets.map(a => ({ href: a.browser_download_url, label: getAssetLabel(a), source: t('historySourceGithub') })),
-              ...(showAliyunForVersion ? versionedOssLinks.map(link => ({ ...link, source: t('historySourceAliyun') })) : []),
-            ];
+            const githubHistoryLinks = releaseAssets.map(a => ({ href: a.browser_download_url, label: getAssetLabel(a), source: t('historySourceGithub') }));
 
             return `<div class="border-b py-3 last:border-b-0" style="border-color: var(--color-border);">
               <div class="mb-2 flex items-center gap-2">
@@ -3465,7 +3498,7 @@ async function loadDownloads() {
                 <span class="text-xs" style="color: var(--color-muted)">${date}</span>
               </div>
               <div class="flex flex-wrap gap-2">
-                ${historyLinks.length ? historyLinks.map(link => renderHistoryLink(link.href, link.label, link.source)).join('') : `<span class="text-xs" style="color: var(--color-muted)">${t('noPackages')}</span>`}
+              ${githubHistoryLinks.length ? githubHistoryLinks.map(link => renderHistoryLink(link.href, link.label, link.source)).join('') : `<span class="text-xs" style="color: var(--color-muted)">${t('noPackages')}</span>`}
               </div>
             </div>`;
           }).join('')}
@@ -3483,17 +3516,20 @@ async function loadDownloads() {
         </div>
         <div class="px-6 py-4">
           <div class="mb-4">
-            <div class="mb-2 text-xs font-semibold" style="color: var(--color-muted)">${t('githubAddress')}</div>
+            <div class="mb-2 flex items-center gap-2 text-xs font-semibold" style="color: var(--color-muted)">
+              <span>${t('githubAddress')}</span>
+              <span class="rounded-full px-2 py-0.5 text-[11px]" style="background-color: color-mix(in srgb, var(--color-syn-green) 16%, transparent); color: var(--color-syn-green);">${t('downloadRecommended')}</span>
+            </div>
+            <p class="mb-3 text-xs" style="color: var(--color-muted)">${t('downloadsPrimaryHint')}</p>
             <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
               ${latestGithubAssets || `<p class="text-sm" style="color: var(--color-muted)">${t('noPackages')}</p>`}
             </div>
           </div>
-          <div>
-            <div class="mb-2 text-xs font-semibold" style="color: var(--color-muted)">${t('aliyunAddress')}</div>
-            <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              ${showLatestAliyun ? (latestOssAssets || `<p class="text-sm" style="color: var(--color-muted)">${t('noPackages')}</p>`) : `<p class="text-sm" style="color: var(--color-muted)">${t('aliyunFromVersion')}</p>`}
-            </div>
-          </div>
+          ${showLatestAliyun ? renderCdnDetails({
+            linksHtml: latestOssAssets,
+            emptyText: t('noPackages'),
+            className: 'download-cdn-latest',
+          }) : `<p class="text-sm" style="color: var(--color-muted)">${t('aliyunFromVersion')}</p>`}
         </div>
       </div>
       ${olderReleasesHtml}
