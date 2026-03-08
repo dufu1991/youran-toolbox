@@ -2784,7 +2784,6 @@ function applySiteLanguage() {
   setText('m-nav-support', t('navSupport'));
 
   setText('hero-title-text', appTexts.title || 'YouranToolbox');
-  setText('brand-title', appTexts.title || 'YouranToolbox');
   setText('hero-subtitle-text', t('heroTagline'));
   setText('hero-mainland-tip-prefix', t('heroMainlandPrefix'));
   setText('hero-mainland-link-text', t('heroMainlandLink'));
