@@ -4,11 +4,11 @@
 	},
 	"app": {
 		"title": "YouranToolbox",
-		"subtitle": "Desktop-Werkzeuge zur Steigerung der täglichen Produktivität",
-		"moreFeatures": "Weitere Funktionen folgen...",
+		"subtitle": "Desktop-Tools für mehr Effizienz im Alltag",
+		"moreFeatures": "Weitere Tools folgen bald",
 		"website": "Website",
 		"guide": "Anleitung",
-		"changelog": "Änderungen"
+		"changelog": "Versionshinweise"
 	},
 	"nav": {
 		"backHome": "Zurück"
@@ -16,31 +16,31 @@
 	"features": {
 		"classifyBatch": {
 			"title": "Klassifizieren",
-			"desc": "Excel-Daten nach Spalte klassifizieren"
+			"desc": "Excel-Daten anhand einer Spalte in Kategorien aufteilen"
 		},
 		"rename": {
-			"title": "Stapel-Umbenennung",
-			"desc": "Dateien mit Index, Datum, Text umbenennen"
+			"title": "Batch-Umbenennung",
+			"desc": "Dateien per Index, Datum und Freitext stapelweise umbenennen"
 		},
 		"imageCompress": {
-			"title": "Bildkomprimierung/-konvertierung",
-			"desc": "Bilder komprimieren oder konvertieren, JPEG, PNG, WebP"
+			"title": "Bilder komprimieren / konvertieren",
+			"desc": "Bilder im Stapel komprimieren oder konvertieren, mit JPEG-, PNG- und WebP-Unterstützung"
 		},
 		"pdf": {
-			"title": "PDF-Werkzeuge",
+			"title": "PDF-Tools",
 			"desc": "PDF-Dateien zusammenführen und aufteilen"
 		},
 		"qrcode": {
 			"title": "QR-Code",
-			"desc": "QR-Codes generieren und scannen"
+			"desc": "QR-Codes erstellen und scannen"
 		},
 		"textDiff": {
 			"title": "Textvergleich",
-			"desc": "Unterschiede zwischen zwei Texten vergleichen"
+			"desc": "Unterschiede zwischen zwei Texten direkt vergleichen"
 		},
 		"heatmap": {
 			"title": "Daten-Heatmap",
-			"desc": "Excel-Daten einfügen und Heatmap automatisch generieren"
+			"desc": "Excel-Daten einfügen und automatisch eine Heatmap erzeugen"
 		}
 	},
 	"classify": {
@@ -545,6 +545,24 @@
 		"color_fuchsia": "Fuchsie",
 		"color_violet": "Violett",
 		"windowSize": "Fenster merken",
-		"windowSizeHint": "Fenstergröße und -position automatisch speichern und beim nächsten Start wiederherstellen"
+		"windowSizeHint": "Fenstergröße und -position automatisch speichern und beim nächsten Start wiederherstellen",
+		"updates": "Softwareaktualisierungen",
+		"updatesDesc": "Prüft die neueste Version auf GitHub Releases und öffnet bei einer neuen Version die offizielle Website zum Download.",
+		"autoCheckUpdates": "Updates automatisch prüfen",
+		"autoCheckUpdatesHint": "Beim Start der App nach der neuesten Version suchen",
+		"checkUpdates": "Nach Updates suchen",
+		"checkingUpdates": "Wird geprüft...",
+		"currentVersion": "Aktuelle Version",
+		"latestVersionLabel": "Neueste Version",
+		"latestVersionUnknown": "Noch nicht geprüft",
+		"updateAvailable": "Neue Version verfügbar",
+		"updateUnavailable": "Bereits auf dem neuesten Stand",
+		"updateDialogTitle": "Neue Version verfügbar",
+		"updateDialogMessage": "Aktuelle Version: {current}\nNeueste Version: {latest}\n\nOffizielle Website zum Anzeigen und Herunterladen öffnen?",
+		"openWebsite": "Website öffnen",
+		"notNow": "Später",
+		"noUpdateMessage": "Du verwendest bereits die neueste Version.\nAktuelle Version: {current}",
+		"updateCheckFailedTitle": "Update-Prüfung fehlgeschlagen",
+		"updateCheckFailed": "Updates konnten momentan nicht geprüft werden. Bitte versuche es später erneut."
 	}
 }

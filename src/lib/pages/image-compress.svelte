@@ -6,6 +6,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import { HintIcon } from '$lib/components/ui/hint-icon';
+	import { Slider } from '$lib/components/ui/slider';
 	import { Switch } from '$lib/components/ui/switch';
 	import { toast } from '$lib/components/ui/toast';
 	import { Tab } from '$lib/components/ui/tab';
@@ -704,12 +705,11 @@
 											{$_('imageCompress.quality')} <HintIcon text={$_('imageCompress.qualityHint')} />
 										</p>
 										<div class="flex items-center gap-3">
-											<input
-												type="range"
-												min="0.1"
-												max="1"
-												step="0.1"
+											<Slider
 												bind:value={globalQuality}
+												min={0.1}
+												max={1}
+												step={0.1}
 												onchange={applyGlobalSettings}
 												class="w-48"
 												disabled={processing}
@@ -876,13 +876,12 @@
 											<div>
 												<p class="text-xs font-medium text-slate-600 dark:text-slate-400 mb-2">{$_('imageCompress.quality')}</p>
 												<div class="flex items-center gap-3">
-													<input
-														type="range"
-														min="0.1"
-														max="1"
-														step="0.1"
+													<Slider
 														value={img.settings.quality}
-														onchange={(e) => updateImageSettings(img.id, 'quality', parseFloat((e.target as HTMLInputElement).value))}
+														min={0.1}
+														max={1}
+														step={0.1}
+														onchange={(nextQuality) => updateImageSettings(img.id, 'quality', nextQuality)}
 														class="w-32"
 														disabled={processing}
 													/>

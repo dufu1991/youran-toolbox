@@ -9,7 +9,11 @@
 	import { LocaleSwitcher } from '$lib/components/ui/locale-switcher';
 	import { Titlebar } from '$lib/components/ui/titlebar';
 	import { Switch } from '$lib/components/ui/switch';
+	import { Slider } from '$lib/components/ui/slider';
 	import { HintIcon } from '$lib/components/ui/hint-icon';
+	import * as Popover from '$lib/components/ui/popover';
+	import * as AlertDialog from '$lib/components/ui/alert-dialog';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 
 	import {
 		appSettings,
@@ -18,9 +22,13 @@
 		theme
 	} from '$lib/stores/settings.svelte';
 	import { getCurrentWindow } from '@tauri-apps/api/window';
-	import { getVersion } from '@tauri-apps/api/app';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import {
+		ensureCurrentVersionLoaded,
+		handleUpdateCheck,
+		updateInfo
+	} from '$lib/services/update';
 	import {
 		Layers,
 		FileText,
@@ -46,15 +54,17 @@
 
 	let isMacOS = $state(false);
 	let appVersion = $state('v --');
+	let updateState = $derived($updateInfo);
 
 	onMount(() => {
 		theme.init();
 		applyPrimaryColor(appSettings.current.primaryColor);
 		isMacOS = navigator.platform.toUpperCase().includes('MAC');
-		if ('__TAURI_INTERNALS__' in window) {
-			getVersion().then((version) => {
-				appVersion = `v ${version}`;
-			});
+		void ensureCurrentVersionLoaded().then((version) => {
+			appVersion = `v ${version}`;
+		});
+		if (appSettings.current.autoCheckUpdates) {
+			void handleUpdateCheck({ silentError: true });
 		}
 
 		// 窗口尺寸和位置由 Rust 端在显示前恢复，前端只负责监听变化并保存
@@ -116,16 +126,15 @@
 		document.body.style.background = 'transparent';
 	});
 
+	$effect(() => {
+		if (updateState.currentVersion) {
+			appVersion = `v ${updateState.currentVersion}`;
+		}
+	});
+
 	// 设置面板
 	let showSettings = $state(false);
 	let showResetConfirm = $state(false);
-
-	function toggleSettings() {
-		showSettings = !showSettings;
-		if (!showSettings) {
-			showResetConfirm = false;
-		}
-	}
 
 	async function toggleWindowRemember() {
 		const newMode = settings.windowSizeMode === 'remember' ? 'default' : 'remember';
@@ -146,33 +155,14 @@
 		}
 	}
 
-	function handleSettingsClickOutside(event: MouseEvent) {
-		const target = event.target as HTMLElement;
-		if (!target.closest('.settings-panel-wrapper')) {
-			showSettings = false;
-			showResetConfirm = false;
-		}
-	}
-
 	function handleResetSettings() {
 		showResetConfirm = true;
-	}
-
-	function cancelResetSettings() {
-		showResetConfirm = false;
 	}
 
 	function confirmResetSettings() {
 		appSettings.reset();
 		showResetConfirm = false;
 	}
-
-	$effect(() => {
-		if (showSettings) {
-			document.addEventListener('click', handleSettingsClickOutside);
-			return () => document.removeEventListener('click', handleSettingsClickOutside);
-		}
-	});
 
 	const features = [
 		{
@@ -345,62 +335,76 @@
 
 				<!-- 底部控件 -->
 				<div class="px-2 py-2.5 border-t border-border/30 flex items-center gap-0.5">
-				<div class="settings-panel-wrapper relative">
-					<Button variant="ghost" size="icon" class="w-8 h-8" onclick={toggleSettings} title={$_('settings.title')}>
+				<Popover.Root
+					open={showSettings}
+					onOpenChange={(open) => {
+						showSettings = open;
+						if (!open) showResetConfirm = false;
+					}}
+				>
+					<Popover.Trigger
+						class="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+						title={$_('settings.title')}
+						aria-label={$_('settings.title')}
+					>
 						<Settings class="w-4 h-4" />
-					</Button>
-
-					{#if showSettings}
-						<div
-							class="absolute bottom-full left-0 mb-2 w-64 bg-card border border-border rounded-xl shadow-xl z-50 overflow-hidden"
+					</Popover.Trigger>
+					<Popover.Portal>
+						<Popover.Content
+							side="top"
+							align="start"
+							sideOffset={8}
+							class="z-50 w-64 overflow-hidden rounded-xl border border-border bg-card shadow-xl outline-none"
 							data-tooltip-boundary
 						>
 							<div class="max-h-[70vh] overflow-y-auto p-4 space-y-4">
-								<!-- 主题色 -->
 								<div>
-									<p class="text-sm font-medium text-foreground mb-2">{$_('settings.primaryColor')}</p>
-									<div class="grid grid-cols-8 gap-2">
+									<p class="mb-2 text-sm font-medium text-foreground">{$_('settings.primaryColor')}</p>
+									<ToggleGroup.Root
+										type="single"
+										value={settings.primaryColor}
+										onValueChange={(nextColor) => appSettings.update({ primaryColor: nextColor })}
+										class="grid grid-cols-8 gap-2"
+									>
 										{#each colorOptions as opt}
-											<button
-												class="w-5 h-5 rounded-full border-2 transition-all hover:scale-110 {settings.primaryColor === opt.value
-													? 'border-foreground scale-110 shadow-md'
-													: 'border-transparent'}"
-												style="background-color: {opt.preview}"
-												onclick={() => appSettings.update({ primaryColor: opt.value })}
+											<ToggleGroup.Item
+												value={opt.value}
+												aria-label={$_(`settings.color_${opt.value}`)}
 												title={$_(`settings.color_${opt.value}`)}
-											></button>
+												class="h-5 w-5 rounded-full border-2 transition-all hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 data-[state=on]:scale-110 data-[state=on]:border-foreground data-[state=on]:shadow-md data-[state=off]:border-transparent"
+												style="background-color: {opt.preview}"
+											></ToggleGroup.Item>
 										{/each}
-									</div>
+									</ToggleGroup.Root>
 								</div>
 
-								<!-- 视觉效果 -->
 								<div class="space-y-3">
 									<p class="text-sm font-medium text-foreground">{$_('settings.visualEffects')}</p>
 
-									<!-- 背景透明度 -->
 									<div class="space-y-1.5">
 										<div class="flex items-center justify-between">
 											<span class="text-xs text-muted-foreground">{$_('settings.opacity')}</span>
 											<span class="text-[10px] text-muted-foreground">{settings.opacity}%</span>
 										</div>
-										<input
-											type="range"
-											min="50"
-											max="100"
-											step="1"
+										<Slider
 											value={settings.opacity}
-											oninput={(e) => appSettings.update({ opacity: Number(e.currentTarget.value) })}
-											class="w-full h-1.5 bg-muted rounded-full appearance-none cursor-pointer accent-primary [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3.5 [&::-webkit-slider-thumb]:h-3.5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary [&::-webkit-slider-thumb]:shadow"
+											min={50}
+											max={100}
+											step={1}
+											onchange={(nextOpacity) => appSettings.update({ opacity: nextOpacity })}
 										/>
 									</div>
 
-									<!-- 内容区全宽 -->
 									<div class="flex items-center justify-between">
 										<span class="text-xs text-muted-foreground">{$_('settings.contentFullWidth')}</span>
-										<Switch size="sm" checked={settings.contentFullWidth} onchange={() => appSettings.update({ contentFullWidth: !settings.contentFullWidth })} />
+										<Switch
+											size="sm"
+											checked={settings.contentFullWidth}
+											ariaLabel={$_('settings.contentFullWidth')}
+											onchange={() => appSettings.update({ contentFullWidth: !settings.contentFullWidth })}
+										/>
 									</div>
 
-									<!-- 记住窗口 -->
 									<div class="flex items-start justify-between gap-2">
 										<span class="inline-flex min-w-0 items-start gap-1 text-xs text-muted-foreground">
 											<span class="leading-4 break-words">{$_('settings.windowSize')}</span>
@@ -411,11 +415,50 @@
 												tooltipMaxWidth="260px"
 											/>
 										</span>
-										<Switch size="sm" checked={settings.windowSizeMode === 'remember'} onchange={toggleWindowRemember} />
+										<Switch
+											size="sm"
+											checked={settings.windowSizeMode === 'remember'}
+											ariaLabel={$_('settings.windowSize')}
+											onchange={toggleWindowRemember}
+										/>
 									</div>
 								</div>
 
-								<div class="pt-2 border-t border-border/40 flex items-center justify-between">
+								<div class="space-y-3 border-t border-border/40 pt-3">
+									<p class="text-sm font-medium text-foreground">{$_('settings.updates')}</p>
+
+									<div class="flex items-start justify-between gap-2">
+										<div class="inline-flex min-w-0 items-center gap-1.5 text-xs text-muted-foreground">
+											<span class="leading-4 break-words">{$_('settings.autoCheckUpdates')}</span>
+											<HintIcon
+												text={$_('settings.autoCheckUpdatesHint')}
+												position="top"
+												tooltipMinWidth="160px"
+												tooltipMaxWidth="260px"
+											/>
+										</div>
+										<Switch
+											size="sm"
+											checked={settings.autoCheckUpdates}
+											ariaLabel={$_('settings.autoCheckUpdates')}
+											onchange={() =>
+												appSettings.update({ autoCheckUpdates: !settings.autoCheckUpdates })}
+										/>
+									</div>
+
+									<Button
+										variant="outline"
+										class="w-full"
+										onclick={() => handleUpdateCheck({ showNoUpdateMessage: true })}
+										disabled={updateState.checking}
+									>
+										{updateState.checking
+											? $_('settings.checkingUpdates')
+											: $_('settings.checkUpdates')}
+									</Button>
+								</div>
+
+								<div class="flex items-center justify-between border-t border-border/40 pt-2">
 									<button
 										class="inline-flex h-7 w-7 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent/60 hover:text-foreground"
 										onclick={handleResetSettings}
@@ -427,33 +470,41 @@
 									<p class="text-[11px] text-muted-foreground">{appVersion}</p>
 								</div>
 							</div>
-
-								{#if showResetConfirm}
-									<div class="absolute inset-0 z-10 bg-background/75 backdrop-blur-sm p-3">
-										<div class="flex h-full items-center">
-											<div class="w-full rounded-lg border border-border bg-card p-3">
-												<div class="space-y-2">
-													<p class="text-sm font-medium text-foreground">{$_('settings.reset')}</p>
-													<p class="text-xs leading-5 text-muted-foreground">{$_('settings.resetConfirm')}</p>
-												</div>
-												<div class="flex items-center justify-end gap-2 pt-3">
-													<Button variant="outline" size="sm" onclick={cancelResetSettings}>
-														{$_('rename.cancel')}
-													</Button>
-													<Button variant="default" size="sm" onclick={confirmResetSettings}>
-														{$_('rename.confirm')}
-													</Button>
-												</div>
-											</div>
-										</div>
-									</div>
-								{/if}
-						</div>
-					{/if}
-				</div>
+						</Popover.Content>
+					</Popover.Portal>
+				</Popover.Root>
 				<LocaleSwitcher title={$_('settings.language')} />
 				<ThemeToggle mode={theme.mode} onToggle={theme.toggle} title={$_('settings.themeMode')} />
 			</div>
+
+			<AlertDialog.Root open={showResetConfirm} onOpenChange={(open) => (showResetConfirm = open)}>
+				<AlertDialog.Portal>
+					<AlertDialog.Overlay class="fixed inset-0 z-40 bg-background/75 backdrop-blur-sm" />
+					<AlertDialog.Content
+						class="fixed left-1/2 top-1/2 z-50 w-[calc(100%-2rem)] max-w-sm -translate-x-1/2 -translate-y-1/2 rounded-xl border border-border bg-card p-4 shadow-xl outline-none"
+					>
+						<div class="space-y-2">
+							<AlertDialog.Title class="text-sm font-medium text-foreground">
+								{$_('settings.reset')}
+							</AlertDialog.Title>
+							<AlertDialog.Description class="text-xs leading-5 text-muted-foreground">
+								{$_('settings.resetConfirm')}
+							</AlertDialog.Description>
+						</div>
+						<div class="flex items-center justify-end gap-2 pt-4">
+							<AlertDialog.Cancel class="inline-flex h-8 items-center justify-center rounded-md border border-input bg-transparent px-3 text-xs font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
+								{$_('rename.cancel')}
+							</AlertDialog.Cancel>
+							<AlertDialog.Action
+								class="inline-flex h-8 items-center justify-center rounded-md bg-primary px-3 text-xs font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+								onclick={confirmResetSettings}
+							>
+								{$_('rename.confirm')}
+							</AlertDialog.Action>
+						</div>
+					</AlertDialog.Content>
+				</AlertDialog.Portal>
+			</AlertDialog.Root>
 			</aside>
 		</div>
 

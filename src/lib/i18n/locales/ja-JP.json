@@ -4,10 +4,10 @@
 	},
 	"app": {
 		"title": "悠然ツールボックス",
-		"subtitle": "日常業務の効率を高めるデスクトップツール",
-		"moreFeatures": "機能追加中...",
+		"subtitle": "日々の作業を効率化するデスクトップツール",
+		"moreFeatures": "今後さらに追加予定",
 		"website": "公式サイト",
-		"guide": "ガイド",
+		"guide": "使い方",
 		"changelog": "更新履歴"
 	},
 	"nav": {
@@ -16,27 +16,27 @@
 	"features": {
 		"classifyBatch": {
 			"title": "一括分類",
-			"desc": "Excel データを列で分類"
+			"desc": "Excel データを指定した列で分類"
 		},
 		"rename": {
 			"title": "一括リネーム",
-			"desc": "連番、日付、カスタムテキストでファイル名を変更"
+			"desc": "連番、日付、任意の文字列でファイル名を一括変更"
 		},
 		"imageCompress": {
-			"title": "画像圧縮/変換",
-			"desc": "画像の一括圧縮・変換、JPEG、PNG、WebP に対応"
+			"title": "画像の圧縮 / 変換",
+			"desc": "画像をまとめて圧縮・変換。JPEG、PNG、WebP に対応"
 		},
 		"pdf": {
 			"title": "PDF ツール",
-			"desc": "PDF の結合・分割"
+			"desc": "PDF の結合や分割"
 		},
 		"qrcode": {
 			"title": "QR コード",
-			"desc": "QR コードの生成・読取り"
+			"desc": "QR コードの作成と読み取り"
 		},
 		"textDiff": {
-			"title": "テキスト比較",
-			"desc": "2 つのテキストの差分を比較"
+			"title": "テキスト差分",
+			"desc": "2 つのテキストの違いを比較"
 		},
 		"heatmap": {
 			"title": "データヒートマップ",
@@ -545,6 +545,24 @@
 		"color_fuchsia": "フクシア",
 		"color_violet": "バイオレット",
 		"windowSize": "ウィンドウを記憶",
-		"windowSizeHint": "ウィンドウのサイズと位置を自動で保存し、次回起動時に復元します"
+		"windowSizeHint": "ウィンドウのサイズと位置を自動で保存し、次回起動時に復元します",
+		"updates": "ソフトウェア更新",
+		"updatesDesc": "GitHub Releases の最新バージョンを確認し、新しいバージョンがある場合は公式サイトを開いてダウンロードできます。",
+		"autoCheckUpdates": "起動時に自動で更新を確認",
+		"autoCheckUpdatesHint": "アプリ起動時に最新バージョンを確認",
+		"checkUpdates": "更新を確認",
+		"checkingUpdates": "確認中...",
+		"currentVersion": "現在のバージョン",
+		"latestVersionLabel": "最新バージョン",
+		"latestVersionUnknown": "未確認",
+		"updateAvailable": "新しいバージョンがあります",
+		"updateUnavailable": "最新の状態です",
+		"updateDialogTitle": "新しいバージョンがあります",
+		"updateDialogMessage": "現在のバージョン: {current}\n最新バージョン: {latest}\n\n公式サイトを開いて確認し、ダウンロードしますか？",
+		"openWebsite": "公式サイトを開く",
+		"notNow": "今はしない",
+		"noUpdateMessage": "すでに最新バージョンを使用しています。\n現在のバージョン: {current}",
+		"updateCheckFailedTitle": "更新の確認に失敗しました",
+		"updateCheckFailed": "現在、更新を確認できません。しばらくしてからもう一度お試しください。"
 	}
 }

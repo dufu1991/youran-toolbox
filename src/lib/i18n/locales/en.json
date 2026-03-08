@@ -560,6 +560,24 @@
 		"color_fuchsia": "Fuchsia",
 		"color_violet": "Violet",
 		"windowSize": "Remember Window",
-		"windowSizeHint": "Automatically save the window size and position, and restore them on next launch"
+		"windowSizeHint": "Automatically save the window size and position, and restore them on next launch",
+		"updates": "Software Updates",
+		"updatesDesc": "Check the latest GitHub Releases version and open the official website when a new version is available",
+		"autoCheckUpdates": "Auto Check Updates",
+		"autoCheckUpdatesHint": "Check the latest version when the app starts",
+		"checkUpdates": "Check for Updates",
+		"checkingUpdates": "Checking...",
+		"currentVersion": "Current Version",
+		"latestVersionLabel": "Latest Version",
+		"latestVersionUnknown": "Not checked yet",
+		"updateAvailable": "New Version Available",
+		"updateUnavailable": "Already Up to Date",
+		"updateDialogTitle": "New Version Available",
+		"updateDialogMessage": "Current version: {current}\nLatest version: {latest}\n\nOpen the official website to view and download it?",
+		"openWebsite": "Open Website",
+		"notNow": "Not Now",
+		"noUpdateMessage": "You are already using the latest version.\nCurrent version: {current}",
+		"updateCheckFailedTitle": "Update Check Failed",
+		"updateCheckFailed": "Unable to check for updates right now. Please try again later."
 	}
 }

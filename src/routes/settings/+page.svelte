@@ -4,9 +4,14 @@
 	import * as Card from '$lib/components/ui/card';
 	import { RotateCcw } from 'lucide-svelte';
 	import { Switch } from '$lib/components/ui/switch';
+	import { Slider } from '$lib/components/ui/slider';
+	import { HintIcon } from '$lib/components/ui/hint-icon';
+	import * as ToggleGroup from '$lib/components/ui/toggle-group';
 	import { appSettings, colorOptions } from '$lib/stores/settings.svelte';
+	import { handleUpdateCheck, updateInfo } from '$lib/services/update';
 
 	let settings = $derived(appSettings.current);
+	let updateState = $derived($updateInfo);
 </script>
 
 <div class="px-6 py-8 max-w-3xl mx-auto">
@@ -22,19 +27,22 @@
 				<Card.Description>{$_('settings.primaryColorDesc')}</Card.Description>
 			</Card.Header>
 			<Card.Content>
-				<div class="flex gap-3 flex-wrap">
+				<ToggleGroup.Root
+					type="single"
+					value={settings.primaryColor}
+					onValueChange={(nextColor) => appSettings.update({ primaryColor: nextColor })}
+					class="flex flex-wrap gap-3"
+				>
 					{#each colorOptions as opt}
-						<button
-							class="w-10 h-10 rounded-full border-2 transition-all hover:scale-110 {settings.primaryColor ===
-							opt.value
-								? 'border-foreground scale-110 shadow-md'
-								: 'border-transparent'}"
-							style="background-color: {opt.preview}"
-							onclick={() => appSettings.update({ primaryColor: opt.value })}
+						<ToggleGroup.Item
+							value={opt.value}
+							aria-label={$_(`settings.color_${opt.value}`)}
 							title={$_(`settings.color_${opt.value}`)}
-						></button>
+							class="h-10 w-10 rounded-full border-2 transition-all hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 data-[state=on]:scale-110 data-[state=on]:border-foreground data-[state=on]:shadow-md data-[state=off]:border-transparent"
+							style="background-color: {opt.preview}"
+						></ToggleGroup.Item>
 					{/each}
-				</div>
+				</ToggleGroup.Root>
 			</Card.Content>
 		</Card.Root>
 
@@ -56,14 +64,12 @@
 						</div>
 						<span class="text-xs text-muted-foreground">{settings.opacity}%</span>
 					</div>
-					<input
-						type="range"
-						min="50"
-						max="100"
-						step="1"
+					<Slider
 						value={settings.opacity}
-						oninput={(e) => appSettings.update({ opacity: Number(e.currentTarget.value) })}
-						class="w-full h-1.5 bg-muted rounded-full appearance-none cursor-pointer accent-primary [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3.5 [&::-webkit-slider-thumb]:h-3.5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary [&::-webkit-slider-thumb]:shadow"
+						min={50}
+						max={100}
+						step={1}
+						onchange={(nextOpacity) => appSettings.update({ opacity: nextOpacity })}
 					/>
 				</div>
 
@@ -76,6 +82,49 @@
 						</p>
 					</div>
 					<Switch checked={settings.contentFullWidth} onchange={() => appSettings.update({ contentFullWidth: !settings.contentFullWidth })} />
+				</div>
+			</Card.Content>
+		</Card.Root>
+
+		<!-- 更新 -->
+		<Card.Root class="mb-6">
+			<Card.Header>
+				<Card.Title class="text-base">{$_('settings.updates')}</Card.Title>
+				<Card.Description>{$_('settings.updatesDesc')}</Card.Description>
+			</Card.Header>
+			<Card.Content class="space-y-5">
+				<div class="flex items-center justify-between gap-3">
+					<div class="inline-flex min-w-0 items-center gap-1.5">
+						<p class="text-sm font-medium text-foreground">{$_('settings.autoCheckUpdates')}</p>
+						<HintIcon
+							text={$_('settings.autoCheckUpdatesHint')}
+							position="top"
+							tooltipMinWidth="160px"
+							tooltipMaxWidth="260px"
+						/>
+					</div>
+					<Switch
+						checked={settings.autoCheckUpdates}
+						onchange={() =>
+							appSettings.update({ autoCheckUpdates: !settings.autoCheckUpdates })}
+					/>
+				</div>
+
+				<div class="flex items-center justify-between gap-3">
+					<div class="min-w-0">
+						<p class="text-sm font-medium text-foreground">{$_('settings.checkUpdates')}</p>
+						{#if updateState.error}
+							<p class="mt-0.5 text-xs text-destructive">{updateState.error}</p>
+						{/if}
+					</div>
+					<Button
+						onclick={() => handleUpdateCheck({ showNoUpdateMessage: true })}
+						disabled={updateState.checking}
+					>
+						{updateState.checking
+							? $_('settings.checkingUpdates')
+							: $_('settings.checkUpdates')}
+					</Button>
 				</div>
 			</Card.Content>
 		</Card.Root>

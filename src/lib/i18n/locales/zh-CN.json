@@ -560,6 +560,24 @@
 		"color_fuchsia": "紫红",
 		"color_violet": "紫罗兰",
 		"windowSize": "记住窗口",
-		"windowSizeHint": "自动记住窗口大小和位置，下次启动时恢复"
+		"windowSizeHint": "自动记住窗口大小和位置，下次启动时恢复",
+		"updates": "软件更新",
+		"updatesDesc": "检查 GitHub Releases 的最新版本，并在有新版本时前往官网查看下载",
+		"autoCheckUpdates": "自动检查更新",
+		"autoCheckUpdatesHint": "启动应用时检查最新版本",
+		"checkUpdates": "检查更新",
+		"checkingUpdates": "检查中...",
+		"currentVersion": "当前版本",
+		"latestVersionLabel": "最新版本",
+		"latestVersionUnknown": "尚未检查",
+		"updateAvailable": "发现新版本",
+		"updateUnavailable": "已经是最新版本",
+		"updateDialogTitle": "发现新版本",
+		"updateDialogMessage": "当前版本：{current}\n最新版本：{latest}\n\n是否前往官网查看并下载？",
+		"openWebsite": "前往官网",
+		"notNow": "暂不处理",
+		"noUpdateMessage": "当前已经是最新版本。\n当前版本：{current}",
+		"updateCheckFailedTitle": "检查更新失败",
+		"updateCheckFailed": "暂时无法检查更新，请稍后重试。"
 	}
 }

@@ -7,6 +7,7 @@
 	import * as Card from '$lib/components/ui/card';
 	import { HintIcon } from '$lib/components/ui/hint-icon';
 	import { NumberStepper } from '$lib/components/ui/number-stepper';
+	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Switch } from '$lib/components/ui/switch';
 	import { Tab } from '$lib/components/ui/tab';
 	import { toast } from '$lib/components/ui/toast';
@@ -1490,14 +1491,11 @@
 									<p class="text-xs text-slate-500 mb-2">{$_('rename.randomChars')}</p>
 									<div class="flex gap-3">
 										<label class="flex items-center gap-2 cursor-pointer">
-											<input
-												type="checkbox"
-												class="w-4 h-4 rounded"
+											<Checkbox
 												checked={editingRule.randomUseDigits}
-												onchange={(e) => {
-													const newValue = e.currentTarget.checked;
+												ariaLabel={$_('rename.randomDigits')}
+												onchange={(newValue) => {
 													if (!newValue && !editingRule.randomUseLower && !editingRule.randomUseUpper) {
-														e.currentTarget.checked = true;
 														return;
 													}
 													editingRule.randomUseDigits = newValue;
@@ -1506,14 +1504,11 @@
 											<span class="text-sm">{$_('rename.randomDigits')}</span>
 										</label>
 										<label class="flex items-center gap-2 cursor-pointer">
-											<input
-												type="checkbox"
-												class="w-4 h-4 rounded"
+											<Checkbox
 												checked={editingRule.randomUseLower}
-												onchange={(e) => {
-													const newValue = e.currentTarget.checked;
+												ariaLabel={$_('rename.randomLower')}
+												onchange={(newValue) => {
 													if (!newValue && !editingRule.randomUseDigits && !editingRule.randomUseUpper) {
-														e.currentTarget.checked = true;
 														return;
 													}
 													editingRule.randomUseLower = newValue;
@@ -1522,14 +1517,11 @@
 											<span class="text-sm">{$_('rename.randomLower')}</span>
 										</label>
 										<label class="flex items-center gap-2 cursor-pointer">
-											<input
-												type="checkbox"
-												class="w-4 h-4 rounded"
+											<Checkbox
 												checked={editingRule.randomUseUpper}
-												onchange={(e) => {
-													const newValue = e.currentTarget.checked;
+												ariaLabel={$_('rename.randomUpper')}
+												onchange={(newValue) => {
 													if (!newValue && !editingRule.randomUseDigits && !editingRule.randomUseLower) {
-														e.currentTarget.checked = true;
 														return;
 													}
 													editingRule.randomUseUpper = newValue;
@@ -1715,11 +1707,7 @@
 						{#if outputDir}
 							<div class="flex flex-wrap items-center gap-4 mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
 								<label class="flex items-center gap-2 cursor-pointer">
-									<input
-										type="checkbox"
-										class="w-4 h-4 rounded"
-										bind:checked={useSubfolder}
-									/>
+									<Checkbox bind:checked={useSubfolder} ariaLabel={$_('rename.createSubfolder')} />
 									<span class="text-sm text-slate-600 dark:text-slate-400">{$_('rename.createSubfolder')}</span>
 								</label>
 								{#if useSubfolder}

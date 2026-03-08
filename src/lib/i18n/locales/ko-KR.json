@@ -4,11 +4,11 @@
 	},
 	"app": {
 		"title": "Youran 툴박스",
-		"subtitle": "일상 업무 효율을 높이는 데스크톱 도구",
-		"moreFeatures": "기능 추가 중...",
+		"subtitle": "일상 업무를 빠르게 처리하는 데스크톱 도구 모음",
+		"moreFeatures": "더 많은 기능을 준비 중입니다",
 		"website": "공식 사이트",
-		"guide": "가이드",
-		"changelog": "업데이트"
+		"guide": "사용 가이드",
+		"changelog": "업데이트 내역"
 	},
 	"nav": {
 		"backHome": "돌아가기"
@@ -16,15 +16,15 @@
 	"features": {
 		"classifyBatch": {
 			"title": "일괄 분류",
-			"desc": "Excel 데이터를 열별로 분류"
+			"desc": "Excel 데이터를 지정한 열 기준으로 분류"
 		},
 		"rename": {
 			"title": "일괄 이름 변경",
-			"desc": "번호, 날짜, 사용자 정의 텍스트로 파일 이름 변경"
+			"desc": "번호, 날짜, 사용자 지정 텍스트 규칙으로 파일 이름을 일괄 변경"
 		},
 		"imageCompress": {
-			"title": "이미지 압축/변환",
-			"desc": "이미지 일괄 압축 및 변환, JPEG, PNG, WebP 지원"
+			"title": "이미지 압축 / 변환",
+			"desc": "이미지를 일괄 압축하거나 변환합니다. JPEG, PNG, WebP 를 지원합니다"
 		},
 		"pdf": {
 			"title": "PDF 도구",
@@ -36,11 +36,11 @@
 		},
 		"textDiff": {
 			"title": "텍스트 비교",
-			"desc": "두 텍스트의 차이점 비교"
+			"desc": "두 텍스트의 차이를 바로 비교"
 		},
 		"heatmap": {
 			"title": "데이터 히트맵",
-			"desc": "Excel 데이터를 붙여넣어 히트맵을 자동 생성"
+			"desc": "Excel 데이터를 붙여 넣어 히트맵을 자동 생성"
 		}
 	},
 	"classify": {
@@ -545,6 +545,24 @@
 		"color_fuchsia": "푸시아",
 		"color_violet": "바이올렛",
 		"windowSize": "창 기억",
-		"windowSizeHint": "창의 크기와 위치를 자동으로 저장하고 다음 실행 때 복원합니다"
+		"windowSizeHint": "창의 크기와 위치를 자동으로 저장하고 다음 실행 때 복원합니다",
+		"updates": "소프트웨어 업데이트",
+		"updatesDesc": "GitHub Releases 의 최신 버전을 확인하고, 새 버전이 있으면 공식 사이트를 열어 다운로드합니다.",
+		"autoCheckUpdates": "시작 시 자동으로 업데이트 확인",
+		"autoCheckUpdatesHint": "앱 시작 시 최신 버전 확인",
+		"checkUpdates": "업데이트 확인",
+		"checkingUpdates": "확인 중...",
+		"currentVersion": "현재 버전",
+		"latestVersionLabel": "최신 버전",
+		"latestVersionUnknown": "아직 확인하지 않음",
+		"updateAvailable": "새 버전 사용 가능",
+		"updateUnavailable": "이미 최신 버전입니다",
+		"updateDialogTitle": "새 버전 사용 가능",
+		"updateDialogMessage": "현재 버전: {current}\n최신 버전: {latest}\n\n공식 사이트를 열어 확인하고 다운로드할까요?",
+		"openWebsite": "공식 사이트 열기",
+		"notNow": "나중에",
+		"noUpdateMessage": "이미 최신 버전을 사용 중입니다.\n현재 버전: {current}",
+		"updateCheckFailedTitle": "업데이트 확인 실패",
+		"updateCheckFailed": "지금은 업데이트를 확인할 수 없습니다. 잠시 후 다시 시도해 주세요."
 	}
 }

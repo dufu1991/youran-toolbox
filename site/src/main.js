@@ -8,6 +8,8 @@ const appVersion = packageJson.version;
 const ossRootUrl = 'https://download.du-fu.com';
 const ossBaseUrl = `${ossRootUrl}/latest`;
 const githubDownloadBase = 'https://github.com/dufu1991/youran-toolbox/releases/download';
+const githubLatestReleaseApi = 'https://api.github.com/repos/dufu1991/youran-toolbox/releases/latest';
+let latestReleaseMetaPromise = null;
 
 function getInstallerBaseName(version) {
   return isVersionGte(version, '0.1.3') ? 'YouranToolbox' : 'Youran.Toolbox';
@@ -47,8 +49,62 @@ function buildVersionedOssDownloadUrl(version, fileName) {
   return `${ossRootUrl}/v${normalizedVersion}/${encodeURIComponent(fileName)}`;
 }
 
-function buildGithubLatestDownloadUrl(fileName) {
-  return `${githubDownloadBase}/v${appVersion}/${encodeURIComponent(fileName)}`;
+function buildGithubLatestDownloadUrl(version, fileName) {
+  const normalizedVersion = normalizeTagVersion(version);
+  return `${githubDownloadBase}/v${normalizedVersion}/${encodeURIComponent(fileName)}`;
+}
+
+function getVersionText(version) {
+  const normalizedVersion = normalizeTagVersion(version);
+  return normalizedVersion ? `v ${normalizedVersion}` : '';
+}
+
+function getFallbackLatestReleaseMeta() {
+  const macFileName = buildInstallerFileName(appVersion, 'aarch64.dmg');
+  const windowsFileName = buildInstallerFileName(appVersion, 'x64-setup.exe');
+
+  return {
+    version: appVersion,
+    macAssetName: macFileName,
+    windowsAssetName: windowsFileName,
+    macDownloadUrl: buildGithubLatestDownloadUrl(appVersion, macFileName),
+    windowsDownloadUrl: buildGithubLatestDownloadUrl(appVersion, windowsFileName),
+    releaseUrl: 'https://github.com/dufu1991/youran-toolbox/releases/latest',
+  };
+}
+
+async function fetchLatestReleaseMeta() {
+  if (!latestReleaseMetaPromise) {
+    latestReleaseMetaPromise = fetch(githubLatestReleaseApi, {
+      headers: {
+        Accept: 'application/vnd.github+json',
+      },
+    })
+      .then(async (response) => {
+        if (!response.ok) {
+          throw new Error(`Failed to fetch latest release: ${response.status}`);
+        }
+
+        const release = await response.json();
+        const version = normalizeTagVersion(release.tag_name || release.name || appVersion) || appVersion;
+        const assets = Array.isArray(release.assets) ? release.assets : [];
+        const macAsset = assets.find((asset) => asset.name.endsWith('.dmg'));
+        const windowsAsset = assets.find((asset) => asset.name.endsWith('.exe'))
+          || assets.find((asset) => asset.name.endsWith('.msi'));
+
+        return {
+          version,
+          macAssetName: macAsset?.name || buildInstallerFileName(version, 'aarch64.dmg'),
+          windowsAssetName: windowsAsset?.name || buildInstallerFileName(version, 'x64-setup.exe'),
+          macDownloadUrl: macAsset?.browser_download_url || buildGithubLatestDownloadUrl(version, buildInstallerFileName(version, 'aarch64.dmg')),
+          windowsDownloadUrl: windowsAsset?.browser_download_url || buildGithubLatestDownloadUrl(version, buildInstallerFileName(version, 'x64-setup.exe')),
+          releaseUrl: release.html_url || 'https://github.com/dufu1991/youran-toolbox/releases/latest',
+        };
+      })
+      .catch(() => getFallbackLatestReleaseMeta());
+  }
+
+  return latestReleaseMetaPromise;
 }
 
 const localeBundles = siteLocaleBundles;
@@ -3323,7 +3379,7 @@ function setupFaqToggleAnimation() {
 }
 
 // 智能下载按钮
-function setupSmartDownload() {
+async function setupSmartDownload() {
   const downloadArea = document.getElementById('hero-download-area');
   const macBrewTip = document.getElementById('hero-mac-brew-tip');
   const mobileTip = document.getElementById('hero-mobile-tip');
@@ -3342,32 +3398,38 @@ function setupSmartDownload() {
 
   const os = detectOS();
   const heroBtn = document.getElementById('hero-download-btn');
+  const heroTip = document.getElementById('hero-download-tip');
   const svgIcon = heroBtn.querySelector('svg').outerHTML;
+  const latestRelease = await fetchLatestReleaseMeta();
+  const versionText = getVersionText(latestRelease.version);
   heroBtn.removeAttribute('target');
   heroBtn.removeAttribute('rel');
   mainlandLink.removeAttribute('target');
   mainlandLink.removeAttribute('rel');
 
   if (os === 'mac') {
-    heroBtn.href = buildGithubLatestDownloadUrl(buildInstallerFileName(appVersion, 'aarch64.dmg'));
-    mainlandLink.href = buildOssDownloadUrl(buildInstallerFileName(appVersion, 'aarch64.dmg'));
+    heroBtn.href = latestRelease.macDownloadUrl;
+    mainlandLink.href = buildOssDownloadUrl(latestRelease.macAssetName);
     heroBtn.innerHTML = `${svgIcon} ${t('downloadMac')}`;
     macBrewTip.classList.remove('hidden');
   } else if (os === 'windows') {
-    heroBtn.href = buildGithubLatestDownloadUrl(buildInstallerFileName(appVersion, 'x64-setup.exe'));
-    mainlandLink.href = buildOssDownloadUrl(buildInstallerFileName(appVersion, 'x64-setup.exe'));
+    heroBtn.href = latestRelease.windowsDownloadUrl;
+    mainlandLink.href = buildOssDownloadUrl(latestRelease.windowsAssetName);
     heroBtn.innerHTML = `${svgIcon} ${t('downloadWindows')}`;
     macBrewTip.classList.add('hidden');
   } else {
-    heroBtn.href = 'https://github.com/dufu1991/youran-toolbox/releases/latest';
+    heroBtn.href = latestRelease.releaseUrl;
     heroBtn.setAttribute('target', '_blank');
     heroBtn.setAttribute('rel', 'noopener noreferrer');
-    mainlandLink.href = buildOssDownloadUrl(buildInstallerFileName(appVersion, 'aarch64.dmg'));
+    mainlandLink.href = buildOssDownloadUrl(latestRelease.macAssetName);
     mainlandLink.setAttribute('target', '_blank');
     mainlandLink.setAttribute('rel', 'noopener noreferrer');
     heroBtn.innerHTML = `${svgIcon} ${t('downloadGithub')}`;
     macBrewTip.classList.add('hidden');
   }
+
+  heroBtn.setAttribute('aria-label', `${t(os === 'mac' ? 'downloadMac' : os === 'windows' ? 'downloadWindows' : 'downloadGithub')} · ${t('latestVersion')} ${versionText}`);
+  heroTip.textContent = `${t('latestVersion')} ${versionText}`;
 }
 
 // 加载全部下载列表

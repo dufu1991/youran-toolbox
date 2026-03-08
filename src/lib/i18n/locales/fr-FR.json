@@ -4,11 +4,11 @@
 	},
 	"app": {
 		"title": "YouranToolbox",
-		"subtitle": "Outils de bureau pour améliorer la productivité quotidienne",
-		"moreFeatures": "Plus de fonctions à venir...",
-		"website": "Site",
+		"subtitle": "Des outils de bureau pour gagner du temps au quotidien",
+		"moreFeatures": "D'autres outils arrivent bientôt",
+		"website": "Site officiel",
 		"guide": "Guide",
-		"changelog": "Nouveautés"
+		"changelog": "Journal des versions"
 	},
 	"nav": {
 		"backHome": "Retour"
@@ -16,15 +16,15 @@
 	"features": {
 		"classifyBatch": {
 			"title": "Classer",
-			"desc": "Classer les données Excel par colonne"
+			"desc": "Classer des données Excel selon une colonne"
 		},
 		"rename": {
-			"title": "Renommer par lot",
-			"desc": "Renommer fichiers avec index, date, texte personnalisé"
+			"title": "Renommage par lot",
+			"desc": "Renommer des fichiers par lot avec index, date et texte personnalisé"
 		},
 		"imageCompress": {
-			"title": "Compression/Conversion d'images",
-			"desc": "Compresser ou convertir des images par lot, JPEG, PNG, WebP"
+			"title": "Compression et conversion d'images",
+			"desc": "Compresser ou convertir des images par lot. JPEG, PNG et WebP pris en charge"
 		},
 		"pdf": {
 			"title": "Outils PDF",
@@ -32,15 +32,15 @@
 		},
 		"qrcode": {
 			"title": "Code QR",
-			"desc": "Générer et scanner des codes QR"
+			"desc": "Créer et lire des codes QR"
 		},
 		"textDiff": {
-			"title": "Comparaison de texte",
+			"title": "Comparaison de textes",
 			"desc": "Comparer les différences entre deux textes"
 		},
 		"heatmap": {
-			"title": "Carte thermique",
-			"desc": "Collez des données Excel pour générer une carte thermique"
+			"title": "Carte de chaleur",
+			"desc": "Coller des données Excel pour générer automatiquement une carte de chaleur"
 		}
 	},
 	"classify": {
@@ -545,6 +545,24 @@
 		"color_fuchsia": "Fuchsia",
 		"color_violet": "Violet",
 		"windowSize": "Mémoriser la fenêtre",
-		"windowSizeHint": "Enregistre automatiquement la taille et la position de la fenêtre, puis les restaure au prochain démarrage"
+		"windowSizeHint": "Enregistre automatiquement la taille et la position de la fenêtre, puis les restaure au prochain démarrage",
+		"updates": "Mises à jour du logiciel",
+		"updatesDesc": "Vérifie la dernière version sur GitHub Releases et ouvre le site officiel lorsqu'une nouvelle version est disponible.",
+		"autoCheckUpdates": "Vérifier automatiquement les mises à jour",
+		"autoCheckUpdatesHint": "Vérifier la dernière version au démarrage de l'application",
+		"checkUpdates": "Vérifier les mises à jour",
+		"checkingUpdates": "Vérification...",
+		"currentVersion": "Version actuelle",
+		"latestVersionLabel": "Dernière version",
+		"latestVersionUnknown": "Pas encore vérifiée",
+		"updateAvailable": "Nouvelle version disponible",
+		"updateUnavailable": "Déjà à jour",
+		"updateDialogTitle": "Nouvelle version disponible",
+		"updateDialogMessage": "Version actuelle: {current}\nDernière version: {latest}\n\nOuvrir le site officiel pour la consulter et la télécharger ?",
+		"openWebsite": "Ouvrir le site officiel",
+		"notNow": "Plus tard",
+		"noUpdateMessage": "Vous utilisez déjà la dernière version.\nVersion actuelle: {current}",
+		"updateCheckFailedTitle": "Échec de la vérification des mises à jour",
+		"updateCheckFailed": "Impossible de vérifier les mises à jour pour le moment. Veuillez réessayer plus tard."
 	}
 }

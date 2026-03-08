@@ -4,6 +4,7 @@ export interface AppSettings {
 	primaryColor: string;
 	opacity: number;
 	contentFullWidth: boolean;
+	autoCheckUpdates: boolean;
 	windowSizeMode: 'default' | 'remember';
 	windowWidth: number;
 	windowHeight: number;
@@ -15,6 +16,7 @@ const DEFAULT_SETTINGS: AppSettings = {
 	primaryColor: 'default',
 	opacity: 50,
 	contentFullWidth: true,
+	autoCheckUpdates: true,
 	windowSizeMode: 'default',
 	windowWidth: 1280,
 	windowHeight: 860,

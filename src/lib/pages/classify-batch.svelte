@@ -5,6 +5,7 @@
 	import { writeFile, readFile, mkdir } from '@tauri-apps/plugin-fs';
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
+	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Input } from '$lib/components/ui/input';
 	import * as RadioGroup from '$lib/components/ui/radio-group';
 	import { Tab } from '$lib/components/ui/tab';
@@ -534,11 +535,7 @@
 						{#if outputDir}
 							<div class="flex flex-wrap items-center gap-4 mt-3">
 								<label class="flex items-center gap-2 cursor-pointer">
-									<input
-										type="checkbox"
-										class="w-4 h-4 rounded"
-										bind:checked={useSubfolder}
-									/>
+									<Checkbox bind:checked={useSubfolder} ariaLabel={$_('classifyBatch.createSubfolder')} />
 									<span class="text-sm text-slate-600 dark:text-slate-400">{$_('classifyBatch.createSubfolder')}</span>
 								</label>
 								{#if useSubfolder}

@@ -4,27 +4,27 @@
 	},
 	"app": {
 		"title": "YouranToolbox",
-		"subtitle": "Strumenti desktop per migliorare la produttività quotidiana",
-		"moreFeatures": "Altre funzioni in arrivo...",
-		"website": "Sito",
+		"subtitle": "Strumenti desktop per semplificare il lavoro quotidiano",
+		"moreFeatures": "Altri strumenti in arrivo",
+		"website": "Sito ufficiale",
 		"guide": "Guida",
-		"changelog": "Novità"
+		"changelog": "Note di versione"
 	},
 	"nav": {
 		"backHome": "Indietro"
 	},
 	"features": {
 		"classifyBatch": {
-			"title": "Classifica",
-			"desc": "Classifica dati Excel per colonna"
+			"title": "Classificazione",
+			"desc": "Classifica i dati Excel in base a una colonna"
 		},
 		"rename": {
-			"title": "Rinomina batch",
-			"desc": "Rinomina file con indice, data, testo personalizzato"
+			"title": "Rinomina in blocco",
+			"desc": "Rinomina i file in blocco con indice, data e testo personalizzato"
 		},
 		"imageCompress": {
-			"title": "Comprimi/Converti immagini",
-			"desc": "Comprimi o converti immagini in batch, JPEG, PNG, WebP"
+			"title": "Compressione e conversione immagini",
+			"desc": "Comprimi o converti immagini in blocco. Supporta JPEG, PNG e WebP"
 		},
 		"pdf": {
 			"title": "Strumenti PDF",
@@ -39,8 +39,8 @@
 			"desc": "Confronta le differenze tra due testi"
 		},
 		"heatmap": {
-			"title": "Mappa di calore",
-			"desc": "Incolla i dati Excel per generare una mappa di calore"
+			"title": "Mappa di calore dei dati",
+			"desc": "Incolla i dati Excel per generare automaticamente una mappa di calore"
 		}
 	},
 	"classify": {
@@ -545,6 +545,24 @@
 		"color_fuchsia": "Fucsia",
 		"color_violet": "Viola",
 		"windowSize": "Ricorda finestra",
-		"windowSizeHint": "Salva automaticamente dimensione e posizione della finestra e le ripristina al prossimo avvio"
+		"windowSizeHint": "Salva automaticamente dimensione e posizione della finestra e le ripristina al prossimo avvio",
+		"updates": "Aggiornamenti software",
+		"updatesDesc": "Controlla l'ultima versione su GitHub Releases e apre il sito ufficiale quando è disponibile una nuova versione.",
+		"autoCheckUpdates": "Controlla automaticamente gli aggiornamenti",
+		"autoCheckUpdatesHint": "Controlla l'ultima versione all'avvio dell'app",
+		"checkUpdates": "Controlla aggiornamenti",
+		"checkingUpdates": "Controllo in corso...",
+		"currentVersion": "Versione attuale",
+		"latestVersionLabel": "Ultima versione",
+		"latestVersionUnknown": "Non ancora controllata",
+		"updateAvailable": "Nuova versione disponibile",
+		"updateUnavailable": "Già aggiornato",
+		"updateDialogTitle": "Nuova versione disponibile",
+		"updateDialogMessage": "Versione attuale: {current}\nUltima versione: {latest}\n\nAprire il sito ufficiale per visualizzarla e scaricarla?",
+		"openWebsite": "Apri sito ufficiale",
+		"notNow": "Non ora",
+		"noUpdateMessage": "Stai già usando l'ultima versione.\nVersione attuale: {current}",
+		"updateCheckFailedTitle": "Controllo aggiornamenti non riuscito",
+		"updateCheckFailed": "Impossibile controllare gli aggiornamenti in questo momento. Riprova più tardi."
 	}
 }

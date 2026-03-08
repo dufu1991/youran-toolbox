@@ -4,11 +4,11 @@
 	},
 	"app": {
 		"title": "YouranToolbox",
-		"subtitle": "Herramientas de escritorio para mejorar la productividad diaria",
-		"moreFeatures": "Más funciones próximamente...",
+		"subtitle": "Herramientas de escritorio para agilizar el trabajo diario",
+		"moreFeatures": "Pronto habrá más herramientas",
 		"website": "Sitio web",
 		"guide": "Guía",
-		"changelog": "Novedades"
+		"changelog": "Historial de cambios"
 	},
 	"nav": {
 		"backHome": "Volver"
@@ -16,18 +16,18 @@
 	"features": {
 		"classifyBatch": {
 			"title": "Clasificar",
-			"desc": "Clasificar datos Excel por columna"
+			"desc": "Clasificar datos de Excel según una columna"
 		},
 		"rename": {
-			"title": "Renombrar Lote",
-			"desc": "Renombrar archivos con índice, fecha, texto personalizado"
+			"title": "Renombrado por lotes",
+			"desc": "Renombrar archivos por lotes con índice, fecha y texto personalizado"
 		},
 		"imageCompress": {
-			"title": "Comprimir/Convertir imágenes",
-			"desc": "Comprimir o convertir imágenes por lote, JPEG, PNG, WebP"
+			"title": "Compresión y conversión de imágenes",
+			"desc": "Comprimir o convertir imágenes por lotes. Compatible con JPEG, PNG y WebP"
 		},
 		"pdf": {
-			"title": "Herramientas PDF",
+			"title": "Herramientas para PDF",
 			"desc": "Fusionar y dividir archivos PDF"
 		},
 		"qrcode": {
@@ -35,12 +35,12 @@
 			"desc": "Generar y escanear códigos QR"
 		},
 		"textDiff": {
-			"title": "Comparación de texto",
-			"desc": "Comparar diferencias entre dos textos"
+			"title": "Comparar textos",
+			"desc": "Comparar las diferencias entre dos textos"
 		},
 		"heatmap": {
-			"title": "Mapa de calor",
-			"desc": "Pegue datos de Excel para generar un mapa de calor"
+			"title": "Mapa de calor de datos",
+			"desc": "Pega datos de Excel para generar automáticamente un mapa de calor"
 		}
 	},
 	"classify": {
@@ -545,6 +545,24 @@
 		"color_fuchsia": "Fucsia",
 		"color_violet": "Violeta",
 		"windowSize": "Recordar ventana",
-		"windowSizeHint": "Guarda automáticamente el tamaño y la posición de la ventana, y los restaura en el próximo inicio"
+		"windowSizeHint": "Guarda automáticamente el tamaño y la posición de la ventana, y los restaura en el próximo inicio",
+		"updates": "Actualizaciones de software",
+		"updatesDesc": "Comprueba la última versión en GitHub Releases y abre el sitio web oficial cuando haya una nueva versión.",
+		"autoCheckUpdates": "Comprobar actualizaciones automáticamente",
+		"autoCheckUpdatesHint": "Comprobar la última versión al iniciar la aplicación",
+		"checkUpdates": "Buscar actualizaciones",
+		"checkingUpdates": "Comprobando...",
+		"currentVersion": "Versión actual",
+		"latestVersionLabel": "Última versión",
+		"latestVersionUnknown": "Aún no comprobada",
+		"updateAvailable": "Nueva versión disponible",
+		"updateUnavailable": "Ya está actualizado",
+		"updateDialogTitle": "Nueva versión disponible",
+		"updateDialogMessage": "Versión actual: {current}\nÚltima versión: {latest}\n\n¿Abrir el sitio web oficial para verla y descargarla?",
+		"openWebsite": "Abrir sitio web",
+		"notNow": "Ahora no",
+		"noUpdateMessage": "Ya estás usando la última versión.\nVersión actual: {current}",
+		"updateCheckFailedTitle": "No se pudo comprobar la actualización",
+		"updateCheckFailed": "No se pueden comprobar las actualizaciones en este momento. Inténtalo de nuevo más tarde."
 	}
 }

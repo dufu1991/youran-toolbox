@@ -1,13 +1,12 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { locale, setLocale, getAvailableLocales } from '$lib/i18n';
-	import { Button } from '$lib/components/ui/button';
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { Globe } from 'lucide-svelte';
 
 	let { title = '' }: { title?: string } = $props();
 
 	let locales: { code: string; name: string }[] = $state([]);
-	let showDropdown = $state(false);
 	let currentLocale = $state('zh-CN');
 
 	onMount(async () => {
@@ -23,43 +22,32 @@
 
 	function handleSelect(code: string) {
 		setLocale(code);
-		showDropdown = false;
 	}
-
-	function toggleDropdown() {
-		showDropdown = !showDropdown;
-	}
-
-	function handleClickOutside(event: MouseEvent) {
-		const target = event.target as HTMLElement;
-		if (!target.closest('.locale-switcher')) {
-			showDropdown = false;
-		}
-	}
-
-	$effect(() => {
-		if (showDropdown) {
-			document.addEventListener('click', handleClickOutside);
-			return () => document.removeEventListener('click', handleClickOutside);
-		}
-	});
 </script>
 
-<div class="locale-switcher relative">
-	<Button variant="ghost" size="icon" onclick={toggleDropdown} class="w-9 h-9" {title}>
+<DropdownMenu.Root>
+	<DropdownMenu.Trigger
+		class="inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+		{title}
+		aria-label={title}
+	>
 		<Globe class="w-5 h-5" />
-	</Button>
-
-	{#if showDropdown}
-		<div class="absolute left-0 bottom-full mb-2 bg-card border border-border rounded-lg shadow-lg p-1 min-w-36 z-50 flex flex-col gap-0.5">
+	</DropdownMenu.Trigger>
+	<DropdownMenu.Portal>
+		<DropdownMenu.Content
+			side="top"
+			align="start"
+			sideOffset={8}
+			class="z-50 min-w-36 rounded-lg border border-border bg-card p-1 shadow-lg outline-none"
+		>
 			{#each locales as loc}
-				<button
-					class="w-full px-3 py-1.5 text-sm text-left rounded-md transition-colors {loc.code === currentLocale ? 'bg-primary text-primary-foreground' : 'hover:bg-accent'}"
+				<DropdownMenu.Item
+					class="flex w-full cursor-pointer items-center rounded-md px-3 py-1.5 text-sm outline-none transition-colors focus:bg-accent data-[highlighted]:bg-accent {loc.code === currentLocale ? 'bg-primary text-primary-foreground focus:bg-primary/90 data-[highlighted]:bg-primary/90' : 'text-foreground'}"
 					onclick={() => handleSelect(loc.code)}
 				>
 					{loc.name}
-				</button>
+				</DropdownMenu.Item>
 			{/each}
-		</div>
-	{/if}
-</div>
+		</DropdownMenu.Content>
+	</DropdownMenu.Portal>
+</DropdownMenu.Root>

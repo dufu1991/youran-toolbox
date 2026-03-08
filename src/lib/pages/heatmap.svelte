@@ -3,6 +3,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import { HintIcon } from '$lib/components/ui/hint-icon';
+	import { Slider } from '$lib/components/ui/slider';
 	import { toast } from '$lib/components/ui/toast';
 	import { Tab } from '$lib/components/ui/tab';
 	import { Trash2, Download, ArrowRightLeft } from 'lucide-svelte';
@@ -371,12 +372,12 @@
 				</div>
 				<div class="flex items-center gap-2">
 					<span class="text-sm text-slate-500">{$_('heatmap.cellWidth')}</span>
-					<input type="range" min="28" max="80" step="2" class="w-20 accent-primary" bind:value={cellSize} />
+					<Slider min={28} max={80} step={2} class="w-20" bind:value={cellSize} />
 					<span class="text-xs text-slate-400 w-6">{cellSize}</span>
 				</div>
 				<div class="flex items-center gap-2">
 					<span class="text-sm text-slate-500">{$_('heatmap.cellHeight')}</span>
-					<input type="range" min="20" max="60" step="2" class="w-20 accent-primary" bind:value={cellHeight} />
+					<Slider min={20} max={60} step={2} class="w-20" bind:value={cellHeight} />
 					<span class="text-xs text-slate-400 w-6">{cellHeight}</span>
 				</div>
 				<div class="flex items-center gap-2">
@@ -481,7 +482,7 @@
 			<div class="flex justify-end items-center gap-3 mt-4">
 				<div class="flex items-center gap-2">
 					<span class="text-sm text-slate-500">{$_('heatmap.exportPadding')}</span>
-					<input type="range" min="0" max="60" step="5" class="w-20 accent-primary" bind:value={exportPadding} />
+					<Slider min={0} max={60} step={5} class="w-20" bind:value={exportPadding} />
 					<span class="text-xs text-slate-400 w-6">{exportPadding}</span>
 				</div>
 				<div class="flex items-center gap-2">

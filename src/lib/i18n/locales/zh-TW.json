@@ -558,6 +558,24 @@
 		"color_fuchsia": "紫紅",
 		"color_violet": "紫羅蘭",
 		"windowSize": "記住視窗",
-		"windowSizeHint": "自動記住視窗大小和位置，下次啟動時恢復"
+		"windowSizeHint": "自動記住視窗大小和位置，下次啟動時恢復",
+		"updates": "軟體更新",
+		"updatesDesc": "檢查 GitHub Releases 的最新版本，並在有新版本時前往官網查看下載",
+		"autoCheckUpdates": "自動檢查更新",
+		"autoCheckUpdatesHint": "啟動應用時檢查最新版本",
+		"checkUpdates": "檢查更新",
+		"checkingUpdates": "檢查中...",
+		"currentVersion": "目前版本",
+		"latestVersionLabel": "最新版本",
+		"latestVersionUnknown": "尚未檢查",
+		"updateAvailable": "發現新版本",
+		"updateUnavailable": "已經是最新版本",
+		"updateDialogTitle": "發現新版本",
+		"updateDialogMessage": "目前版本：{current}\n最新版本：{latest}\n\n是否前往官網查看並下載？",
+		"openWebsite": "前往官網",
+		"notNow": "稍後再說",
+		"noUpdateMessage": "目前已是最新版本。\n目前版本：{current}",
+		"updateCheckFailedTitle": "檢查更新失敗",
+		"updateCheckFailed": "暫時無法檢查更新，請稍後再試。"
 	}
 }

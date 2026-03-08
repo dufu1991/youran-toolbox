@@ -3,6 +3,7 @@
 	import { Button } from '$lib/components/ui/button';
 	import * as Card from '$lib/components/ui/card';
 	import { HintIcon } from '$lib/components/ui/hint-icon';
+	import { Slider } from '$lib/components/ui/slider';
 	import { toast } from '$lib/components/ui/toast';
 	import { Tab } from '$lib/components/ui/tab';
 	import { Download, Copy, Upload, QrCode, Dices, FolderOpen, ScanLine, Check, X, Clipboard } from 'lucide-svelte';
@@ -1066,41 +1067,17 @@
 									<div class="space-y-3">
 										<div class="flex items-center gap-2">
 											<span class="text-xs text-slate-500 w-16">{$_('qrcode.logoSize')}</span>
-											<input
-												type="range"
-												min="10"
-												max="40"
-												step="1"
-												bind:value={logoSize}
-												onchange={generateQR}
-												class="w-24"
-											/>
+											<Slider bind:value={logoSize} min={10} max={40} step={1} onchange={generateQR} class="w-24" />
 											<span class="text-xs text-slate-600 dark:text-slate-400 w-10">{logoSize}%</span>
 										</div>
 										<div class="flex items-center gap-2">
 											<span class="text-xs text-slate-500 w-16">{$_('qrcode.logoRadius')}</span>
-											<input
-												type="range"
-												min="0"
-												max="50"
-												step="1"
-												bind:value={logoRadius}
-												onchange={generateQR}
-												class="w-24"
-											/>
+											<Slider bind:value={logoRadius} min={0} max={50} step={1} onchange={generateQR} class="w-24" />
 											<span class="text-xs text-slate-600 dark:text-slate-400 w-10">{logoRadius}%</span>
 										</div>
 										<div class="flex items-center gap-2">
 											<span class="text-xs text-slate-500 w-16">{$_('qrcode.logoPadding')}</span>
-											<input
-												type="range"
-												min="0"
-												max="20"
-												step="1"
-												bind:value={logoPadding}
-												onchange={generateQR}
-												class="w-24"
-											/>
+											<Slider bind:value={logoPadding} min={0} max={20} step={1} onchange={generateQR} class="w-24" />
 											<span class="text-xs text-slate-600 dark:text-slate-400 w-10">{logoPadding}px</span>
 										</div>
 										<p class="text-xs text-amber-600 dark:text-amber-400">
