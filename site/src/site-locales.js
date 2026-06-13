@@ -36,6 +36,10 @@ const siteLocaleBundles = {
       "heatmap": {
         "title": "数据热力图",
         "desc": "粘贴 Excel 数据，自动生成热力图"
+      },
+      "svgSplit": {
+        "title": "SVG 工具",
+        "desc": "合并、拆分和浏览 SVG 文件，支持精灵图与独立 SVG 目录"
       }
     }
   },
@@ -76,6 +80,10 @@ const siteLocaleBundles = {
       "heatmap": {
         "title": "資料熱力圖",
         "desc": "貼上 Excel 資料，自動產生熱力圖"
+      },
+      "svgSplit": {
+        "title": "SVG 工具",
+        "desc": "合併、拆分和瀏覽 SVG 檔案，支援精靈圖與獨立 SVG 目錄"
       }
     }
   },
@@ -116,6 +124,10 @@ const siteLocaleBundles = {
       "heatmap": {
         "title": "Data Heatmap",
         "desc": "Paste Excel data to generate heatmap"
+      },
+      "svgSplit": {
+        "title": "SVG Tools",
+        "desc": "Merge, split, and browse SVG files, including sprites and standalone SVG folders"
       }
     }
   },
@@ -156,6 +168,10 @@ const siteLocaleBundles = {
       "heatmap": {
         "title": "データヒートマップ",
         "desc": "Excel データを貼り付けてヒートマップを自動生成"
+      },
+      "svgSplit": {
+        "title": "SVG ツール",
+        "desc": "SVG ファイルの結合、分割、閲覧に対応。スプライトと個別 SVG フォルダを扱えます"
       }
     }
   },
@@ -196,6 +212,10 @@ const siteLocaleBundles = {
       "heatmap": {
         "title": "데이터 히트맵",
         "desc": "Excel 데이터를 붙여넣어 히트맵을 자동 생성"
+      },
+      "svgSplit": {
+        "title": "SVG 도구",
+        "desc": "SVG 파일 병합, 분할, 탐색을 지원하며 스프라이트와 개별 SVG 폴더를 다룹니다"
       }
     }
   },
@@ -236,6 +256,10 @@ const siteLocaleBundles = {
       "heatmap": {
         "title": "Carte thermique",
         "desc": "Collez des données Excel pour générer une carte thermique"
+      },
+      "svgSplit": {
+        "title": "Outils SVG",
+        "desc": "Fusionner, découper et parcourir des fichiers SVG, sprites et dossiers SVG autonomes"
       }
     }
   },
@@ -276,6 +300,10 @@ const siteLocaleBundles = {
       "heatmap": {
         "title": "Daten-Heatmap",
         "desc": "Excel-Daten einfügen und Heatmap automatisch generieren"
+      },
+      "svgSplit": {
+        "title": "SVG-Werkzeuge",
+        "desc": "SVG-Dateien zusammenführen, aufteilen und durchsuchen, inklusive Sprites und SVG-Ordnern"
       }
     }
   },
@@ -316,6 +344,10 @@ const siteLocaleBundles = {
       "heatmap": {
         "title": "Mapa de calor",
         "desc": "Pegue datos de Excel para generar un mapa de calor"
+      },
+      "svgSplit": {
+        "title": "Herramientas SVG",
+        "desc": "Combina, divide y explora archivos SVG, incluidos sprites y carpetas SVG independientes"
       }
     }
   },
@@ -356,6 +388,10 @@ const siteLocaleBundles = {
       "heatmap": {
         "title": "Mappa di calore",
         "desc": "Incolla i dati Excel per generare una mappa di calore"
+      },
+      "svgSplit": {
+        "title": "Strumenti SVG",
+        "desc": "Unisci, dividi e sfoglia file SVG, inclusi sprite e cartelle SVG autonome"
       }
     }
   },
@@ -396,6 +432,10 @@ const siteLocaleBundles = {
       "heatmap": {
         "title": "Тепловая карта",
         "desc": "Вставьте данные Excel для создания тепловой карты"
+      },
+      "svgSplit": {
+        "title": "Инструменты SVG",
+        "desc": "Объединяйте, разделяйте и просматривайте SVG-файлы, включая спрайты и папки SVG"
       }
     }
   }

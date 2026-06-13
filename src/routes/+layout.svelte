@@ -38,7 +38,8 @@
 		GitCompare,
 		Grid3x3,
 		Settings,
-		RotateCcw
+		RotateCcw,
+		Scissors
 	} from 'lucide-svelte';
 
 	// Keep-alive 页面组件
@@ -49,22 +50,28 @@
 	import QrcodePage from '$lib/pages/qrcode.svelte';
 	import TextDiffPage from '$lib/pages/text-diff.svelte';
 	import HeatmapPage from '$lib/pages/heatmap.svelte';
+	import SvgSplitPage from '$lib/pages/svg-split.svelte';
 
 	let { children } = $props();
 
 	let isMacOS = $state(false);
 	let appVersion = $state('v --');
 	let updateState = $derived($updateInfo);
+	const isTauriRuntime = () => typeof window !== 'undefined' && '__TAURI_INTERNALS__' in window;
 
 	onMount(() => {
 		theme.init();
 		applyPrimaryColor(appSettings.current.primaryColor);
-		isMacOS = navigator.platform.toUpperCase().includes('MAC');
+		isMacOS = isTauriRuntime() && navigator.platform.toUpperCase().includes('MAC');
 		void ensureCurrentVersionLoaded().then((version) => {
 			appVersion = `v ${version}`;
 		});
 		if (appSettings.current.autoCheckUpdates) {
 			void handleUpdateCheck({ silentError: true });
+		}
+
+		if (!isTauriRuntime()) {
+			return;
 		}
 
 		// 窗口尺寸和位置由 Rust 端在显示前恢复，前端只负责监听变化并保存
@@ -101,7 +108,16 @@
 	// Keep-alive：记录已访问过的页面
 	let visitedPages = $state<Record<string, boolean>>({});
 
-	const keepAlivePages = ['/rename', '/classify-batch', '/image-compress', '/pdf', '/qrcode', '/text-diff', '/heatmap'];
+	const keepAlivePages = [
+		'/rename',
+		'/classify-batch',
+		'/image-compress',
+		'/pdf',
+		'/qrcode',
+		'/text-diff',
+		'/heatmap',
+		'/svg-split'
+	];
 	let isKeepAlivePage = $derived(keepAlivePages.includes(currentPath));
 
 	$effect(() => {
@@ -138,6 +154,11 @@
 
 	async function toggleWindowRemember() {
 		const newMode = settings.windowSizeMode === 'remember' ? 'default' : 'remember';
+		if (!isTauriRuntime()) {
+			appSettings.update({ windowSizeMode: newMode });
+			return;
+		}
+
 		if (newMode === 'remember') {
 			// 立即获取当前窗口尺寸和位置并保存
 			const win = getCurrentWindow();
@@ -206,6 +227,12 @@
 			icon: Grid3x3,
 			href: '/heatmap',
 			color: 'orange'
+		},
+		{
+			titleKey: 'features.svgSplit.title',
+			icon: Scissors,
+			href: '/svg-split',
+			color: 'indigo'
 		}
 	];
 
@@ -216,7 +243,8 @@
 		red: 'bg-red-50 dark:bg-red-950/40',
 		amber: 'bg-amber-50 dark:bg-amber-950/40',
 		cyan: 'bg-cyan-50 dark:bg-cyan-950/40',
-		orange: 'bg-orange-50 dark:bg-orange-950/40'
+		orange: 'bg-orange-50 dark:bg-orange-950/40',
+		indigo: 'bg-indigo-50 dark:bg-indigo-950/40'
 	};
 
 	const iconTextColors: Record<string, string> = {
@@ -226,7 +254,8 @@
 		red: 'text-red-600 dark:text-red-400',
 		amber: 'text-amber-600 dark:text-amber-400',
 		cyan: 'text-cyan-600 dark:text-cyan-400',
-		orange: 'text-orange-600 dark:text-orange-400'
+		orange: 'text-orange-600 dark:text-orange-400',
+		indigo: 'text-indigo-600 dark:text-indigo-400'
 	};
 
 	const activeBgColors: Record<string, string> = {
@@ -236,7 +265,8 @@
 		red: 'bg-red-50 dark:bg-red-950/30',
 		amber: 'bg-amber-50 dark:bg-amber-950/30',
 		cyan: 'bg-cyan-50 dark:bg-cyan-950/30',
-		orange: 'bg-orange-50 dark:bg-orange-950/30'
+		orange: 'bg-orange-50 dark:bg-orange-950/30',
+		indigo: 'bg-indigo-50 dark:bg-indigo-950/30'
 	};
 
 	let panelBgStyle = $derived(
@@ -473,8 +503,18 @@
 						</Popover.Content>
 					</Popover.Portal>
 				</Popover.Root>
-				<LocaleSwitcher title={$_('settings.language')} />
-				<ThemeToggle mode={theme.mode} onToggle={theme.toggle} title={$_('settings.themeMode')} />
+				<LocaleSwitcher
+					title={$_('settings.language')}
+					triggerClass="inline-flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+					iconClass="w-4 h-4"
+				/>
+				<ThemeToggle
+					mode={theme.mode}
+					onToggle={theme.toggle}
+					title={$_('settings.themeMode')}
+					buttonClass="w-8 h-8"
+					iconClass="w-4 h-4"
+				/>
 			</div>
 
 			<AlertDialog.Root open={showResetConfirm} onOpenChange={(open) => (showResetConfirm = open)}>
@@ -537,6 +577,9 @@
 				{/if}
 				{#if visitedPages['/heatmap']}
 					<div class:hidden={currentPath !== '/heatmap'}><HeatmapPage /></div>
+				{/if}
+				{#if visitedPages['/svg-split']}
+					<div class:hidden={currentPath !== '/svg-split'}><SvgSplitPage /></div>
 				{/if}
 
 				<!-- 非 keep-alive 页面（首页、设置等） -->

@@ -13,6 +13,7 @@
 	import { writeFile } from '@tauri-apps/plugin-fs';
 	import { revealItemInDir } from '@tauri-apps/plugin-opener';
 	import { writeImage } from '@tauri-apps/plugin-clipboard-manager';
+	import { Image as TauriImage } from '@tauri-apps/api/image';
 
 	// 检测操作系统，获取粘贴快捷键
 	const isMac = typeof navigator !== 'undefined' && navigator.userAgent.includes('Mac');
@@ -648,11 +649,12 @@
 			const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
 			// 使用 Tauri 剪贴板插件写入图片（需要 RGBA 数据、宽度、高度）
-			await writeImage({
-				rgba: Array.from(imageData.data),
-				width: canvas.width,
-				height: canvas.height
-			});
+			const clipboardImage = await TauriImage.new(
+				new Uint8Array(imageData.data),
+				canvas.width,
+				canvas.height
+			);
+			await writeImage(clipboardImage);
 			toast.success($_('qrcode.copySuccess'));
 		} catch (e) {
 			console.error('Copy failed:', e);
@@ -1154,11 +1156,18 @@
 					<Card.Title class="text-base">{$_('qrcode.scanTitle')}</Card.Title>
 				</Card.Header>
 				<Card.Content>
-					<!-- svelte-ignore a11y_no_static_element_interactions a11y_no_noninteractive_tabindex -->
-					<div
-						class="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-lg p-8 text-center focus:border-blue-400 focus:outline-none"
-						tabindex="0"
+					<input
+						type="file"
+						accept="image/*"
+						class="hidden"
+						id="qr-file-input"
+						onchange={handleFileSelect}
+					/>
+					<button
+						type="button"
+						class="w-full border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-lg p-8 text-center focus:border-blue-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
 						onpaste={handlePaste}
+						onclick={() => document.getElementById('qr-file-input')?.click()}
 					>
 						{#if scanImageUrl}
 							<img src={scanImageUrl} alt="QR Code" class="max-w-48 max-h-48 mx-auto mb-4 rounded-lg" />
@@ -1169,17 +1178,10 @@
 						<p class="text-xs text-slate-400 dark:text-slate-500 mb-4">
 							<Clipboard class="w-3 h-3 inline-block mr-1" />{$_('qrcode.pasteHint', { values: { shortcut: pasteShortcut } })}
 						</p>
-						<input
-							type="file"
-							accept="image/*"
-							class="hidden"
-							id="qr-file-input"
-							onchange={handleFileSelect}
-						/>
-						<Button variant="outline" onclick={() => document.getElementById('qr-file-input')?.click()}>
+						<span class="inline-flex h-9 items-center justify-center rounded-md border border-input bg-transparent px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground">
 							{$_('qrcode.selectImage')}
-						</Button>
-					</div>
+						</span>
+					</button>
 
 					{#if scanResult}
 						<div class="mt-6 p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">

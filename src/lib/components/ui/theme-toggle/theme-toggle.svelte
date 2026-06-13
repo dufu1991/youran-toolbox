@@ -6,17 +6,19 @@
 		mode: 'light' | 'dark' | 'auto';
 		onToggle: () => void;
 		title?: string;
+		buttonClass?: string;
+		iconClass?: string;
 	}
 
-	let { mode, onToggle, title = '' }: Props = $props();
+	let { mode, onToggle, title = '', buttonClass = 'w-9 h-9', iconClass = 'w-5 h-5' }: Props = $props();
 </script>
 
-<Button variant="ghost" size="icon" onclick={onToggle} class="w-9 h-9" {title}>
+<Button variant="ghost" size="icon" onclick={onToggle} class={buttonClass} {title}>
 	{#if mode === 'light'}
-		<Sun class="w-5 h-5" />
+		<Sun class={iconClass} />
 	{:else if mode === 'dark'}
-		<Moon class="w-5 h-5" />
+		<Moon class={iconClass} />
 	{:else}
-		<Monitor class="w-5 h-5" />
+		<Monitor class={iconClass} />
 	{/if}
 </Button>

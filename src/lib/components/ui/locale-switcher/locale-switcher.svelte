@@ -4,7 +4,11 @@
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu';
 	import { Globe } from 'lucide-svelte';
 
-	let { title = '' }: { title?: string } = $props();
+	let {
+		title = '',
+		triggerClass = 'inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30',
+		iconClass = 'w-5 h-5'
+	}: { title?: string; triggerClass?: string; iconClass?: string } = $props();
 
 	let locales: { code: string; name: string }[] = $state([]);
 	let currentLocale = $state('zh-CN');
@@ -27,11 +31,11 @@
 
 <DropdownMenu.Root>
 	<DropdownMenu.Trigger
-		class="inline-flex h-9 w-9 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+		class={triggerClass}
 		{title}
 		aria-label={title}
 	>
-		<Globe class="w-5 h-5" />
+		<Globe class={iconClass} />
 	</DropdownMenu.Trigger>
 	<DropdownMenu.Portal>
 		<DropdownMenu.Content
